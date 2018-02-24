@@ -1,0 +1,145 @@
+%A simple LaTeX syllabus template by Luke Smith.
+%I believe this is a variation of a template I got by Mike Hammond...?
+
+%\documentclass[11pt,twocolumn]{article}
+\documentclass[11pt,onecolumn]{article}
+\usepackage{hyperref,color}
+\usepackage[margin=.5in]{geometry}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{gb4e}
+%\usepackage[margin=.75in]{geometry}
+\usepackage{textcomp}
+\pagenumbering{gobble}
+
+%paragraph formatting
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\titlespacing\subsection{0in}{\parskip}{\parskip}
+\titlespacing\section{0in}{\parskip}{\parskip}
+
+%Just fill these in to fill in the basic syllabus information.
+\newcommand{\coursename}{Applied Regression Analysis - STAT 757}
+\newcommand{\semester}{Spring 2018}
+\newcommand{\roomnumb}{DMSC 106}
+\newcommand{\classtimes}{TuTh 9:00AM - 10:15AM}
+\newcommand{\myname}{A.~Grant Schissler}
+% \newcommand{\myemail}{\href{mailto:aschissler@unr.edu}{aschissler@unr.edu}}
+\newcommand{\myemail}{aschissler@unr.edu}
+\newcommand{\office}{DMSC 224}
+\newcommand{\officehours}{TueThu 3-4pm, or by appointment}
+% \newcommand{\university}{The University of Nevada, Reno}
+
+\title{\textbf{\coursename}}
+% \author{{\university}---{\semester}---{\roomnumb}---{\classtimes}}
+\author{{\semester}---{\roomnumb}---{\classtimes}}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+
+\section*{Instructor information}
+
+\begin{tabular}{llll}
+\textbf{Name}:&\myname & \textbf{Contact}:&\href{mailto:\myemail}{\myemail}, 775-784-4661 (office)\\
+\textbf{Office}:&\office & \textbf{Hours}:&\officehours\\
+\end{tabular}
+
+\section*{Required text}
+\emph{A Modern Approach to Regression with R}, by S.J.~Sheather. \\
+Textbook website:~\url{http://www.stat.tamu.edu/~sheather/book/}
+
+\section*{Online resources}
+\begin{itemize}
+\item Course website:~\url{http:www.grantschissler.com/teaching/SP18/STAT757}, includes a working course schedule and approximate due dates of assignments and exams.
+\item Course github repo:~\url{http:github.com/grizant/STAT757}
+\item Students are responsible for checking Web Campus (\url{http:wcl.unr.edu}) and their email accounts, and are assumed to be aware of all information posted to these sources prior to each meeting.
+\end{itemize}
+
+\section*{Course Pre-requisites}
+None. Background in probability, statistics, and computing would be beneficial.
+
+\section*{Course description}
+This course covers techniques and applications of regression analysis, including inference and model diagnostics. The main goal is empower learners to confidently perform and communicate a regression analysis of real data to address research questions in a reproducible analytic/computational framework. Learners will produce professional quality documents using state-of-the-art statistical computing techniques to visualize and analyze data.
+
+\section*{Student Learning Outcomes}
+\begin{enumerate}
+\item Students will be able to demonstrate understanding of the concepts that underly modern methods of linear regression, and critically assess the assumption associated with different statistical models.
+\item Students will be able to interpret and discuss the results of regression analyses in a broader scientific context and using the terminology of the applied problem.
+\item Students will be able to perform essential regression analysis using a professional statistical package, write technical report, and present the results to a professional audience.
+\end{enumerate}
+
+\section*{Course Topics}
+Below is a tentative list topics for the course, and the order they will be covered. See the course website for a more detailed list of topics, and updated schedule.
+\begin{enumerate}
+\item Introduction to R and review basic statistical concepts
+  \item Simple Linear Regression (SLR)
+  \item Diagnostics and remedial measures for SLR
+    \item Weighted least squares
+\item Multiple Linear Regression (MLR)
+\item Diagnostics and Remedial Measures for MLR
+\item Model and Variable Selection
+\item Logistic Regression
+\item Linear Models for time series analysis (Serially Correlated Errors)
+  \item Mixed Effects Models
+\end{enumerate}
+
+\section*{Grading}
+Approximately 10 generic assignments will be given. These assignments correspond roughly with the topics above and students will engage in the work both in and outside class. Two take-home exams will be completed individually by students. A final project will be completed and presented instead of a written final exam. The final grades will be determined using the following percentages:
+
+\begin{center}
+\begin{tabular}{cc}
+\begin{tabular}{l|l}	%For grade items (quizzes, homework, etc.)
+Item&Percent\\\hline\hline
+  Assignments&40\%\\
+  Exams&30\%\\
+  Project&30\%\\
+\end{tabular}
+&
+\begin{tabular}{ll}
+A&90-100\\
+B&80-89\\
+C&70-79\\
+D&60-69\\
+F&59 or below
+\end{tabular}
+\end{tabular}
+\end{center}
+
+The instructor reserves the right to deviate from the above percentages in special cases, including borderline cases (generally this could be +/- 3\% points) may be given a + or − within the above intervals or increasing the letter grade.
+
+\section*{Makeup, Late Policy}
+Late assignments, exams, and projects will not be graded. There will be no early or make-up exams. However, if you need to miss an exam due to participation in official university activities, you must make arrangements with the instructor at least two weeks prior to the exam in question. Since the late policy is rather strict, I will drop your lowest two grades in the ``Assignments'' category as a safety factor for emergencies.
+
+\section*{Computing Resources}
+This course requires the use of statistical software. Students are assumed to have access to a computer with the free software R (\url{http: www.r-project.org}) installed. Students using R are strongly encouraged to use the front-end RStudio (\url{http:www.rstudio.com}).
+
+\section*{Diversity Statement}
+The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus, or need information related to immigration concerns, please contact the University’s Equal Opportunity \& Title IX Office at (775) 784-1547. Resources and interim measures are available to assist you. For more information, please visit \url{http:www.unr.edu/equal-opportunity-title-ix}.
+
+\section*{Disability Statement}
+The Department of Mathematics and Statistics supports providing equal access for students with disabilities. Any student with a disability needing academic adjustments or accommodations is requested to speak with me or the Disability Resource Center (PSAC 230, \url{http:www.unr.edu/drc}) as soon as possible to arrange for appropriate accommodations.
+
+\section*{Academic Conduct}
+No laptops, cell phones, mp3 players, or other electronics are to be used for personal reasons in class. If you are being disruptive during class you will be asked to leave. Disruptions in this context include inadequate participation. You must come to class on time and stay until the end of lecture. Tardy students will not be admitted to class. Please visit \url{http:www.unr.edu/student-conduct} for our official student code of conduct.
+
+\section*{Academic Success Services}
+A common habit among successful students is to seek help outside of the classroom. Your student fees cover use of the Math Center (784-4433 or \url{http:www.unr.edu/mathcenter}), Tutoring Center (784-6801 or \url{http:www.unr.edu/tutoring-center}), and University Writing Center (784-6030 or \url{http:www.unr.edu/writing-center}). These centers support your classroom learning; it is your responsibility to take advantage of their services.
+
+\section*{University Recording Policy}
+Surreptitious or covert videotaping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may have been given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.
+
+\section*{Academic Dishonesty}
+Cheating, plagiarism, or otherwise obtaining grades under false pretenses constitutes academic dishonesty according to the code of this university. Academic dishonesty will not be tolerated and penalties can include canceling a student’s enrollment without a grade or giving an F for the assignment or for the entire course. For more details, see the University of Nevada, Reno general catalog.
+
+\end{document}

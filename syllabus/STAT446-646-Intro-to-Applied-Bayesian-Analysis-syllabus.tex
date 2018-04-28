@@ -4,7 +4,7 @@
 %\documentclass[11pt,twocolumn]{article}
 \documentclass[11pt,onecolumn]{article}
 \usepackage{hyperref,color}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.75in]{geometry}
 \usepackage{titlesec}
 \usepackage{longtable}
 \usepackage{gb4e}
@@ -27,10 +27,10 @@
 \titlespacing\section{0in}{\parskip}{\parskip}
 
 %Just fill these in to fill in the basic syllabus information.
-\newcommand{\coursename}{Introduction to Applied Bayesian Analysis - STAT 446/646}
+\newcommand{\coursename}{Introduction to Bayesian Analysis - STAT 446/646}
 \newcommand{\semester}{Spring 2019}
 \newcommand{\roomnumb}{DMSC 106}
-\newcommand{\classtimes}{Tue,Thu 9:00am - 10:00am}
+\newcommand{\classtimes}{Tue,Thu 3:00pm - 4:15pm}
 \newcommand{\myname}{A.~Grant Schissler}
 % \newcommand{\myemail}{\href{mailto:aschissler@unr.edu}{aschissler@unr.edu}}
 \newcommand{\myemail}{aschissler@unr.edu}
@@ -58,29 +58,27 @@
 \end{tabular}
 \end{center}
 
-Bayesian data analysis offers a flexible and powerful approach to modeling data and scientific inquiry. The target audience has had some linear algebra, calculus, and computer programming along one or two statistics classes. This course serves as an introduction to modern Bayesian modeling and computation, with an emphasis on generative data modeling using probability distributions, Monte Carlo simulation, and model evaluation. The students will perform analyses in professional statistical packages.
+This course will provide students with the concepts and technical skills to conduct a modern Bayesian data analysis. Such an analysis offers a flexible and powerful approach to modeling data and scientific inquiry. The target audience has had some linear algebra, calculus, and computer programming along one or two statistics classes. Throughout, an emphasis will be placed modeling data using probability distributions, Monte Carlo simulation, and model evaluation. 
 
-The approach to instruction is largely computational in both the readings and assigned class activities. Further mathematical depth will be discussed but not emphasized. Information theory and entropy will be introduced as motivation for model construction and evaluation. Further topics include the basics of Bayesian analysis, Markov Chain Monte Carlo (MCMC), regression through multilevel models, measurement error, missing data, and Gaussian process models for spatial and network autocorrelation. The main goal is empower learners to confidently perform and communicate a challenging Bayesian analysis using state-of-the-art statistical computing and modeling techniques.
+The approach to instruction is largely computational in both the readings and assigned class activities. Further mathematical depth will be discussed but not emphasized. Information theory and entropy will be introduced as motivation for model construction and evaluation. Further topics include the basics of Bayesian analysis, Markov Chain Monte Carlo (MCMC), regression through multilevel (hierarchical) models, measurement error, missing data, and Gaussian process models for spatial and network autocorrelation. The main goal is to empower learners to confidently perform and communicate a challenging Bayesian analysis using state-of-the-art statistical computing and modeling techniques.
 
 \section*{Catalog Description}
-Bayesian data analysis; posterior approximation; generative data modeling; Markov Chain Monte Carlo analysis and remediation; prior specification; Hamiltonian Monte Carlo; information theory and criterion; maximum entropy; regularization; generalized multi-level (hierarchical) regression; mixture modeling.
+Bayesian data analysis; posterior approximation; Markov Chain Monte Carlo analysis and remediation; prior specification; Hamiltonian Monte Carlo; information theory and criterion; maximum entropy; regularization; generalized multilevel (hierarchical) regression; mixture modeling.
 
 \section*{Course Pre-requisites}
-STAT 352 or STAT 467 or STAT 667 or with instructor approval. Concurrent enrollment in STAT 445/645 is suggested.
+STAT 352 or STAT 467 or STAT 667 or with instructor approval. Enrollment in STAT 445/645 is a suggested preparation.
 
 \section*{400-level Student Learning Outcomes}
-\begin{enumerate}
-\item Students will be able to demonstrate understanding of the concepts that underly modern methods of Bayesian analysis, and critically assess the assumptions associated with different statistical models.
-\item Students will be able to interpret and discuss the results of Bayesian analyses.
-\item Students will be able to perform a modern Bayesian analysis using professional statistical packages (e.g., \textsf{R} and \textsf{Stan}).
-\end{enumerate}
+\begin{description}
+\item[UG1] Students will be able to demonstrate understanding of the concepts that underly modern methods of Bayesian analysis, and critically assess the assumptions associated with different statistical models.
+\item[UG2] Students will be able to interpret and discuss the results of Bayesian analyses.
+\item[UG3] Students will be able to perform a modern Bayesian analysis using professional statistical packages (e.g., \textsf{R} and \textsf{Stan}).
+\end{description}
 
 \section*{600-level Student Learning Outcomes}
-\begin{enumerate}
-\item Students will demonstrate mastery of the concepts that underly modern methods of Bayesian analysis, and critically assess the assumptions associated with different statistical models.
-\item Students will be able to perform a modern Bayesian analysis using professional statistical packages (e.g., \textsf{R} and \textsf{Stan}) and interpret the results.
-\item Students will be able to synthesize course concepts to apply Bayesian modeling techniques to real-world data to facilitate aid scientific inquiry.
-\end{enumerate}
+\begin{description}
+\item[GRAD1] Students will be able to synthesize course concepts to apply Bayesian modeling techniques to real-world data to facilitate scientific inquiry.
+\end{description}
 
 \section*{Required text}
 \emph{Statistical Rethinking}, by Richard McElreath. \\
@@ -98,10 +96,10 @@ There will be two midterms, the first on Thursday, March 1, and the second on Th
 A comprehensive final examination will be held on May 15, 9:00am - 11:00am, DMS 106.
 
 \section*{400/600 Students}
-As indicated above, the student learning outcomes differ at the 400 and 600 levels. Assignments and exams for students enrolled at the 400 level and 600 level will also differ. Specifically, graduate students will be expected to complete more exercises and exercises of greater difficulty on assignments. Exams will be of higher difficulty. Students enrolled at the 600 level will also be required to complete a \textbf{term project} due the last day of class.
+As indicated above, the student learning outcomes differ at the 400 and 600 levels. Assignments and exams for students enrolled at the 400 level and 600 level will also differ. Specifically, graduate students will be expected to complete more exercises and exercises of greater difficulty on assignments. Exams will be of higher difficulty. Students enrolled at the 600 level will also be required to complete a \textbf{term project} due May 14 in class.
 
 \section*{Makeup, Late Policy}
-Late assignments, exams, and projects will not be graded (except when a student misses work due to documented illness). There will be no early or make-up exams. However, if you need to miss an exam due to participation in official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. Since the late policy is rather strict, I will drop your lowest two grades in the ``Assignments'' category as a safety factor for emergencies.
+Late assignments, exams, and projects will not be graded. Exceptions will be made when a student misses work due to documented (doctor's note) illness or other extraordinary situation, up to the discretion of the instructor. There will be no early or make-up exams. However, if you need to miss an exam due to participation in official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. Since the late policy is rather strict, I will drop your lowest two grades in the ``Assignments'' category as a safety factor for emergencies.
 
 \section*{Grading}
 The final grades will be determined using the following percentages:
@@ -140,6 +138,7 @@ No laptops, cell phones, mp3 players, or other electronics are to be used for pe
 \section*{Academic Success Services}
 A common habit among successful students is to seek help outside of the classroom. Your student fees cover use of the Math Center (784-4433 or \url{http:www.unr.edu/mathcenter}), Tutoring Center (784-6801 or \url{http:www.unr.edu/tutoring-center}), and University Writing Center (784-6030 or \url{http:www.unr.edu/writing-center}). These centers support your classroom learning; it is your responsibility to take advantage of their services.
 
+\newpage
 \section*{University Recording Policy}
 Surreptitious or covert videotaping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may have been given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.
 
@@ -167,7 +166,7 @@ Cheating, plagiarism, or otherwise obtaining grades under false pretenses consti
     \hline
     7 & Interactions in models & \\
     \hline
-    8 & Markov chain Monte Carlo Estimation and Hamiltonian Monte Carlo & \\
+    8 & Markov Chain Monte Carlo Estimation and Hamiltonian Monte Carlo & \\
     \hline
     9 & -- & Spring break\\
     \hline

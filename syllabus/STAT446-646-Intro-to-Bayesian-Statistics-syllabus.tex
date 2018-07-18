@@ -14,7 +14,7 @@
 
 %paragraph formatting
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{7pt}
+\setlength{\parskip}{6pt}
 
 \usepackage{url}
 
@@ -60,21 +60,21 @@
 \end{tabular}
 \end{center}
 
-This course will provide students with the concepts and technical skills to conduct a modern Bayesian data analysis. Such an analysis offers a flexible and powerful approach to modeling data and scientific inquiry. The target audience has had some linear algebra, calculus, and computer programming along one or two statistics classes. Throughout, an emphasis will be placed modeling data using probability distributions, Monte Carlo simulation, and model evaluation. 
+A primary goal of this course is to introduce Bayesian statistics at an early stage to students with a reasonable mathematical background. As such, the range of topics is similar to an introductory statistics course for a technical audience with an emphasis on statistical inference. Along those lines, the course will describe Bayesian methods and show how they compare favorable to frequentist alternatives. Topics include Bayesian inference for discrete and continuous univariate random variables, multivariate normal, and linear regression. We will implement methods analytically and using software such as Minitab, R, and Stan.
 
-The approach to instruction is largely computational in both the readings and assigned class activities. Further mathematical depth will be discussed but not emphasized. Information theory and entropy will be introduced as motivation for model construction and evaluation. Further topics include the basics of Bayesian analysis, Markov Chain Monte Carlo (MCMC), regression through multilevel (hierarchical) models, measurement error, missing data, and Gaussian process models for spatial and network autocorrelation. The main goal is to empower learners to confidently perform and communicate a challenging Bayesian analysis using state-of-the-art statistical computing and modeling techniques.
+The latter portions of the course focuses on implementing more advanced Bayesian methods through modern computational techniques to sample posterior distributios including Markov Chain Monte Carlo (MCMC) and Hamiltonian Monte Carlo. The aim will be to provide the concepts and technical skills to conduct a realistic Bayesian data analysis to aid advanced and graduate students in their research projects. As such, the later topics may be challenging to those without experience in computer programming (although it is not required).
 
 \section*{Catalog Description}
-Bayesian data analysis; posterior approximation; Markov Chain Monte Carlo analysis and remediation; prior specification; Hamiltonian Monte Carlo; information theory and criterion; maximum entropy; regularization; generalized multilevel (hierarchical) regression; mixture modeling.
+Bayes Theorem; statistical inference; Bayesian data analysis; prior specification, conjugacy, posterior approximation; Markov Chain Monte Carlo (MCMC); Hamiltonian Monte Carlo; Bayesian regression; Multivariate Normal; nuisance parameters; sufficient statistics
 
 \section*{Course Pre-requisites}
-STAT 352 or STAT 467 or STAT 667 or with instructor approval. Enrollment in STAT 445/645 is a suggested preparation.
+STAT 352 or STAT 467/667 or with instructor approval. Enrollment in STAT 445/645 is a suggested preparation.
 
 \section*{400-level Student Learning Outcomes}
 \begin{description}
-\item[UG1] Students will be able to demonstrate understanding of the concepts that underly modern methods of Bayesian analysis, and critically assess the assumptions associated with different statistical models.
-\item[UG2] Students will be able to interpret and discuss the results of Bayesian analyses.
-\item[UG3] Students will be able to perform a modern Bayesian analysis using professional statistical packages (e.g., \textsf{R} and \textsf{Stan}).
+\item[UG1] Students will be able to demonstrate understanding of the concepts that underlie Bayesian inference and compare the results to frequentist alternatives.
+\item[UG2] Students will be able to conduct Bayesian inference analytically and interpret the results.
+\item[UG3] Students will be able to perform a modern Bayesian analysis using professional statistical packages (e.g., \textsf{Minitab}, \textsf{R}, and \textsf{Stan}).
 \end{description}
 
 \section*{600-level Student Learning Outcomes}
@@ -103,6 +103,7 @@ As indicated above, the student learning outcomes differ at the 400 and 600 leve
 \section*{Makeup, Late Policy}
 Late assignments, exams, and projects will not be graded. Exceptions will be made when a student misses work due to documented (doctor's note) illness or other extraordinary situation, up to the discretion of the instructor. There will be no early or make-up exams. However, if you need to miss an exam due to participation in official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. Since the late policy is rather strict, I will drop your lowest two grades in the ``Assignments'' category as a safety factor for emergencies.
 
+\clearpage
 \section*{Grading}
 The final grades will be determined using the following percentages:
 
@@ -110,8 +111,8 @@ The final grades will be determined using the following percentages:
 \begin{tabular}{cc}
 \begin{tabular}{l|c|r}	%For grade items (quizzes, homework, etc.)
 Item&400-level& 600-level\\\hline\hline
-  Assignments&60\% & 40\%\\
-  Midterm Exams&20\%& 20\%\\
+  Assignments&40\% & 40\%\\
+  Midterm Exams&40\%& 20\%\\
   Final Exam&20\%& 20\%\\
   Term project &-- &20\%\\
 \end{tabular}

@@ -1,0 +1,530 @@
+% Exam Template for UMTYMP and Math Department courses
+% http://www-users.math.umn.edu/~rogness/math8001/handouts/math_exam_template.tex
+% Using Philip Hirschhorn's exam.cls: http://www-math.mit.edu/~psh/#ExamCls
+%
+% run pdflatex on a finished exam at least three times to do the grading table on front page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modified by AG Schissler
+
+% These lines can probably stay unchanged, although you can remove the last
+% two packages if you're not making pictures with tikz.
+\documentclass[11pt]{exam}
+\RequirePackage{amssymb, amsfonts, amsmath, latexsym, verbatim, xspace, setspace}
+\RequirePackage{tikz, pgflibraryplotmarks}
+
+% By default LaTeX uses large margins.  This doesn't work well on exams; problems
+% end up in the "middle" of the page, reducing the amount of space for students
+% to work on them.
+\usepackage[margin=1in]{geometry}
+
+
+% Here's where you edit the Class, Exam, Date, etc.
+\newcommand{\class}{MATH/STAT 429/629}
+\newcommand{\term}{Spring 2019}
+\newcommand{\examnum}{Final Exam}
+\newcommand{\examdate}{05/15/19}
+\newcommand{\timelimit}{110 Minutes}
+
+% For an exam, single spacing is most appropriate
+\singlespacing
+% \onehalfspacing
+% \doublespacing
+
+% For an exam, we generally want to turn off paragraph indentation
+\parindent 0ex
+
+\begin{document} 
+
+% These commands set up the running header on the top of the exam pages
+% \pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{\examdate}
+\runningheadrule
+
+% these commands set up the running footer
+\firstpagefooter{}{}{}
+\runningfooter{}{}{Points earned out of a possible \pointsonpage{\thepage} points on the page:~\makebox[1in]{\hrulefill}}
+\extrafootheight{-0.25in}
+
+
+\begin{flushright}
+\begin{tabular}{p{2.8in} r l}
+\textbf{\class} & \textbf{Name (Print):} & \makebox[2in]{\hrulefill}\\
+\textbf{\term} &&\\
+\textbf{\examnum} &&\\
+\textbf{\examdate} &&\\
+\textbf{Time Limit: \timelimit} & Signature & \makebox[2in]{\hrulefill}
+\end{tabular}\\
+\end{flushright}
+\rule[1ex]{\textwidth}{.1pt}
+
+
+This exam contains \numpages\ pages (including this cover page) and
+\numquestions\ problems.  Check to see if any pages are missing.  Enter
+all requested information on the top of this page, and put your initials
+on the top of every page, in case the pages become separated.\\
+
+You may use two pages of hand-written notes (front and back), scratch paper, and a scientific calculator on this exam.\\
+
+You are required to show your work on each free-response problem on this exam (you are not required to show work on multiple choice).  The following rules apply:\\
+
+\begin{minipage}[t]{3.7in}
+\vspace{0pt}
+\begin{itemize}
+
+\item \textbf{Write the letter corresponding to your choice on the blank} to answer multiple choice questions.
+
+\item \textbf{Organize your work} for free-response problems, in a reasonably neat and coherent way, in
+the space provided. Work scattered all over the page without a clear ordering will 
+receive very little credit. If you need extra space write the \textbf{solution or answer} on the page and attach supporting work by stapling extra pages to the exam.
+
+\item \textbf{Mysterious or unsupported answers will not receive full
+credit}.  A correct answer, unsupported by calculations, explanation,
+or algebraic work will receive no credit; an incorrect answer supported
+by substantially correct calculations and explanations might still receive
+partial credit.
+
+\item Please do not write in the table to the right or on the footer at the bottom each page.
+\end{itemize}
+
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{2.3in}
+\vspace{0pt}
+%\cellwidth{3em}
+\gradetablestretch{2}
+\vqword{Problem}
+\addpoints % required here by exam.cls, even though questions haven't started yet.	
+%\gradetable[v]%[pages]  % Use [pages] to have grading table by page instead of question
+\gradetable[v][pages]%[pages]  % Use [pages] to have grading table by page instead of question
+
+\end{minipage}
+\newpage % End of cover page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% See http://www-math.mit.edu/~psh/#ExamCls for full documentation, but the questions
+% below give an idea of how to write questions [with parts] and have the points
+% tracked automatically on the cover page.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{questions}
+
+  \section{Multiple-choice questions}
+  % Multiple choice 25 questions
+% Q1 1.1
+  \addpoints
+  \question[2]
+  Solve the system by using elementary row operations on the equations. \newline Follow the elimination procedure. The order of answer choices is $(x_{1},x_{2}).$\newline
+  $ \begin{array}{ccc}\phantom{3}x_{1}+3x_{2} & = & -1 \\ 4x_{1}+5x_{2} & = & -18 \\ \end{array} $
+
+\begin{oneparchoices}
+\choice $(-7,2)$ %this one
+\choice $(0,0)$
+\choice $(-1,-18)$
+\choice $(-3,3)$
+\end{oneparchoices}
+\answerline
+
+% Q2
+\addpoints
+\question[2]
+Find the general solution of the system whose \textbf{augmented} matrix is given below. \newline $\left[ \begin{array}{cccc} 3 & -5 & 2 & 0 \\ 9 & -15 & 6 & 0 \\ 12 & -20 & 8 & 0 \\ \end{array}  \right]$
+
+\begin{oneparchoices}
+\choice $\left\{ \begin{array}{l} x_{1} = -5 x_{2} \\ x_{2} = 3x_{3} \\ x_{3} \text{ is free} \\ \end{array} \right.$
+\choice $\left\{ \begin{array}{l} x_{1} = \frac{5}{3} x_{2} - \frac{2}{3} x_{3}\\ x_{2} \text{ is free} \\ x_{3} \text{ is free} \\ \end{array} \right.$ %this one
+\choice $\left\{ \begin{array}{l} x_{1} = 5 \\ x_{2} = -3 \\ x_{3}=2 \\ \end{array} \right.$
+\choice No solution(s).
+\end{oneparchoices}
+\answerline
+
+% Q3
+\addpoints
+\question[2]
+Compute $\mathbf{u}-2\mathbf{v}$ when $\mathbf{u} = \left[\begin{array}{c} -2 \\ \phantom{-}9 \\ \end{array}\right]$ and $\mathbf{v} = \left[\begin{array}{c} -4 \\ \phantom{-}3 \\ \end{array}\right]$.
+
+\begin{oneparchoices}
+\choice $\left[\begin{array}{c} 6 \\ 3 \\ \end{array}\right]$ %this one
+\choice $\left[\begin{array}{c} -2 \\ 0 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} -6 \\ -3 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} 3 \\ 4 \\ \end{array}\right]$
+\end{oneparchoices}
+\answerline
+
+% Q4 
+\addpoints
+\question[2]
+Use the definition of $A\mathbf{x}$ to write the vector equation as a matrix equation. \newline
+$x_{1}\left[\begin{array}{c}-8 \\ \phantom{-}7 \\ -5 \\ \phantom{-}6 \end{array}\right] + x_{2}\left[\begin{array}{c}-9 \\ -4 \\ -8 \\ \phantom{-}3\end{array}\right] + x_{3}\left[\begin{array}{c}-6 \\ \phantom{-}0 \\ \phantom{-}6 \\ \phantom{-}9 \end{array}\right] = \left[\begin{array}{c}1 \\ 8 \\ 7 \\ 5 \end{array}\right]$ \newline
+\begin{oneparchoices}
+\choice $\left[\begin{array}{ccc}-8 & -9 & -6 \\ \phantom{-}7 & -4 & \phantom{-}0 \\ -5 & -8 & \phantom{-}6 \\ \phantom{-}6 & \phantom{-}3 & \phantom{-}9 \\ \end{array}\right] \left[\begin{array}{c}x_{1}\\x_{2}\\x_{3}\end{array}\right]= \left[\begin{array}{c}1\\8\\7\\5\end{array}\right]$ %this one
+\choice $\left[\begin{array}{ccc}-8 & -9 & -6 \\ \phantom{-}7 & -4 & \phantom{-}0 \\ -5 & -8 & \phantom{-}6 \\ \phantom{-}6 & \phantom{-}3 & \phantom{-}9 \\ \end{array}\right] \left[\begin{array}{c}x_{1}\\x_{2}\\x_{3}\\x_{4}\end{array}\right]= \left[\begin{array}{c}1\\8\\7\\5\end{array}\right]$\\
+\choice $\left[\begin{array}{ccc}-8 & -9 & -6 \\ \phantom{-}7 & -4 & \phantom{-}0 \\ -5 & -8 & \phantom{-}6 \\ \phantom{-}6 & \phantom{-}3 & \phantom{-}9 \\ \end{array}\right] \left[\begin{array}{c}x_{1}\\x_{2}\end{array}\right]= \left[\begin{array}{c}1\\8\\7\\5\end{array}\right]$
+\choice The matrices are not compatible. 
+\end{oneparchoices}
+\answerline
+
+% Q5
+\addpoints
+\question[2]
+Determine the nature of solutions to the following system. \newline$ \begin{array}{cccc}6x_{1}-3x_{2} +15x_{3}& = & 0 \\ -6x_{1}-9x_{2} -6x_{3}& = & 0 \\ 12x_{1}+6x_{2} +21x_{3}& = & 0 \\ \end{array} $
+
+\begin{oneparchoices}
+\choice It is impossible to determine.
+\choice The system has only a trivial solution.\\
+\choice The system has a unique, nontrivial solution.
+\choice The system has infinite solutions.  %this one
+\end{oneparchoices}
+\answerline
+
+% Q6
+\addpoints
+\question[2]
+Determine by inspection whether the vectors are linearly independent.\newline
+$\left[\begin{array}{c} 4 \\ 1 \\ \end{array}\right], \left[\begin{array}{c} 2 \\ 9 \\ \end{array}\right], \left[\begin{array}{c} 1 \\ 5 \\ \end{array}\right], \left[\begin{array}{c} -1 \\ \phantom{-}8 \\ \end{array}\right]$
+
+\begin{choices}
+\choice The set is linearly independent because at least one of the vectors is a multiple of another vector.
+\choice The set is linearly dependent because at least one of the vectors is a multiple of another vector.
+\choice The set is linearly dependent because there are four vectors but only two entries in each vector. %this one
+\choice The set is linearly independent because there are four vectors in the set but only two entries in each vector.
+\end{choices}
+\answerline
+
+% Q7
+  \addpoints
+  \question[2]
+Let $T: \Re^{2}\rightarrow \Re^{2}$ be a linear transformation that maps $\mathbf{u}=\left[\begin{array}{c} 2 \\ 3 \\ \end{array}\right]$ into $\left[\begin{array}{c} 6 \\ 1 \\ \end{array}\right]$ and maps $\mathbf{v}=\left[\begin{array}{c} 3 \\ 3 \\ \end{array}\right]$ into $\left[\begin{array}{c} -1 \\ \phantom{-}3 \\ \end{array}\right]$. Use the fact that $T$ is linear to find the image under T of $3\mathbf{u}+2\mathbf{v}$. 
+
+\begin{oneparchoices}
+\choice $\left[\begin{array}{c} -16 \\ -9 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} 16 \\ 9 \\ \end{array}\right]$ %this one
+\choice $\left[\begin{array}{c} -9 \\ 16 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} 9 \\ 16 \\ \end{array}\right]$
+\end{oneparchoices}
+\answerline
+
+% Q8
+\addpoints
+\question[2]
+If a matrix $A$ is $8\times 5$ and the product $AB$ is $8 \times 3$, what is the size of​ $B$?
+
+\begin{oneparchoices}
+\choice $3 \times 5$
+\choice $5 \times 5$
+\choice $5 \times 3$ %this one
+\choice $3 \times 3$
+\end{oneparchoices}
+\answerline
+
+% Q9
+\addpoints
+\question[2]
+Find the inverse of the matrix. $\left[\begin{array}{cc}\phantom{-}9 & \phantom{-}3 \\-8 & -3 \\ \end{array}\right]$
+
+\begin{oneparchoices}
+\choice The matrix is not invertible.
+\choice $\left[\begin{array}{cc}\phantom{-}1 & -1 \\ \phantom{-}\frac{8}{3} & -3 \\ \end{array}\right]$
+\choice $\left[\begin{array}{cc}\phantom{-}3 & \phantom{-}3 \\-8 & -9 \\ \end{array}\right]$
+\choice $\left[\begin{array}{cc}\phantom{-}1 & \phantom{-}1 \\-\frac{8}{3} & -3 \\ \end{array}\right]$ %this one
+\end{oneparchoices}
+\answerline
+
+% Q10
+\addpoints
+\question[2]
+Determine if the matrix below is invertible. Use as few calculations as possible. Justify your answer. \newline
+$\left[\begin{array}{ccc}\phantom{-}5 & \phantom{-}0 & \phantom{-}0 \\ -4 & -5 & \phantom{-}0 \\ \phantom{-}7 & \phantom{-}4 & -2 \\ \end{array}\right]$
+
+\begin{choices}
+\choice The matrix is not invertible. If the given matrix is​ $A$, the equation $A\mathbf{x}=\mathbf{b}$ has no solution for some $\mathbf{b}$ in $\Re^{3}$.
+\choice The matrix is invertible. The given matrix has three pivot positions. %this one
+\choice The matrix is invertible. If the given matrix is $A$, there is a $3 \times 3$ matrix $C$ such that $CI=A$.
+\choice The matrix is not invertible. The given matrix has two pivot positions.
+\end{choices}
+\answerline
+
+% Q11
+\addpoints
+\question[2] Compute the determinant of the following matrix. \newline
+$\left[\begin{array}{ccc}1 & w & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \\ \end{array}\right]$.
+
+\begin{oneparchoices}
+\choice $w$
+\choice 3
+\choice 1 %this one 
+\choice Cannot say.
+\end{oneparchoices}
+\answerline
+
+% Q12
+\addpoints
+\question[2]
+Find the determinant below, where $\left|\begin{array}{ccc}a & b & c \\ d & e & f \\ g & h & i \\ \end{array}\right|=4$. \newline
+$\left|\begin{array}{ccc}a & b & c \\ d & e & f \\ 5g & 5h & 5i \\ \end{array}\right|$
+
+\begin{oneparchoices}
+\choice 4
+\choice 20 %this one
+\choice -4
+\choice Cannot say
+\end{oneparchoices}
+\answerline
+
+% Q13
+\addpoints
+\question[2]
+Let $H$ be the set of all vectors of the form $\left[\begin{array}{c}5t \\ 2t \\ 4t \end{array}\right]$. Find a vector $\mathbf{v}$ in $\Re^{3}$ such that $H=\text{Span}\{{\mathbf{v}}\}$.
+
+\begin{oneparchoices}
+\choice $\mathbf{v} = \left[\begin{array}{c}0 \\ 0 \\ 0 \end{array}\right]$
+\choice $\mathbf{v} = \left[\begin{array}{c}5 \\ 2 \\ 4 \end{array}\right]$ %this one
+\choice $\mathbf{v} = \left[\begin{array}{c}1 \\ 1 \\ 1 \end{array}\right]$
+\choice No such $\mathbf{v}$ exists.
+\end{oneparchoices}
+\answerline
+
+% Q14
+\addpoints
+\question[2]
+Determine if $\mathbf{w}= \left[\begin{array}{c}2 \\ 5 \\ 1 \end{array}\right]$ is in $\text{Nul }A$, where $A=\left[\begin{array}{ccc}\phantom{-}3 & -5 & 4 \\ \phantom{-}5 & -3 & 1 \\ -4 & \phantom{-}4 & 3 \\ \end{array}\right]$
+
+\begin{oneparchoices}
+\choice No, because $A\mathbf{w}=\left[\begin{array}{c}-15 \\ -4 \\ 15 \end{array}\right]$ %this one
+\choice No, the Nul $A$ is empty. \\
+\choice Yes, because $A\mathbf{w}=\left[\begin{array}{c}0 \\ 0 \\ 0 \end{array}\right]$
+\choice Cannot say.
+\end{oneparchoices}
+\answerline
+
+% Q15
+\addpoints
+\question[2]
+Determine if the set of vectors shown to the right is a basis for $\Re^{3}$.\newline
+$\left\{\left[\begin{array}{c} \phantom{-}2 \\ \phantom{-}3 \\ -9 \end{array}\right], \left[\begin{array}{c} -5 \\ \phantom{-}4 \\ 12 \\ \end{array}\right]\right\}$.
+
+\begin{oneparchoices}
+\choice No, the set does not span $\Re^{3}$. %this one
+\choice Yes, the set is a basis for $\Re^{3}$.\\
+\choice No, the set is linearly dependent.
+\choice Cannot say.
+\end{oneparchoices}
+\answerline
+
+% Q16
+\addpoints
+\question[2]
+State the dimension for the subspace below.\newline
+$\left\{\left[\begin{array}{c} p-9q\\5p+8r\\-9q+8r\\-6p+12r\\ \end{array}\right]:p,q,r \text{ in } \Re \right\}$.
+
+\begin{oneparchoices}
+\choice 0
+\choice 2
+\choice 3 %this one
+\choice 4
+\end{oneparchoices}
+\answerline
+
+% Q17
+\addpoints
+\question[2]
+If the null space of a $6 \times 8$ matrix $A$ is 4​-dimensional, what is the dimension of the column space of​ $A$?
+
+\begin{oneparchoices}
+\choice 4 %this one
+\choice 6
+\choice 8
+\choice 0
+\end{oneparchoices}
+\answerline
+
+% Q18
+\addpoints
+\question[2]
+Is $\mathbf{v}=\left[\begin{array}{c}\phantom{-}3 \\ \phantom{-}1 \\ -2 \\ \end{array}\right]$ an eigenvalue of $A=\left[\begin{array}{ccc} 3 & 6 & 7 \\ 3 & 2 & 7 \\ 5 & 6 & 4 \\ \end{array}\right]$? If so, find the eigenvalue $\lambda$.
+
+\begin{oneparchoices}
+\choice Yes, and $\lambda=2$.
+\choice No, $\mathbf{v}$ is not an eigenvalue of $A$. \\ %this one
+\choice Yes, and $\lambda=-2$.
+\choice Yes, and $\lambda=0$.
+\end{oneparchoices}
+\answerline
+
+% Q19
+\addpoints
+\question[2]
+Find the eigenvalues of $\left[\begin{array}{cc}4 & 2 \\ 2 & 4 \\ \end{array}\right]$.
+
+\begin{oneparchoices}
+\choice 3,~3
+\choice 2,~6 %this one
+\choice -3,~-3
+\choice 2,~4
+\end{oneparchoices}
+\answerline
+
+% Q20
+\addpoints
+\question[2]
+Identify a nonzero $2 \times 2$ matrix that is invertible but not diagonalizable.
+
+\begin{oneparchoices}
+\choice $\left[\begin{array}{cc}1 & 0 \\ 0 & 0 \\ \end{array}\right]$
+\choice $\left[\begin{array}{cc}1 & 0 \\ 0 & 1 \\ \end{array}\right]$
+\choice $\left[\begin{array}{cc}1 & 1 \\ 0 & 0 \\ \end{array}\right]$
+\choice $\left[\begin{array}{cc}1 & 1 \\ 0 & 1 \\ \end{array}\right]$ %this one
+\end{oneparchoices}
+\answerline
+
+\newpage
+\addpoints
+\question[2]
+Compute $||\mathbf{w}||$ using $\mathbf{w}=\left[\begin{array}{c}\phantom{-}2 \\ -4 \\ -2 \\\end{array}\right]$.
+
+\begin{oneparchoices}
+\choice $2\sqrt{6}$ %this one
+\choice 24
+\choice -16
+\choice 1
+\end{oneparchoices}
+\answerline
+
+% Q22
+\addpoints
+\question[2]
+Determine whether the set of vectors is orthogonal. \newline
+$\left[\begin{array}{c} 0 \\ 0 \\ 0 \\ \end{array}\right], \left[\begin{array}{c} \phantom{-}2 \\ -5 \\ -9 \\ \end{array}\right], \left[\begin{array}{c} \phantom{-}4 \\ -2 \\ \phantom{-}2 \\ \end{array}\right]$
+
+\begin{choices}
+\choice No, the zero vector is in the set.
+\choice Yes, each pair of vectors are orthogonal to each other. %this one
+\choice No, the second and third vectors are not orthogonal.
+\choice Cannot say.
+\end{choices}
+\answerline
+
+% Q23
+\addpoints
+\question[2]
+Find the orthogonal projection of $\mathbf{y}$ onto Span$\{\mathbf{u_{1},u_{2}}\}$.\newline
+$\mathbf{y} = \left[\begin{array}{c} \phantom{-}3 \\ \phantom{-}4 \\ -4 \\ \end{array}\right], \mathbf{u}_{1} = \left[\begin{array}{c} 2 \\ 3 \\ 0 \\ \end{array}\right], \mathbf{u}_{2}= \left[\begin{array}{c} -3 \\ \phantom{-}2 \\ \phantom{-}0 \\ \end{array}\right]$
+
+\begin{oneparchoices}
+\choice $\left[\begin{array}{c} -3 \\ 2 \\ 0 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} 0 \\ 0 \\ 0 \\ \end{array}\right]$
+\choice $\left[\begin{array}{c} 3 \\ 4 \\ 0 \\ \end{array}\right]$ %this one
+\choice $\left[\begin{array}{c} 3 \\ 4 \\ 4 \\ \end{array}\right]$
+\end{oneparchoices}
+\answerline
+
+% Q24
+\addpoints
+\question[2]
+Determine if the matrix $A= \left[\begin{array}{cc}-5 & \phantom{-}9 \\ \phantom{-}4 & -9 \\ \end{array}\right]$ is symmetric.
+
+\begin{choices}
+\choice The matrix is not symmetric, since $A^{T}=\left[\begin{array}{cc}-5 & \phantom{-}4 \\ \phantom{-}9 & -9 \\ \end{array}\right]$. %this one
+\choice The matrix is symmetric, since $A^{T}=\left[\begin{array}{cc}-5 & \phantom{-}9 \\ \phantom{-}4 & -9 \\ \end{array}\right]$.
+\choice The matrix is not symmetric, since the matrix is not invertible.
+\choice Cannot say.
+\end{choices}
+\answerline
+
+% Q25
+\addpoints
+\question[2]
+Compute the quadratic form $\mathbf{x}^{T}A\mathbf{x}$ for $A=\left[\begin{array}{cc}2 & \frac{1}{3} \\ \frac{1}{3} & 1 \\ \end{array}\right]$ for $\mathbf{x}=\left[\begin{array}{c} x_{1} \\ x_{2} \\ \end{array}\right]$.
+
+\begin{oneparchoices}
+\choice 161
+\choice $2x_{1}^{2}+\frac{1}{9}x_{1}x_{2}+x_{2}^{2}$
+\choice $4x_{1}^{2}+\frac{2}{3}x_{1}x_{2}+x_{2}^{2}$
+\choice $2x_{1}^{2}+\frac{2}{3}x_{1}x_{2}+x_{2}^{2}$ %this one
+\end{oneparchoices}
+\answerline
+
+%%% Free response
+\section{Free-response questions}
+\newpage
+
+% Q26
+
+\addpoints
+\question[5] Let $\mathbf{v}_{1}=\left[ \begin{array}{c} -1 \\ -3 \\ \phantom{-}2 \end{array} \right]$, $\mathbf{v}_{2}=\left[ \begin{array}{c} 3 \\ 3 \\ 1 \end{array} \right]$, and $\mathbf{v}_{3}=\left[ \begin{array}{c} 1 \\ -15 \\ 19 \end{array} \right]$. \\ Determine if the set $\{\mathbf{v}_{1}, \mathbf{v}_{2}, \mathbf{v}_{3}\}$ is linearly independent.
+\vspace{\stretch{1}}
+% \vfill
+
+% Q27
+\question[5] Let $\{\mathbf{x}_{1}, \mathbf{x}_{2}\}$ be a basis for a subspace $W$, where $\mathbf{x}_{1}=\left[ \begin{array}{c} \phantom{-}3 \\ \phantom{-}1 \\ -1 \\ \phantom{-}2 \end{array} \right]$ and $\mathbf{x}_{2}=\left[ \begin{array}{c} \phantom{-}2 \\ -1 \\ -1 \\ \phantom{-}1 \end{array} \right]$. Use the Gram-Schmidt process to construct an orthonormal basis for $W$.
+\vspace{\stretch{2}}
+% \vfill
+
+\newpage
+% Q28
+\question[5] Orthogonally diagonalize the matrix $A= \left[\begin{array}{cc}-3 & 3 \\ \phantom{-}3 & 5 \\ \end{array}\right]$ by giving an orthogonal matrix $P$ and a diagonal matrix $D$ such that $A=PDP^{T}$.
+\vspace{\stretch{2}}
+% Q29 2 parts
+
+\addpoints
+\question Consider $A=\left[\begin{array}{ccccc}\phantom{-}1 & \phantom{-}2 & \phantom{-}0 & -1 & \phantom{-}20 \\ \phantom{-}1 & \phantom{-}1 & -1 & \phantom{-}1 & \phantom{-}7 \\ -2 & -1 & \phantom{-}3 & -3 & -5\end{array}\right]$. 
+\begin{parts}
+  \part[5] What is the rank of $A$? (Hint:~find an echelon form)
+  \vspace{\stretch{1}}
+%\vspace{\stretch{1}}
+  \part[5] What is the dimension of the null space of $A$? (Write a short justification).
+\vspace{0.5in}
+%\part[5] Find a basis for the null space of $A$.
+%\vspace{\stretch{2}}
+\end{parts}
+\newpage
+% Q30 3 parts
+
+\addpoints
+\question Find the singular value decomposition $U\Sigma V^{T}$ for $A=\left[ \begin{array}{cc} \phantom{-}1 & 1 \\ \phantom{-}0 & 1 \\ -1 & 1 \end{array} \right]$ by completing the following steps:
+\begin{parts}
+\part[5] Find an orthogonal diagonalization of $A^{T}A$.
+\vspace{\stretch{2}}
+\part[5] Set up $V$ by using the normalized eigenvectors from above and $\Sigma$  by using the singular values of $A$ and zeros where appropriate.
+\vspace{\stretch{1}}
+\part[5] Construct $U$ (hint:~$\mathbf{u}_{i}=\frac{1}{\sigma_{i}}A\mathbf{v}_{i}$).
+\vspace{\stretch{2}}
+\end{parts}
+
+% Q31 2 parts
+\newpage
+\addpoints
+\question Consider $A=\left[ \begin{array}{cc} -1 & 2 \\ 2 & -3 \\ -1 & 3 \end{array} \right]$ and $\mathbf{b}=\left[\begin{array}{c} 4 \\ 1 \\ 2 \\ \end{array}\right]$.
+\begin{parts}
+\part[5] Does the equation $A\mathbf{x}=\mathbf{b}$ have a solution? (Justify with a calculation).
+\vspace{\stretch{1}}
+\part[5] If not, find the least squares solution $\mathbf{\hat{x}}$ by solving the normal equations \\$A^{T}A\mathbf{\hat{x}}=A^{T}\mathbf{b}$.
+\vspace{\stretch{2}}
+%\part[5] Find a basis for the null space of $A$.
+%\vspace{\stretch{2}}
+\end{parts}
+
+
+% % If you want the total number of points for a question displayed at the top,
+% % as well as the number of points for each part, then you must turn off the point-counter
+% % or they will be double counted.
+% 
+% \addpoints
+% \question[10] Consider the function $f(x)=x^3$.
+% \noaddpoints % If you remove this line, the grading table will show 20 points for this problem.
+% \begin{parts}
+% \part[5] Find $f'(x)$ using the limit definition of derivative.
+% \vspace{4.5in}
+% \part[5] Find the line tangent to the graph of $y=f(x)$ at the point where $x=2$.
+% \end{parts}
+ 
+
+
+\end{questions}
+\end{document}

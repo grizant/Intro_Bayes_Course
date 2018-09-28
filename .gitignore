@@ -43,8 +43,9 @@ vignettes/*.pdf
 auto/
 
 
-# PDF output - usually a bad idea to keep this in Git
-*.pdf
+## PDF output - usually a bad idea to keep this in Git
+## *.pdf
+## *tex/*.pdf
 
 # Latexmk
 *.fdb_latexmk
@@ -61,3 +62,7 @@ auto/
 # BibTeX
 *.bbl
 *.blg
+
+# Rmd cache and files
+*_cache
+*_files

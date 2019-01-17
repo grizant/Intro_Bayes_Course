@@ -1,0 +1,117 @@
+%A simple LaTeX syllabus template by Luke Smith.
+%I believe this is a variation of a template I got by Mike Hammond...?
+
+%\documentclass[11pt,twocolumn]{article}
+\documentclass[11pt,onecolumn]{article}
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{gb4e}
+%\usepackage[margin=.75in]{geometry}
+\usepackage{textcomp}
+\pagenumbering{gobble}
+%% \usepackage[utf8]{inputenc}
+%% \usepackage[english]{babel}
+%% \usepackage[usenames, dvipsnames]{color}
+
+%paragraph formatting
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+
+\usepackage{url}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\titlespacing\subsection{0in}{\parskip}{\parskip}
+\titlespacing\section{0in}{\parskip}{\parskip}
+
+%Just fill these in to fill in the basic syllabus information.
+\newcommand{\coursename}{Introduction to Bayesian Statistics - STAT 4XX/6XX}
+\newcommand{\semester}{Spring 2019}
+\newcommand{\roomnumb}{AB 635}
+\newcommand{\classtimes}{Mon,Wed 1:00pm - 2:15pm}
+\newcommand{\myname}{A.~Grant Schissler}
+%\newcommand{\myemail}{\href{mailto:aschissler@unr.edu}{aschissler@unr.edu}}
+\newcommand{\myemail}{aschissler@unr.edu}
+\newcommand{\office}{DMSC 224}
+\newcommand{\officehours}{Tue 2:30pm-3:30pm, Wed 1:30pm-2:30pm, or by appointment}
+% \newcommand{\university}{The University of Nevada, Reno}
+\renewcommand{\familydefault}{\sfdefault}
+
+\title{\textbf{\coursename} \\Teaching Methods}
+% \author{{\university}---{\semester}---{\roomnumb}---{\classtimes}}
+%% \author{{\semester}---{\roomnumb}---{\classtimes}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-0.75in}
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}}
+
+%% \begin{center}
+%% \begin{tabular}{llll}
+%% \textbf{Instructor}:&\myname & \textbf{Contact}:&\href{mailto:\myemail}{\myemail}, 775-784-4661 (office)\\
+%% \textbf{Office}:&\office & \textbf{Hours}:&\officehours\\
+%% \end{tabular}
+%% \end{center}
+
+\section{Learning outcome 1}
+\textbf{Recall the axioms, basic terms/algebra of probability, including Bayes' Theorem.}
+
+Cognitive level:~Remember
+
+Appropriate methods:~Lecture, interactive lecture, recitation, just-in-time teaching, inquiry based\footnotemark, problem-based learning\footnotemark[\value{footnote}], project-based learning\footnotemark[\value{footnote}], fieldwork
+
+\footnotetext{Depends on the lecture-break tasks, the discussion questions, or the group tasks assigned.}
+
+\section{Learning outcome 2}
+\textbf{Model parameters and data using discrete and continuous random variables.}
+
+Cognitive level:~Apply
+
+Appropriate methods:~Interactive lecture\footnotemark, directed discussion\footnotemark[\value{footnote}], writing/speaking exercises, classroom assessment techniques, group work or learning\footnotemark[\value{footnote}], cookbook labs, case method, inquiry based, problem-based, project-based, role plays/simulation, service learning with reflection, fieldwork
+
+\footnotetext{The knowledge acquired may be narrowly focused on the problem or project.}
+
+\section{Learning outcome 3}
+\textbf{Conduct Bayesian inference for parameters of discrete and continuous random variables.}
+
+Cognitive level:~Apply and Analyze
+
+Appropriate methods:~Same as above LO 3
+
+\section{Learning outcome 4}
+\textbf{Conduct Bayesian inference parameters in linear regression.}
+
+Cognitive level:~Apply and Analyze
+
+Appropriate methods:~Same as above LO 3
+
+\section{Learning outcome 5}
+\textbf{Apply computational techniques to conduct Bayesian inference, including Markov Chain Monte Carlo.}
+
+Cognitive level:~Apply and Analyze
+
+Appropriate methods:~Same as above LO 3
+
+\section{Learning outcome 6}
+\textbf{Compare Frequentist/Bayesian approaches in statistical inference.}
+
+Cognitive level:~Understand
+Appropriate methods:~~Interactive lecture, directed discussion, writing/speaking exercises, classroom assessment techniques, group work or learning, student-peer feedback, cookbook labs, inquiry based, project-based, role plays/simulation
+
+\section{Learning outcome 7, Graduate only}
+\textbf{Develop and evaluate a Bayesian model for real world data.}
+
+Cognitive level:~Evaluate and Create
+
+Appropriate methods:~ Writing/speaking exercises, group work, case method, inquiry based, problem-based, project-based, service learning with reflection, fieldwork
+
+\end{document}

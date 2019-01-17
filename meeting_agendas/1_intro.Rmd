@@ -1,0 +1,97 @@
+---
+title: "Welcome to Introduction to Bayesian Statistics (MATH 429/629)"
+author: "AG Schissler"
+date: "01/23/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Start-of-class work (5 min)
+
+Routines to install? Build community through partner/group activity?
+
+## I. Opening (20 min)
+
+### Posterior simulations vizualization
+
+### Frequentist vs. Bayesaian
+
+### Gelman opening activity?
+
+## II. Our community (20 min)
+
+### Students: Undergraduate and graduate students (mostly) in math, engineering, and computer science
+ 
+- Not much programming knowledge assumed
+- Some statistics knowledge assumed
+
+### Grader: Diana Powers
+
+Ask Diana to prepare something...
+
+### Instructor: A. Grant Schissler, PhD
+
+- background
+- education
+- research interests
+- other interests
+
+### Reciprocal interview
+
+Questions for you:
+1) What are your goals for the course?
+2) What is your best outcome imagined for the course?
+3) What is your worst outcome imagined for the course?
+4) What is the most likely outcome imagined for the course?
+5) What can I do to help you?
+
+Questions for me/Diana?
+
+### Take away
+
+Assume good will among everyone here. **Ask Questions** and **Work Together** --- these are the most important reasons for class time.
+
+## III. Course expectations and learning outcomes (20 min)
+
+### Course structure
+
+- Focus is on core Bayesian statistical ideas and techniques, both computational and analytic.
+- Class will be cumulative, so keep up with the material and assignments!
+- There will be both online instruction.
+- I'll use a variety of instructional in-class activites: lecture, quick activities, more involved "lab" assignments, and student-led presentations.
+- You should budget 9 hours a week for this class (2.5 in class and 6.5 outside). The bulk of your learning with happen outside of class!
+
+2.5 hours
+<insert in-class pie chart>
+
+6.5 hours
+<insert out-of-class pie chart>
+
+### Syllabus
+
+Think-pair-share
+
+1. Please read the syllabus and list/mark 5 most important things.
+2. Pair up and share your thought with your neighbor(s).
+3. Share with the whole group.
+
+<insert point vs time plot>
+
+### Course resources
+
+#### Website
+
+[course website](http://www.grantschissler.com/teaching/SP19/STAT429/).
+
+#### Canvas (WebCampus)
+
+#### DataCamp for online modules
+
+#### Github
+
+## V. Closing (10 min)
+
+What to do here?

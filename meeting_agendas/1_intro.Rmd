@@ -7,13 +7,16 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(scales)
+library(tidyverse)
 ```
 
-### Start-of-class work (5 min)
+## Start-of-class work (5 min)
 
-Routines to install? Build community through partner/group activity?
+Please write a few sentences answering "What are my goal(s) for this course?"
 
-## I. Opening (20 min)
+## I. Opening activity: Where are all the cancers? (20 min)
 
 ### Posterior simulations vizualization
 
@@ -65,10 +68,59 @@ Assume good will among everyone here. **Ask Questions** and **Work Together** --
 - You should budget 9 hours a week for this class (2.5 in class and 6.5 outside). The bulk of your learning with happen outside of class!
 
 2.5 hours
-<insert in-class pie chart>
 
-6.5 hours
-<insert out-of-class pie chart>
+```{r}
+inclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_inclass_schedule.xlsx")
+str(inclass_dat)
+
+sum_dat <- inclass_dat %>%
+  group_by(Activity) %>%
+  summarise(Minutes = sum(Minutes), n = n())
+
+sum_dat$Percent <- sum_dat$Minutes/sum(sum_dat$Minutes) * 100
+
+## sum(sum_dat$Percent)
+
+bp <- ggplot(sum_dat, aes(x="", y=Percent, fill=Activity)) +
+    geom_bar(width = 1, stat = "identity")
+## bp
+
+pie <- bp + coord_polar("y", start=0)
+
+pie + geom_text(aes(y = Percent/3 + c(0, cumsum(Percent)[-length(Percent)]), label = percent(Percent/100)), size=5) +
+    scale_fill_brewer(palette="Blues") +
+    theme_minimal()
+
+```
+
+```{r}
+outclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_outside_class_schedule.xlsx")
+## str(outclass_dat)
+
+## weekly expectation
+## sum_dat <- outclass_dat %>% group_by(Week) %>% summarise(Minutes = sum(Minutes), n = n())
+## mean(sum_dat$Minutes)/60
+
+sum_dat <- outclass_dat %>%
+  group_by(Activity) %>%
+  summarise(Minutes = sum(Minutes), n = n())
+
+sum_dat$Percent <- sum_dat$Minutes/sum(sum_dat$Minutes) * 100
+
+## sum(sum_dat$Percent)
+
+bp <- ggplot(sum_dat, aes(x="", y=Percent, fill=Activity)) +
+    geom_bar(width = 1, stat = "identity")
+## bp
+
+pie <- bp + coord_polar("y", start=0)
+
+pie + geom_text(aes(y = Percent/3 + c(0, cumsum(Percent)[-length(Percent)]), label = percent(Percent/100)), size=5) +
+    scale_fill_brewer(palette="Blues") +
+    theme_minimal()
+
+
+```
 
 ### Syllabus
 
@@ -80,6 +132,15 @@ Think-pair-share
 
 <insert point vs time plot>
 
+### More detailed learning outcomes
+
+- course assessment matrix
+
+### Point-based grading system
+
+Scatterplot
+<points vs meeting>
+
 ### Course resources
 
 #### Website
@@ -87,6 +148,13 @@ Think-pair-share
 [course website](http://www.grantschissler.com/teaching/SP19/STAT429/).
 
 #### Canvas (WebCampus)
+
+- Course announcements
+- Official assignments and due dates
+- Gradebook management
+- Secure file submissions
+- Secure file sharing
+- Another way to message the instructor
 
 #### DataCamp for online modules
 

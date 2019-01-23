@@ -12,66 +12,97 @@ library(scales)
 library(tidyverse)
 ```
 
-## Start-of-class work (5 min)
+## I. Start-of-class work (5 min)
 
-Please write a few sentences answering "What are my goal(s) for this course?"
+### Think-pair-share
 
-## I. Opening activity: Where are all the cancers? (20 min)
+Think: Please explore/think about Figure 1. E.g., What US counties/regions experience the highest rates of kidney cancers in the late 1980s?
+Pair: Discuss with your neighbor(s)
+Share: When prompted, share your observations/comments/questions with the class (see below).
 
-### Posterior simulations vizualization
+## II. Where are all the cancers? (10 min)
 
-### Frequentist vs. Bayesaian
+Let's discuss the maps of showing estimating US Kidney cancer rates.
 
-### Gelman opening activity?
+## III. Frequentist vs. Bayesaian (10 min)
+
+(modified from Bolstad & Curran Ch.1, p.6)
+
+Frequentist (classical) approach to statistics
+
+- parameters, the numerical characterics of a population (think of them as **targets of learning**), as fixed but unknown constants.
+- probabilities as *always* long-run relative frequency.
+- Statistical procedures are judged how often things occur in an infinite number of repetitions of the experiment
+ 
+Bayesian approach to statistics
+
+- We model parameters as random variables since we are uncertain about their true value.
+- The basic rules of probability are used **directly** to make statistical inferences about the parameters (it's how we **update** our beliefs about uncertain quantities in light of data)
+- Probability statements must be interpreted as a "degree of belief" (not hypothetical long-run relative frequency)
+- Each person can have his/her own prior beliefs before (and must be able to formalize that belief as a probability distribution)
 
 ## II. Our community (20 min)
 
-### Students: Undergraduate and graduate students (mostly) in math, engineering, and computer science
+### Students: 
+
+Undergraduate and graduate students (mostly) in math, engineering, and computer science
  
-- Not much programming knowledge assumed
-- Some statistics knowledge assumed
+#### Activity
 
-### Grader: Diana Powers
+Please introduce yourself to your neighbor(s):
 
-Ask Diana to prepare something...
+1) Name (what you liked to be called)
+2) Major
+3) Professional goals
+4) (Appropriate) personal interests
+
+Let's go around the room and everyone please introduce your partner(s).
+
+### Grader: Diana Powers, MS
+
+Diana, please introduce yourself.
 
 ### Instructor: A. Grant Schissler, PhD
 
-- background
-- education
-- research interests
-- other interests
+- background: 6 years of high schools teaching, 4 years at higher Ed teaching
+- education: BS in Applied Math, MS in Applied Stat, PhD in Statistics
+- research interests: Developing stats methods for personalized medicine, statistical computing, Bayesian modeling, clustering, high dimensional data, large scale hypothesis testing
+- other interests: hiking, tennis, running, ukulele, games
 
 ### Reciprocal interview
 
-Questions for you:
-1) What are your goals for the course?
-2) What is your best outcome imagined for the course?
-3) What is your worst outcome imagined for the course?
-4) What is the most likely outcome imagined for the course?
-5) What can I do to help you?
+#### Questions for you:
+1) What is Bayesian statistics (your own definition, don't look anything up at this time)?
+2) What are your goals for the course?
+3) What is your best outcome imagined for the course?
+4) What is your worst outcome imagined for the course?
+5) What is the most likely outcome imagined for the course?
+6) What can I do to help you learn best?
 
-Questions for me/Diana?
+#### Questions for me/Diana
+
+Please, please, ask anything on your mind (about the class) --- anxieties, hopes, policies, procedures, anything.
 
 ### Take away
 
 Assume good will among everyone here. **Ask Questions** and **Work Together** --- these are the most important reasons for class time.
 
-## III. Course expectations and learning outcomes (20 min)
+## III. Course expectations and learning outcomes (25 min)
 
-### Course structure
+### Some thoughts
 
 - Focus is on core Bayesian statistical ideas and techniques, both computational and analytic.
 - Class will be cumulative, so keep up with the material and assignments!
-- There will be both online instruction.
-- I'll use a variety of instructional in-class activites: lecture, quick activities, more involved "lab" assignments, and student-led presentations.
-- You should budget 9 hours a week for this class (2.5 in class and 6.5 outside). The bulk of your learning with happen outside of class!
+- There will be both online and paper assignments.
+- I'll use a variety of instructional in-class activites: lecture, group activities, more involved "lab" assignments, and student-led presentations.
 
-2.5 hours
+### Expectations for time committment
+
+In-class activities require 2.5 hours/week.
 
 ```{r}
 inclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_inclass_schedule.xlsx")
-str(inclass_dat)
+## str(inclass_dat)
 
 sum_dat <- inclass_dat %>%
   group_by(Activity) %>%
@@ -79,27 +110,25 @@ sum_dat <- inclass_dat %>%
 
 sum_dat$Percent <- sum_dat$Minutes/sum(sum_dat$Minutes) * 100
 
-## sum(sum_dat$Percent)
+sum_dat
 
 bp <- ggplot(sum_dat, aes(x="", y=Percent, fill=Activity)) +
     geom_bar(width = 1, stat = "identity")
 ## bp
 
 pie <- bp + coord_polar("y", start=0)
-
-pie + geom_text(aes(y = Percent/3 + c(0, cumsum(Percent)[-length(Percent)]), label = percent(Percent/100)), size=5) +
-    scale_fill_brewer(palette="Blues") +
-    theme_minimal()
-
+pie
 ```
+
+Out-of-class activities depend on many individual factors. I'd regard these expected durations to be on the low end (it will likely take a bit longer).
 
 ```{r}
 outclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_outside_class_schedule.xlsx")
 ## str(outclass_dat)
 
-## weekly expectation
-## sum_dat <- outclass_dat %>% group_by(Week) %>% summarise(Minutes = sum(Minutes), n = n())
-## mean(sum_dat$Minutes)/60
+## drop 'None' category
+outclass_dat <- outclass_dat[outclass_dat$Activity != "None",]
+outclass_dat$Activity <- factor(outclass_dat$Activity)
 
 sum_dat <- outclass_dat %>%
   group_by(Activity) %>%
@@ -107,22 +136,26 @@ sum_dat <- outclass_dat %>%
 
 sum_dat$Percent <- sum_dat$Minutes/sum(sum_dat$Minutes) * 100
 
+sum_dat
+
 ## sum(sum_dat$Percent)
 
 bp <- ggplot(sum_dat, aes(x="", y=Percent, fill=Activity)) +
     geom_bar(width = 1, stat = "identity")
-## bp
 
 pie <- bp + coord_polar("y", start=0)
+pie
+```
 
-pie + geom_text(aes(y = Percent/3 + c(0, cumsum(Percent)[-length(Percent)]), label = percent(Percent/100)), size=5) +
-    scale_fill_brewer(palette="Blues") +
-    theme_minimal()
-
-
+```{r}
+## weekly expectation
+sum_dat <- outclass_dat %>% group_by(Week) %>% summarise(Minutes = sum(Minutes), n = n())
+cat(mean(sum_dat$Minutes)/60, "hours")
 ```
 
 ### Syllabus
+
+[syllabus](https://github.com/grizant/Intro_Bayes_Course/blob/develop/syllabus/STAT446-646-Intro-to-Bayesian-Statistics-syllabus.pdf)
 
 Think-pair-share
 
@@ -130,20 +163,34 @@ Think-pair-share
 2. Pair up and share your thought with your neighbor(s).
 3. Share with the whole group.
 
-<insert point vs time plot>
+### Detailed learning outcomes
 
-### More detailed learning outcomes
+[learning outcomes](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro-to-Bayesian-Statistics_learning_outcomes.pdf)
 
-- course assessment matrix
+You can always ask, "How does this activity relate to the learning outcomes?". 
 
 ### Point-based grading system
 
-Scatterplot
-<points vs meeting>
+Points are aligned with my valuation of the learning outcomes according to this matrix.
+
+[Intro_Bayes_Course_course_assessment_plan.xlsx](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro_Bayes_Course_course_assessment_plan.xlsx)
+
+
+```{r}
+points_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_points_time.xlsx")
+## str(outclass_dat)
+
+## scatterplot
+sp <- ggplot(points_dat, aes(x=Week, y=cumsum(Points), color=Activity)) + geom_point() + labs(y="Cumulative point total")
+sp
+
+```
 
 ### Course resources
 
 #### Website
+
+Let's tour the website:
 
 [course website](http://www.grantschissler.com/teaching/SP19/STAT429/).
 
@@ -158,8 +205,22 @@ Scatterplot
 
 #### DataCamp for online modules
 
+[datacamp.com](https://www.datacamp.com/home)
+
+Only three modules assigned, but DataCamp has a wealth of tutorials to supplement any gaps in your preparation or to accelerate your learning.
+
+#### Term project
+
+629 students are required to complete a term project with my guidance. More on this soon.
+
 #### Github
 
-## V. Closing (10 min)
+[https://github.com/grizant/Intro_Bayes_Course/tree/develop](https://github.com/grizant/Intro_Bayes_Course/tree/develop)
 
-What to do here?
+## V. Closing (5 min). 3-2-1
+
+- 3 next actions you need to take
+- 2 things you learned
+- 1 friend you made (you can count me if you like ;) )
+
+Share with the class, not the friend part if it's embarrassing to say...

@@ -16,15 +16,15 @@ library(tidyverse)
 
 ### Think-pair-share
 
-Think: Please explore/think about Figure 1. E.g., What US counties/regions experience the highest rates of kidney cancers in the late 1980s?
-Pair: Discuss with your neighbor(s)
-Share: When prompted, share your observations/comments/questions with the class (see below).
+Think: Please explore/think about Figure 1. E.g., What US counties/regions experience the highest rates of kidney cancers in the late 1980s?  
+Pair: Discuss with your neighbor(s)  
+Share: When prompted, share your observations/comments/questions with the class (see below).  
 
 ## II. Where are all the cancers? (10 min)
 
 Let's discuss the maps of showing estimating US Kidney cancer rates.
 
-## III. Frequentist vs. Bayesaian (10 min)
+## III. Frequentist vs. Bayesian (10 min)
 
 (modified from Bolstad & Curran Ch.1, p.6)
 

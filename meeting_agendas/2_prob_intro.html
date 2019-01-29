@@ -337,7 +337,7 @@ $(document).ready(function () {
 <div id="ii.-discus-deductive-logic-and-plausible-reasoning-10-min" class="section level2">
 <h2>II. Discus deductive logic and plausible reasoning (10 min)</h2>
 <p>(from Bolstad &amp; Curran Ch.4, Section 4.1, p.59)</p>
-<p>Probability formalizes plausible reasoning, extending logic to account for uncertainty. Deductive reasoning is the most typically presented way to proof statements. It works by flowing from the general to particular. It does a poor job of dealing with uncertainty!</p>
+<p>Probability formalizes plausible reasoning, extending logic to account for uncertainty. Deductive reasoning is the most typically presented way to prove statements. It works by flowing from the general to particular. It does a poor job of dealing with uncertainty!</p>
 <p>Induction, on the other hand, flows from the particular to the general. (Do you recall proving something by assuming a base case and prove the next case must hold the statement in general?) Induction is a process that can include plausible reasoning (not just absolute).</p>
 <p><em>Statistical inference</em> is an inductive process for making inferences about a population parameter, by quantifying how plausible parametre values are given the observed data or other information.</p>
 <div id="desired-properties-of-plausibility-measures-p.61" class="section level3">
@@ -367,13 +367,24 @@ $(document).ready(function () {
 <h2>IV. Joint probability (25 min)</h2>
 <div id="motivating-example-four-boys-what-are-the-chances" class="section level3">
 <h3>Motivating example: Four boys? What are the chances?</h3>
-<p>Suppose there are four children in a family. Which of the following sequences is mostly?</p>
+<p>Suppose there are four children in a family. Which of the following sequences is most likely?</p>
 <ol style="list-style-type: lower-alpha">
 <li><code>bbbb</code></li>
 <li><code>bgbg</code></li>
 <li><code>gggg</code></li>
 </ol>
 <p><Draw probablity tree on the board></p>
+<pre class="r"><code>## our code here
+prob_female &lt;- 0.487
+prob_male &lt;- 1- prob_female
+## probability four male births
+prob_male^4</code></pre>
+<pre><code>## [1] 0.06925792</code></pre>
+<pre class="r"><code>1/16</code></pre>
+<pre><code>## [1] 0.0625</code></pre>
+<pre class="r"><code>## bgbg
+(prob_female)^2 * (prob_male)^2</code></pre>
+<pre><code>## [1] 0.06241553</code></pre>
 <p>Now let’s discuss a realistic and (perhaps) surprising twist to the calculation:</p>
 <p><Insert here></p>
 </div>

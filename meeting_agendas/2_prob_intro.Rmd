@@ -31,7 +31,7 @@ Let's revisit [1_intro.html](http://www.grantschissler.com/teaching/SP19/STAT429
 
 (from Bolstad & Curran Ch.4, Section 4.1, p.59)
 
-Probability formalizes plausible reasoning, extending logic to account for uncertainty. Deductive reasoning is the most typically presented way to proof statements. It works by flowing from the general to particular. It does a poor job of dealing with uncertainty! 
+Probability formalizes plausible reasoning, extending logic to account for uncertainty. Deductive reasoning is the most typically presented way to prove statements. It works by flowing from the general to particular. It does a poor job of dealing with uncertainty! 
 
 Induction, on the other hand, flows from the particular to the general. (Do you recall proving something by assuming a base case and prove the next case must hold the statement in general?) Induction is a process that can include plausible reasoning (not just absolute). 
 
@@ -63,13 +63,25 @@ _Bayesian statistics uses the rules of probability to revise our belief given th
 
 ### Motivating example: Four boys? What are the chances?
 
-Suppose there are four children in a family. Which of the following sequences is mostly?
+Suppose there are four children in a family. Which of the following sequences is most likely?
 
 a. `bbbb`
 b. `bgbg`
 c. `gggg`
 
 <Draw probablity tree on the board>
+
+```{r, babies}
+## our code here
+prob_female <- 0.487
+prob_male <- 1- prob_female
+## probability four male births
+prob_male^4
+1/16
+## bgbg
+(prob_female)^2 * (prob_male)^2
+
+```
 
 Now let's discuss a realistic and (perhaps) surprising twist to the calculation:
 

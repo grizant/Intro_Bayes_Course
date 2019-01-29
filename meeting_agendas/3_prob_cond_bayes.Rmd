@@ -1,0 +1,121 @@
+---
+title: "Conditional probability and Bayes' Theorem"
+author: "AG Schissler"
+date: "01/30/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: packets of three sets of cards, dice>
+
+## Start-of-class work (5 min)
+
+Discuss the following random experiment:
+
+I have prepared three sets of cards for each student. Each set has three cards: One with both sides pink, one with both sides blue, and one with a blue and pink side.
+
+If I select a card at random and reveal a blue side, what is the probability that the other side is also blue?
+
+## I. What's the color on the other side of the card? (10 min)
+
+<Gelman/Nolan Section 8.5.1, p.125>
+
+## II. Formal definition of conditional probability (10 min)
+
+(from Bolstad & Curran Ch.4, Section 4.5, p.67)
+
+$P(B | A) = \frac{P(A \cap B)}{P(A)}$
+
+### Reduced Universe idea
+
+Let's discuss Figure 4.7.
+
+### Multiplication rule
+
+A simple restatement of the conditional probability:
+
+$P(A \cap B) =  P(B | A) \times P(A)$
+
+But this is powerful! Now we can compute the joint probability by multiplying the conditional probability by the marginal probability.
+
+### Conditional probability for independent events
+
+Intuitively, independence means that one event occurring or not occurring does **not** affect the chances of the other event occurring. I.e., $P(B|A) = P(B)$. From the independence condition we see this is the case:
+
+$P(B | A) \times P(A) = P(A \cap B) =  P(B) \times P(A)$. This implies that $P(B) = P(B|A)$.
+
+## III. Lie detector demonstration (10 min)
+
+<Gelman/Nolan Section 8.5.2, p.127>
+
+## IV. More discussion on fuzzy topics based on the closing last lecture (10 min)
+
+### Mutually exclusive events versus independent events
+
+Let's work through a quick proof that disjoint events are dependent:
+
+- Suppose that two events, $A,B$, have nonzero probability. I.e., $P(A) > 0$ and $P(B) > 0$. (if either event has zero probability then the events are trivially independent).
+- Further suppose that $A$ and $B$ are mutually exclusive. I.e., $A \cap B = \emptyset$.
+
+Now let's check the independence condition:
+
+If $A,B$ are independent then  
+$0=P(\emptyset)=P(A \cap B)=P(A) \times P(B)$. This implies that either $P(A)=0$ or $P(B)=0$, contradicting our first supposition. So $A,B$ cannot be independent. Therefore, $A,B$ are dependent events.
+
+### Marginal probability
+
+When dealing with two events (the joint setting), the probability of one event, $A$, is called its _marginal probability_. Marginal probability is really important and we'll discuss its calculation throughout the course. For a Universe with only two events, the marginal probability is found by summing its disjoint parts.
+
+First find a partition in terms of the other event $B$:  
+$A = (A \cap B) \cup (A \cap \tilde{B})$.
+
+Then use Axiom 3:  
+$P(A) = P(A \cap B) + P(A \cap \tilde{B})$.
+
+Let's draw some Venn diagrams on the board and discuss.
+
+## V. Bayes' Theorem (25 min)
+
+(from Bolstad & Curran Ch.4, Section 4.6, p.68)
+
+$P(B_i | A) = \frac{P(A \cap B_i)}{P(A)}= \frac{P(A | B_i) \times P(B_i)}{\sum_{j=1}^n P(A|B_j) \times P(B_j)}$. 
+
+### Bolstad Example 4.1
+
+Let's discuss Figures 4.8, 4.9, p.70
+
+### Bayes' Theorem: The Key to Bayesian Statistics
+
+Now let's see how we use Bayes' Theorem to revise our beliefs on the basis of evidence. 
+
+- The $B_i$ represent a finite set of unobservable events which partition the universe. The we assign our **prior** probability to each of these events. This is our belief before seeing any evidence/data.
+- Then **likelihood** is the conditional probability that the data/evidence $A$ occurred given each of our unobservable events $B_i$. The likelihood is a function defined on events $B_i$ and is the **weight** given to each $B_i$ given $A$.
+- Then $P(B_i | A) is the **posterior** probability that event $B_i$ occurs, given $A$. 
+
+#### Therefore, Bayes' Theorem combines our prior beliefs with the evidence to update our belief about uncertain events!
+
+### The Bayesian universe, p.71
+
+Let's discuss Figures 4.10, 4.11, p.72-73 in the context of the Bayesian universe.
+
+### Multiplying by a constant
+
+Easy to see that multiplying either the likelihood or prior by a constant results in the same **posterior** (constants cancel in the ratio). So only the **relative** weights of each on each possibility in the likelihood/prior matter.
+
+### Misc topics if we have time
+
+- Odds
+- Bayes' Factor
+- Monte Carlo study (a simulation)
+
+## Closing (5 min)
+
+Please answer the following questions and be prepared to share with the group.
+
+- What surprised you today?
+- What did you learn from that experience?
+
+

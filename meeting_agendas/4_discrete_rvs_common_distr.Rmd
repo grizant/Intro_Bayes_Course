@@ -1,0 +1,131 @@
+---
+title: "Discrete random variables"
+author: "AG Schissler"
+date: "02/04/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: packets of three sets of cards, dice>
+
+## I. Start-of-class work: Die rolling (10 min)
+
+Let's dig into an activity based on "Thought Experiment 1" (Section 5.1, p.84). Please roll your 10-sided 10 times and tabulate your results. Join with a partner or two and sketch a relative frequency histogram (example on p.85) of your combined results.
+
+### Monte Carlo study: Long-run relative frequency converges to probability of each discrete value (10 min)
+
+Now let's write R code together simulate and visualize this process:
+
+```{r, one}
+num_rolls <- c(1e1, 1e2, 1e3, 1e4, 1e5, 1e6)
+num_faces <- 10
+
+## loop not efficient, but easy to explain
+
+sim_data <- NULL
+set.seed(11)
+for (tmp_rolls in num_rolls){
+    sim_faces <- sample(x = num_faces, size = tmp_rolls, replace = TRUE)
+    sim_prop <- table(sim_faces) / tmp_rolls
+    tmp_data <- data.frame(face = 1:10, prop = 0, num_rolls = tmp_rolls)
+    ## careful inserting data if none occurred
+    tmp_data$prop[tmp_data$face %in% names(sim_prop)] <- sim_prop
+    sim_data <- rbind(sim_data, tmp_data)
+}
+
+## faceted plot, like Figure 5.1, p. 85
+
+p0 <- ggplot(data = sim_data, aes(x = factor(face), y = prop))
+p0 + geom_hline(yintercept = 0.1) + geom_bar(stat = "identity") + facet_wrap(~ num_rolls, nrow = 2) 
+
+```
+
+## I. Inroduction to discrete random variables (rvs) (5 min)
+
+A random variable describes the outcome of a random experiment in terms of a number. If the only possible outcomes of the experiment are distinct numbers separated from each other, we say the random variable is *discrete*. See Section 5.1 for more.
+
+
+## II. Probability distribution of a discrete rv (Section 5.2) (10 min)
+
+### Expected value
+
+Brief discussion: expected value as a weighted average.
+
+### Variance
+
+Discuss the impact of squaring deviations.
+
+### Mean and variance of a linear transformation
+
+Discuss derivations on p.89 on doc cam.
+
+### Think-pair-share: HW 2 Exercise 5.1 (10 min)
+
+1. Work Exercise 5.1 independently
+2. Pair and discuss
+3. Share with class
+
+## III. Three important discrete rvs (Sections 5.3 - 5.5) (15 - 20 min)
+
+Brief discussion of characterization/motivation of some common discrete rvs.
+
+### Binomial distribution
+
+Exercise 5.3
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.3:
+
+```{r, fiveThree}
+## our code here
+```
+
+### Hypergeometric
+
+Exercise 5.6 a - c, d challenge
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.6:
+
+```{r, fiveSix}
+## all four draws are green
+(20/50)*(19/49)*(18/48)*(17/47)
+
+## GGGR
+(20/50)*(19/49)*(18/48)*(30/47)
+## GGRG
+(20/50)*(19/49)*(30/48)*(18/47)
+
+y <- 0:4
+prob_y <- dhyper(x = y, m = 20, n = 30, k = 4)
+```
+
+### Poisson
+
+Exercise 5.8
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.3:
+
+```{r, fiveEight}
+## our code here
+```
+
+## Closing (5 min)
+
+Please answer the following questions and be prepared to share with the group.
+
+- What was the main point from the Monte Carlo experiment?
+- What was the muddiest point of today's meeting?

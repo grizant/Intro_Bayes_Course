@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<bring to class: packets of three sets of cards, dice>
+<bring to class: dice>
 
 ## I. Start-of-class work: Die rolling (10 min)
 

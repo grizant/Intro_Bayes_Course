@@ -22,7 +22,7 @@ This exercise works with a Poisson random variable.
 An R demonstration for 5.7:
 
 ```{r, fiveSeven}
-## our code here
+dpois(x = 2, lambda = 2)
 ```
 
 If you finish early, then work on your other HW problems (5.1 - 5.3, 5.5 - 5.7, 5.10).
@@ -51,7 +51,7 @@ Simulate to show how summing OR substracting independent rvs increases variation
 
 ```{r}
 set.seed(22)
-n <- 1000
+n <- 1e8
 x <- rbinom(n = n, size = 10, prob = 0.2)
 ## mean of 2, 10*(.2)*(.8) = 1.6
 y <- rpois(n = n, lambda = 2)
@@ -67,9 +67,6 @@ var(x) + var(y)
 ## why are these different?
 var(x - y) 
 var(x) + var(y)
-
-var(x + y) * (n - 1) / n
-var(x) * (n - 1) / n + var(y) * (n - 1) / n
 ```
 
 ### Example 5.2 (10 min)

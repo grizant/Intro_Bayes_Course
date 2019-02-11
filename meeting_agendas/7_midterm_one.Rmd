@@ -1,0 +1,34 @@
+---
+title: "Midterm One"
+author: "AG Schissler"
+date: "02/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: copies of the exam>
+
+## Start-of-class work: Please prepare your workspace (5 min)
+
+Scratch paper, handheld calculator, pencils with eraser, 1 page of notes, etc.
+
+## I. Midterm One (45 min)
+
+You may begin working as soon as you get your exam. Please keep all cell phones/laptops/other communication devices away until all exams are turned in. If not, you have violated the student conduct code. 
+
+If you finish early, then please submit your work and return your desk. You may work on other things, but make sure you do not disrupt the test or use a communication device.
+
+## II. Solution discussion (20 min)
+
+Let's discuss the solutions as drafted and make sure we all agree on the correct answers, identify any poor questions, etc.
+
+## Closing (5 min)
+
+Reflect on your exam performance.
+
+1. What did you do well?
+2. What can you improve?
+3. What surprised you, if anything?

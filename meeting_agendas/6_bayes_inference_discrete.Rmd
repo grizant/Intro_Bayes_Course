@@ -97,7 +97,7 @@ Discuss example 6.2 and 6.3, briefly.
 ### Let's revisit the start of class data and analyze in R.
 
 ```{r}
-### Our code here
+Bolstad::binodp(x = 12, n = 33)
 ```
 
 ## V. Midterm One discussion (5 min)

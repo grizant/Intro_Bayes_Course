@@ -1,0 +1,94 @@
+---
+title: "Comparing Bayesian and Frequentist Inferences for Proportion (Ch.9)"
+author: "AG Schissler"
+date: "03/04/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: textbook>
+
+## Start-of-class work: (5 min)
+
+Please turn in HW and review Ch.9 while we set up the project talks.
+
+## I. Project proposal talks (45 - 60 minutes)
+
+### Conner
+
+Physics
+
+### Allie
+
+Antitrust law implementation on monthly CPS employment data.
+
+### Karla, Nasim, and Sohel
+
+Variational (Bayesian) inference
+
+### Zach
+
+Effects of drought on water levels via GPS data
+
+### Cheyenne
+
+Hierarchical Modeling of Spatial Data to Estimate Abundance of Sage-Grouse in Nevada
+
+### Damon
+
+???
+
+### Feng
+
+A Bayesian Study on Low Temperatures in the U.S.
+
+### Alex
+
+Bayesian Adaptation: How prior information influences stimulus-response judgment
+
+## II. Frequentist interpretation of probability and parameters (5 - 10 minutes)
+
+### Bayesian approach
+1) Compute or approximate the posterior distribution (*post-data*).
+2) Summarize the posterior as it relates to estimation or hypothesis testing.
+
+### Frequentist approach
+1) Compute or approximate the **sampling distribution** of a statistic summarizing your data under all possible samples (*pre-data*).
+2) Use the observed statistic and its sampling distribution to estimate or test hypotheses about the fixed, unknown parameters.
+
+### Sampling distribution of a statistic
+
+Frequentist (*pre-data*) compute the sampling distribution: $f(s | \theta)$.
+
+Let's discuss this notion based on your prior knowledge/training. Does this make sense as to what you have done in the past?
+
+In constrast, the Bayesian approach focuses on inferences based on the data that actually occurred:
+
+Bayesian (*post-data*): $g(\theta | data)$.
+
+## III. Point estimation
+
+Frequentist point estimator for the binomial proportion is $\hat{\pi}_f= y / n$.
+
+### Frequentist criteria for evaluating estimators (5 min)
+
+Let's discuss these three concepts and make sure notion/concepts are clear.
+
+1. Unbiasedness
+
+2. Minimum Variance Unbiased Estimators
+
+3. Mean squared error of an estimator
+
+## IV. Comparing estimators for proportion (5 min)
+
+Talk through section 9.3, Figure 9.2 on doc cam and discuss.
+
+## Closing (5 min)
+
+- Which project are you most interested in?
+- Explain in your own words why the frequentist approach to inference is pre-data.
+

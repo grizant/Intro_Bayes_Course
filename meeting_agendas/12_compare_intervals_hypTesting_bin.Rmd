@@ -1,0 +1,135 @@
+---
+title: "Comparing Bayesian and Frequentist Inferences for Proportion (Ch.9)"
+author: "AG Schissler"
+date: "03/06/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: textbook, dice, index cards>
+
+## Start-of-class work: Hands-on Monte Carlo (10 min)
+
+We will conduct simulation to approximate the sampling distribution of Frequentist and Bayesian estimator of $\pi$.
+
+Each table receives an index card with a value of $\pi \in \{0.1, 0.2, \ldots, 0.9\}$ and dice.
+
+Student teams will
+
+1. Design an experiment with your dice to perform random binomial experiments with modeling parameters $Y \sim bin(\pi = \pi_, n = 10)$.
+
+2. **Each member** at your table completes an the random experiment and collects data, $y$.
+
+## I. Mini-lecture: High-level discussion on Ch.9 (15 - 20 min)
+
+Flip through textbook on doc cam
+
+### Frequentist interpretation of probability and parameters
+
+#### Bayesian approach
+1) Compute or approximate the posterior distribution (*post-data*).
+2) Summarize the posterior as it relates to estimation or hypothesis testing.
+
+#### Frequentist approach
+1) Compute or approximate the **sampling distribution** of a statistic summarizing your data under all possible samples (*pre-data*).
+2) Use the observed statistic and its sampling distribution to estimate or test hypotheses about the fixed, unknown parameters.
+
+#### Sampling distribution of a statistic
+
+Frequentist (*pre-data*) compute the sampling distribution: $f(s | \theta)$.
+
+Let's discuss this notion based on your prior knowledge/training. Does this make sense as to what you have done in the past?
+
+In constrast, the Bayesian approach focuses on inferences based on the data that actually occurred:
+
+Bayesian (*post-data*): $g(\theta | data)$.
+
+### Point estimation
+
+Frequentist point estimator for the binomial proportion is $\hat{\pi}_f= y / n$.
+
+#### Frequentist criteria for evaluating estimators
+
+Let's discuss these three concepts and make sure notion/concepts are clear.
+
+1. Unbiasedness
+
+2. Minimum Variance Unbiased Estimators
+
+3. Mean squared error of an estimator
+
+### Comparing estimators for proportion
+
+Talk through section 9.3, Figure 9.2 on doc cam and discuss.
+
+### Interval estimation
+
+#### Confidence intervals
+
+### Comparing confidence and credible intervals
+
+### Hypothesis testing 
+
+### Testing a one-sided hypothesis
+
+#### Frequentists tests of one-sided hypothesis
+
+#### Bayesian tests of one-sided hypothesis
+
+#### Aside: Numerical integration in R
+
+```{r}
+integrate(dbeta, 0, 0.15, 7, 75)
+integrate(dbeta, 0.15, 1, 7, 75)
+pbeta(0.15, 7, 75, lower.tail = FALSE)
+```
+
+### Testing a two-sided hypothesis
+
+#### Frequentists tests of two-sided hypothesis
+
+#### Bayesian tests of two-sided hypothesis
+
+## II. Detailed example: Exercise 9.4 (15 - 20 min)
+
+Work on whiteboard and computer.
+
+## III. Finish Hands-on Monte Carlo (similar to Ch. 9, C1; 15 - 20 min)
+
+Let's return to the data collected at the start of class.
+
+1. Compute the frequentist estimator $\hat{\pi}_f$ for each person's data.
+2. Compute the Bayes' estimator $\hat{\pi}_B$ for each person's data.
+3. Calculate the mean of each estimator (across people in your group).
+4. Using step 3, calculate the bias of each estimator (across people in your group).
+5. Calculate the variance of each estimator.
+6. Calculate the mean squared error of these estimators two ways:
+
+First way:  
+
+$$
+MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
+$$
+
+Second way:  
+
+Find the mean of the squared difference of your estimator and the true value.
+
+Answer the following,
+
+Are the estimators unbiased?
+Which has smaller MSE for your $\pi$?
+
+- Aggregate class data if time and discuss.
+
+## Closing: 3-2-1 (5 min)
+
+Please write down and share responses to the following prompts:
+
+- 3 ways to evaluate an estimator
+- 2 questions: Why is frequentist estimation procedure *pre-data*? And why is Bayesian *post-data*?
+- Why is it not meaningful to produce a Bayesian 2-sided P-value?
+

@@ -25,8 +25,26 @@ Let's collect data on the proportion of water covering the globe through a ball 
 
 ```{r}
 ### our data goes here
-y = 0
-n = 0
+y = 7
+n = 10
+
+Bolstad::binobp(x = 0, n = 0, a = 57.09, b = 21.66)
+Bolstad::binobp(x = 7, n = 10, a = 57.09, b = 21.66)
+Bolstad::binobp(x = 23, n = 40, a = 57.09, b = 21.66)
+
+## G's GCP
+pi = seq(0, 1, by = 0.001)
+pi.prior = rep(0, length(pi))
+priorFun = Bolstad::createPrior(x = c(0, 0.67,0.68,0.74, 0.75, 1), wt = c(0, 0, 1, 1, 0, 0))
+pi.prior = priorFun(pi)
+priorFit <- Bolstad::binogcp(0, 0, "user", pi = pi, pi.prior = pi.prior)
+mean(priorFit)
+fit <- Bolstad::binogcp(7, 10, "user", pi = pi, pi.prior = pi.prior)
+fit <- Bolstad::binogcp(23, 40, "user", pi = pi, pi.prior = pi.prior)
+str(fit)
+mean(fit)
+quantile(fit, probs = c(0.025, 0.975))
+diff(quantile(fit, probs = c(0.25, 0.75)))
 ```
 
 ## I. Summarizing the posterior distribution (20 - 25 min)
@@ -97,7 +115,7 @@ Any of the measures of location above can be used as a point estimator, $\hat{\p
 PMSE = Posterior Mean Squared **Error** which is defined as
 
 $$
-PMSE[\hat{\pi}] = \int_0^1 (\pi - \hat{\pi})g(\pi|y)d\pi.
+PMSE[\hat{\pi}] = \int_0^1 (\pi - \hat{\pi})^2 g(\pi|y)d\pi.
 $$
 
 By adding and substracting the posterior mean, $m^{\prime}$ inside the squared term, we can decompose this integral into two components the **variance** and the squared **bias**.

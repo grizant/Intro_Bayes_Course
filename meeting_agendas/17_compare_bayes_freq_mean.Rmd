@@ -1,0 +1,124 @@
+---
+title: "Comparing Bayesian And Frequentist Inferences For Mean (Ch.12)"
+author: "AG Schissler"
+date: "04/01/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: laptop>
+
+## Start-of-class work: How much sleep did we get during Spring Break? (5 - 10 min)
+
+1. Think carefully about how many hours you slept per day, $\mu$, in a 24-hour period (including any naps) over Spring Break, on average.
+2. Record your guess.
+3. Construct your prior for the average number of hours sleep for UNR students (across undergraduate and graduate students).
+
+## II. Perform Bayesian inference for these data (20 - 25 min)
+
+1. Bring together class data
+2. Under your prior, compute the posterior distribution of for $\mu$.
+3. Construct the predictive distribution. How could you use this to make a prediction for a next student's average hours of sleep?
+
+```{r, echo = FALSE, results = FALSE}
+## 6 to 8 hours
+m <- 7
+s2 <- 1
+## assume more sleep, more variation over Spring Break
+y_bar <- 8
+n <- 30
+sigma2 <- 1
+
+compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+
+compute_mean_posterior(m = 7, s2 = 1, n = 30, y_bar = 8, sigma2 = 2)
+
+## predictive distribution
+compute_mean_predictive <- function(m, s2, n, y_bar, sigma2){
+    posterior_params <- compute_mean_posterior(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+    ## return as a list
+    list(m_nplus1 = posterior_params$m_prime, s_nplus1_2= sigma2 + posterior_params$s_prime2)
+}
+
+compute_mean_predictive(m = 7, s2 = 1, n = 30, y_bar = 8, sigma2 = 2)
+set.seed(44)
+y <- rnorm(n = 30, mean = 8, sd = 2)
+Bolstad::normnp(x = y, m.x = 7, s.x = 1, sigma.x = sqrt(2), plot = FALSE)
+compute_mean_posterior(m = 7, s2 = 1, n = 30, y_bar = mean(y), sigma2 = 2)
+
+```
+
+## III. Comparing Frequentist and Bayesian Point Estimators (12.1; 5 - 10 min)
+
+### Example 12.1 
+
+Arnold, Beth, and Carol want to estimate the mean weight of “1 kg” packages of milk powder produced at a dairy company. The weight in individual packages is subject to random variation. They know that when the machine is adjusted properly, the weights are normally distributed with mean 1015 grams, and standard deviation 5 g. They are going to base their estimate on a sample of size 10. Arnold decides to use a normal prior with mean 1,000 g and standard deviation 10 g. Beth decides she will use a normal prior with mean 1,015 g and standard deviation 7.5 g. Carol decides she will use a “flat” prior. They calculate the bias, variance, and mean squared error of their estimators for various values of μ to see how well they perform.
+
+```{r}
+## Bias of the Bayesian estimator, m_prime (the posterior mean)
+compute_bayes_bias <- function(mu, m, s2, sigma2, n) {( sigma2 / (n*s2 + sigma2) ) * (m - mu) }
+compute_bayes_var <- function(mu, m, s2, sigma2, n) {( n * s2 / (n*s2 + sigma2) )^2 * (sigma2 / n) }
+compute_bayes_mse <- function(mu, m, s2, sigma2, n) {
+    my_bias <- compute_bayes_bias(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_var <- compute_bayes_var(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_mse <- my_bias^2 + my_var
+    return(my_mse)
+}
+
+## range of mu (a bit larger than Bolstad's "feasible region")
+mu_seq <- 990:1040
+
+## store evaluation data
+eval_data <- data.frame(mu = rep(mu_seq, times = 3), prior = rep(c("Arnold", "Beth", "Carol"), each = length(mu_seq)))
+
+## known quantities (CHANGE THESE DURING CLASS TO DEMONSTRATE)
+my_n <- 10
+my_sigma2 <- 5^2
+
+## biases
+arnold_var <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
+beth_var <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_var <- rep(0, length(mu_seq))
+eval_data$bias <- c(arnold_bias, beth_bias, carol_bias)
+ggplot(data = eval_data, aes(x = mu, y = bias, color = prior)) + geom_line(aes(linetype = prior))
+
+## mse
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
+## PLAY WITH ARNOLD'S TO DISCUSS WEAKLY INFORMATIVE PRIORS
+## arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+beth_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_mse <- rep(my_sigma2 / my_n, length(mu_seq))
+eval_data$mse <- c(arnold_mse, beth_mse, carol_mse)
+ggplot(data = eval_data, aes(x = mu, y = mse, color = prior)) + geom_line(aes(linetype = prior))
+
+```
+
+## III. Comparing Confidence and Credible Intervals for Mean (12.2; 5 - 10 min)
+  
+### Example 12.2 (continued from Example 11.3, p. 222)
+
+Discuss using projected textbook.
+
+## IV. Comparing sleep data estimators (10 - 15 min)
+
+1. Under your prior, compare MSE of the frequentist and Bayesian point estimators.
+2. Construct a 95\% confidence interval for $\mu$ under a "flat" prior. Interpret this interval under Frequentist and Bayesian perspecitives
+
+## Closing (5 - 10 min)
+
+Think-pair-share:
+
+1. Think about ways to make predictions from a Frequentist perspective.
+2. Pair and discuss your thoughts.
+3. Share with the class.

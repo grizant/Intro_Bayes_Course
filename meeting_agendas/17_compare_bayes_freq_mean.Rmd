@@ -23,13 +23,18 @@ knitr::opts_chunk$set(echo = TRUE)
 2. Under your prior, compute the posterior distribution of for $\mu$.
 3. Construct the predictive distribution. How could you use this to make a prediction for a next student's average hours of sleep?
 
-```{r, echo = FALSE, results = FALSE}
+```{r, echo = TRUE, results = TRUE}
+
+sleep <- c(10, 8, 7, 9, 8, 7.5, 5, 6.5, 7.5, 6, 11, 7, 8, 8.33, 8.25, 10, 6, 7, 8.5,8, 9, 9, 8, 9.5, 8, 9, 8.11, 7)
+
+sd(sleep)
+
 ## 6 to 8 hours
 m <- 7
 s2 <- 1
 ## assume more sleep, more variation over Spring Break
-y_bar <- 8
-n <- 30
+y_bar <- mean(sleep)
+n <- length(sleep)
 sigma2 <- 1
 
 compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
@@ -44,6 +49,8 @@ compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
 
 compute_mean_posterior(m = 7, s2 = 1, n = 30, y_bar = 8, sigma2 = 2)
 
+compute_mean_posterior(m = 7, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1)
+
 ## predictive distribution
 compute_mean_predictive <- function(m, s2, n, y_bar, sigma2){
     posterior_params <- compute_mean_posterior(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
@@ -51,11 +58,13 @@ compute_mean_predictive <- function(m, s2, n, y_bar, sigma2){
     list(m_nplus1 = posterior_params$m_prime, s_nplus1_2= sigma2 + posterior_params$s_prime2)
 }
 
-compute_mean_predictive(m = 7, s2 = 1, n = 30, y_bar = 8, sigma2 = 2)
-set.seed(44)
-y <- rnorm(n = 30, mean = 8, sd = 2)
-Bolstad::normnp(x = y, m.x = 7, s.x = 1, sigma.x = sqrt(2), plot = FALSE)
-compute_mean_posterior(m = 7, s2 = 1, n = 30, y_bar = mean(y), sigma2 = 2)
+compute_mean_predictive(m = 7, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1 )
+
+## set.seed(44)
+## y <- rnorm(n = 30, mean = 8, sd = 2)
+
+Bolstad::normnp(x = sleep, m.x = 7, s.x = 1, sigma.x = 1, plot = TRUE)
+compute_mean_posterior(m = 7, s2 = 1, n = length(sleep), y_bar = mean(sleep), sigma2 = 1)
 
 ```
 
@@ -87,16 +96,16 @@ my_n <- 10
 my_sigma2 <- 5^2
 
 ## biases
-arnold_var <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
-beth_var <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
-carol_var <- rep(0, length(mu_seq))
+arnold_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
+beth_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_bias <- rep(0, length(mu_seq))
 eval_data$bias <- c(arnold_bias, beth_bias, carol_bias)
 ggplot(data = eval_data, aes(x = mu, y = bias, color = prior)) + geom_line(aes(linetype = prior))
 
 ## mse
 arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
 ## PLAY WITH ARNOLD'S TO DISCUSS WEAKLY INFORMATIVE PRIORS
-## arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
 beth_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
 carol_mse <- rep(my_sigma2 / my_n, length(mu_seq))
 eval_data$mse <- c(arnold_mse, beth_mse, carol_mse)

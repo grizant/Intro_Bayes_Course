@@ -41,16 +41,23 @@ compute_normalMean_normalPrior <- function(m, s2, n, y_bar, sigma2){
     list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
 }
 
+(arnie_post <- compute_normalMean_normalPrior(m = 30, s2 = 4^2, n = 12, y_bar = 32, sigma2 = 2^2))
+
+pnorm(q = 31, mean = arnie_post$m_prime, sd = arnie_post$s_prime)
+
+pnorm(q = 31, mean = 32, sd = 2^2 / 12)
+
+
 ```
 
-## III. Testing a One-Sided Hypothesis about a Normal Mean (12.4; 10 - 15 min)
+## III. Testing a Two-Sided Hypothesis about a Normal Mean (12.4; 10 - 15 min)
   
 ### Extend Example 12.3 (continued from Example 11.3, p. 222)
 
 Let's extend the last the example to test a two-sided hypothesis.
 
 ```{r}
-## OUR CODE HERE
+Bolstad::normnp(x = rep(32, 12), m.x = 30, s.x = 4, sigma.x = 2)
 ```
 
 ## IV. Testing hypotheses for our sleep data estimators (25 - 30 min)

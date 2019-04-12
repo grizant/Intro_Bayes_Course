@@ -1,7 +1,7 @@
 ---
-title: "Midterm Three"
+title: "Midterm Four"
 author: "AG Schissler"
-date: "04/10/2019"
+date: "05/01/2019"
 output: html_document
 ---
 
@@ -13,9 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Start-of-class work: Please prepare your workspace (5 min)
 
-Scratch paper, handheld calculator, pencils with eraser, 3 pages of notes, etc.
+Scratch paper, handheld calculator, pencils with eraser, 4 pages of notes, etc.
 
-## I. Midterm Three (45 min)
+## I. Midterm Four (45 min)
 
 You may begin working as soon as you get your exam. Please keep all cell phones/laptops/other communication devices away until all exams are turned in. If not, you have violated the student conduct code. 
 

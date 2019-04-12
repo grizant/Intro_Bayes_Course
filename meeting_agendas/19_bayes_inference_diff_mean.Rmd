@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Start-of-class work: Many times a day do you check email? (5 - 10 min)
 
-1. Think carefully about how many times a day do you check email, $\mu$, in a 24-hour period (including any naps) over Spring Break, on average.
+1. Think carefully about how many times a day do you check email, $\mu$, in a 24-hour period.
 2. Record your guess.
 3. Construct your two priors for this average, one for the UNR graduate and one for the UNR undergraduate students.
 
@@ -23,16 +23,16 @@ knitr::opts_chunk$set(echo = TRUE)
 2. Construct the posterior distribution for each group, assumming independent random samples from two normal distributions and known standard deviation of 10.
 
 ```{r, echo = TRUE, results = TRUE}
-y_u <- NULL
-y_g <- NULL
+y_u <- c(10, 3,3, 5,8,10,1,4,8,8,6,15,15,2,6,4,15,15,3,10,3,6,4,6,8,10)
+y_g <- c(3.5, 8, 10,6,15,20,7,25,40,12)
 
-## 6 to 8 hours
-m <- 7
-s2 <- 1
+## 
+m <- 10
+s2 <- 5^2
 ## assume more sleep, more variation over Spring Break
 ## y_bar <- mean(sleep)
 ## n <- length(sleep)
-sigma2 <- 1
+sigma2 <- 10^2
 
 compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
     ## posterior precision is the sum of prior and sample precision
@@ -44,7 +44,10 @@ compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
     list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
 }
 
-## compute_mean_posterior(m = 7, s2 = 1, n = 30, y_bar = 8, sigma2 = 2)
+mu_u_post <- compute_mean_posterior(m = m, s2 = s2, n =  length(y_u), y_bar = mean(y_u), sigma2 = 10^2)
+
+mu_g_post <- compute_mean_posterior(m = m, s2 = s2, n =  length(y_g), y_bar = mean(y_g), sigma2 = 10^2)
+
 ## Bolstad::normnp(x = sleep, m.x = 7, s.x = 1, sigma.x = 1, plot = TRUE)
 ```
 
@@ -53,6 +56,18 @@ compute_mean_posterior <- function(m, s2, n, y_bar, sigma2){
 How to quantify and test any difference between the groups?
 
 ### 1. Using the results from the previous section, find a 95% credible interval the mean difference.
+
+```{r}
+mu_d_mean <- mu_g_post$m_prime - mu_u_post$m_prime
+mu_d_stderror <- sqrt(mu_g_post$s_prime2 + mu_u_post$s_prime2)
+
+c(mu_d_mean - qnorm(0.975) * mu_d_stderror, mu_d_mean + qnorm(0.975) * mu_d_stderror)
+
+pnorm(0, mean = mu_d_mean, sd = mu_d_stderror)
+
+pnorm((0 - mu_d_mean) / mu_d_stderror)
+
+```
 
 ### 2. Now test the hypotheses that
 
@@ -86,9 +101,33 @@ Use Satterthwaite's approximation for the degrees of freedom on page 263.
 2. Provide those data with the class.
 3. Let's disregard the graduate/undergraduate aspect for this analysis.
 
+```{r}
+diff_in_email <- c(5,3,1,1,2.5,4,6,4.09,4,5,1,3,6,5,10,1,20,5.5,5,6,3,30,4,3,2,0,15, 2,5,1,9,4,1,4,5,2)
+
+summary(diff_in_email)
+hist(diff_in_email)
+
+(post_param <- compute_mean_posterior(m = 0, 20^2, n = length(diff_in_email), y_bar = mean(diff_in_email), sigma2 = var(diff_in_email)))
+
+```
+
 ### Construct the posterior of the differencen $\mu_{weekday} - \mu_{weekend}$ using a flat prior.
 
 How to do this?
+
+Construct a 95% credible interval.
+
+```{r}
+n <- length(diff_in_email)
+qt(p = 0.95, df = n - 1)
+
+post_param$m_prime - qt(p = 0.95, df = n - 1) * post_param$s_prime
+
+post_param$m_prime + qt(p = 0.95, df = n - 1) * post_param$s_prime
+
+t.test(x = diff_in_email,conf.level = 0.9)
+
+```
 
 ## Closing (5 - 10 min)
 

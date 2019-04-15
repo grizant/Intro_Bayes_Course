@@ -1,0 +1,76 @@
+---
+title: "Bayesian Inference for Simple Linear Regression (Ch.14)"
+author: "AG Schissler"
+date: "04/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: laptop>
+
+## How well does the first midterm score predict the third midterm score? (5 - 10 min)
+
+```{r}
+### load scrambled midterm one and midterm three scores
+reg_data <- readRDS("exam_reg_data.rds")
+
+### explore numerically
+head(reg_data)
+summary(reg_data)
+cor(reg_data)
+var(reg_data)
+
+## visualize relationship
+ggplot2::qplot(x = MidtermOne, y = MidtermThree, data = reg_data)
+```
+
+## I. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
+
+### Joint prior for $\beta$ and $\alpha_{\overline{x}}$
+
+### The role of standardization in prior specification
+
+### Community of priors
+
+- Sketical view
+- Optimistic view
+- Reference
+- Vague/noninformative
+- Weakly informative
+
+### Apply to exam data
+
+## II. The joint posterior for $\beta$ and $\alpha_{\overline{x}}$ (14.5; 15 - 20 min)
+
+### Walk through p.295. 
+
+### Provide updating rules.
+
+### Example 14.2
+
+### Our data
+
+## III. Credible intervals and hypothesis testing (14.5; 10 - 15 min)
+
+### Bayesian credible interval around the slope
+### Frequentist credible interval around the slope
+### Testing One-sided hypothesis about slope
+### Testing Two-sided hypothesis about slope
+
+### Our data
+
+## IV. Predictive ditribution for the regression model (14.5; 10 - 15 min)
+
+### Finding the predictive distribution
+
+### predictive distribution parameters
+
+### Our data
+
+## Closing (5 min)
+
+- Write down your own answer to the guiding question, "How well does Midterm One scores predict Midterm Three?"
+- Share.

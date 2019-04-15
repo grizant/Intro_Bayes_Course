@@ -1,0 +1,118 @@
+---
+title: "Bayesian Inference for Simple Linear Regression (Ch.14)"
+author: "AG Schissler"
+date: "04/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: laptop>
+
+## How well does the first midterm score predict the third midterm score? (5 - 10 min)
+
+```{r}
+### load scrambled midterm one and midterm three scores
+reg_data <- readRDS("exam_reg_data.rds")
+
+### explore numerically
+head(reg_data)
+summary(reg_data)
+cor(reg_data)
+var(reg_data)
+
+## visualize relationship
+ggplot2::qplot(x = MidtermOne, y = MidtermThree, data = reg_data)
+```
+
+Discuss...
+
+## I. Compute the least squares (LS) estimates from these data (14.1; 15 - 20 min)
+
+### Least squares regression
+
+1. Discuss Figure 14.1.
+
+2. Minimizing squared residuals: $SS_{res} = \sum_{i=1}^n \left[ y_i - (\alpha_0 + \beta x_i) \right]^2$ on p. 285.
+
+LS Solution for $\beta$:  
+$B = \frac{\overline{xy} - \overline{x}\overline{y}}{\overline{x^2} - \overline{x}^2}$.
+
+LS Solution for $\alpha_0$:  
+$A_0 = \overline{y} - B \overline{x}$.
+
+The final LS solution is $y = A_0 + Bx$.
+
+An important alternative form is  
+
+$y = \overline{y} - B\left( x - \overline{x} \right)$.
+
+3. Discuss Example 14.1 and figure 14.2.
+
+**Make sure to keep all significant digits** when calculating LS.
+
+### Estimating the variance around the LS line
+
+### Produce the LS solution for our exam data
+
+```{r, echo = TRUE, results = TRUE}
+compute_simple_ls <- function(x, y) {
+    B <- ( mean(x*y) - mean(x) * mean(y) ) / ( mean(x^2) - mean(x)^2  )
+    A0 <- mean(y) - B * mean(x)
+    return( list(A0 = A0, B = B) )
+}
+
+compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermThree)
+
+## compare to lm()
+lm(MidtermThree ~ MidtermOne, data = reg_data)
+```
+
+## II. Exponential growth model as a linear model after transformation (14.2; 5 - 10 min)
+
+Often data do not display a linear trend, but one that reflects an increasing rate and variation as the predictor's value increases. 
+
+In this case an exponential growth model will usually give a better fit:
+
+$u = e^{\alpha_0 + \beta \times t}$. Then if we let $y = log(u)$, (here $log := log_e$)  
+
+$y = \alpha_0 + \beta \times t$.
+
+Then you can find the LS solutions for the two parameters and back-transform to convert back to the original scale.
+
+### Discuss Example 14.2 and Figure 14.3.
+
+## III. Adding probablistic assumptions (14.3; 5 - 10 min)
+
+There has been no probability or error modeling in the LS solution. It is called *non-parameteric* or *distribution free* for this reason. So one can find the best fitting line with respect to the quadratic loss function, but there is no uncertainty quantification. Let's add some assumptions to meet this goal:
+
+1. Mean assumption: The conditional mean of $y | x$ is an unknown linear function of $x$.  
+
+$\mu_{y|x} = \alpha_0 + \beta x$ or, equivalently, $\mu_{y|x} = \alpha_{\overline{x}} + \beta \left( x - \overline{x} \right)$.
+
+2. Error assumption. Observation equals mean plus error, which is *normally* distributed with mean 0 and **known** variance $\sigma^2$ All errors have equal variance.
+
+3. Independence assumption. The errors for all observations are independent of each other
+
+See argument on p.291 and discuss Figure 14.5.
+
+### How well do are data meet these assumptions?
+
+## IV. Bayes Theorem for the regression model (14.4 part I; 15 - 20 min)
+
+Bayes, theorem is always described as
+
+$posterior \propto prior \times likelihood$. Let's first discuss the joint likelihood.
+
+Let's walk through the derivation on p.293-294.
+
+How does this relate to the frequentist approach of Maximum Likelihood Estimation (MLE)?
+
+## Closing (5 - 10 min)
+
+Think-pair-share:
+
+Why do we bother with making probabilistic modeling assumptions instead of just giving the least squares solution?
+

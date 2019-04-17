@@ -64,10 +64,19 @@ compute_simple_ls <- function(x, y) {
     return( list(A0 = A0, B = B) )
 }
 
-compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermThree)
+my_ls_soln <- compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermThree)
 
 ## compare to lm()
 lm(MidtermThree ~ MidtermOne, data = reg_data)
+
+library(ggplot2)
+p0 <- ggplot(data = reg_data,mapping =  aes(x = MidtermOne, y = MidtermThree))
+
+p0 + geom_point(size = 5) + geom_abline(intercept = my_ls_soln$A0, slope = my_ls_soln$B)
+
+ols_fit <- lm(MidtermThree ~ MidtermOne, data = reg_data)
+
+summary(ols_fit)
 ```
 
 ## II. Exponential growth model as a linear model after transformation (14.2; 5 - 10 min)

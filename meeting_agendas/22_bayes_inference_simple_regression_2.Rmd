@@ -35,6 +35,33 @@ for the equations, $\mu_{y|x} = \alpha_0 + \beta x$ or, equivalently, $\mu_{y|x}
 
 $\hat{\sigma^2} = \frac{\sum_{i=1}^n (y_i - \hat{y_i})^2}{n-2}$.
 
+```{r}
+compute_simple_ls <- function(x, y) {
+    B <- ( mean(x*y) - mean(x) * mean(y) ) / ( mean(x^2) - mean(x)^2  )
+    A0 <- mean(y) - B * mean(x)
+    return( list(A0 = A0, B = B) )
+}
+
+my_ls_soln <- compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermThree)
+
+## x <- reg_data$MidtermOne
+## y <- reg_data$MidtermThree
+
+compute_sigma_hat <- function(x, y){
+    ls_estimator <- compute_simple_ls(x = x, y = y)
+    y_hat <- ls_estimator$A0 + ls_estimator$B * x
+    ## variance estimator
+    sqrt( sum( (y - y_hat)^2 ) / ( length(x) - 2 ) )
+}
+
+compute_sigma_hat(x = reg_data$MidtermOne, y = reg_data$MidtermThree)
+
+summary(lm(MidtermThree ~ MidtermOne, data = reg_data))
+
+ssx <- sum( (reg_data$MidtermOne - mean(reg_data$MidtermOne))^2 )
+
+```
+
 ## I. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
 
 ### Joint prior for $\beta$ and $\alpha_{\overline{x}}$
@@ -79,9 +106,17 @@ Assume unknown variance.
 Then we'll combine into and explore...
 
 ```{r}
+
 library(Bolstad)
 
 bayes.lin.reg(y = reg_data$MidtermThree, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+
+mb0 <- 0
+sb0 <- (1/10)
+ma0 <- 80
+sa0 <- 3
+
+bayes.lin.reg(y = reg_data$MidtermThree, x = reg_data$MidtermOne, slope.prior = "normal", intcpt.prior = "normal", mb0=mb0, sb0=sb0, ma0=ma0, sa0=sa0, plot.data = TRUE)
 
 ```
 

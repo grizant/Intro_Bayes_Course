@@ -1,7 +1,7 @@
 ---
 title: "Computational Bayesian Statistics (Ch.20)"
 author: "AG Schissler"
-date: "04/25/2019"
+date: "04/24/2019"
 output: html_document
 ---
 

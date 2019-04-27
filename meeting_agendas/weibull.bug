@@ -1,0 +1,9 @@
+model{
+	for (i in 1:N)
+	{
+		y[i] ~ dweib(alpha, lambda)
+	}
+	lambda ~ dgamma(1.53, 26.3)
+	alpha ~ dgamma(1, 1)
+	median <- log(2)/lambda
+}

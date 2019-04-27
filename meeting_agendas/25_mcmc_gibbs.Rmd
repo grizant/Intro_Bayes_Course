@@ -1,0 +1,330 @@
+---
+title: "Computational Bayesian Statistics (Ch.20)"
+author: "AG Schissler"
+date: "04/29/2019"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
+set.seed(44)
+```
+
+<bring to class: laptop>
+
+# What is Gibbs sampling (MCMC) and how do we use it to do Bayesian inference?
+
+## Start-of-class work (5 - 10 min)
+
+What is meant by a "full conditional" distribution?
+
+## I. Introduction to Gibbs sampling (Ch.20;  10 - 20 min)
+
+Today's lesson is largely derived from material in Section 6.3.2 of
+Christensen, R., Johnson, W., Branscum, A., & Hanson, T. E. (2011). *Bayesian Ideas and Data Analysis: An Introduction for Scientists and Statisticians*. CRC Press.
+
+Gibbs sampling is a method for constructing a Markov chain that is extremely useful when one can isolate the conditional distribution of each parameter (or set of parameters) given all of the other parameters. The process involves obtaining samples from each conditional distribution in turn. To fix ideas in a low-dimensional multiparameter setting, let's construct a chain so that the posterior $p(\theta) = p(\theta_1, \theta_2, \theta_3)$ is the stationary distribution. Here *I've dropped the explicit dependence on the data for brevity*. Gibbs sampling is based on sampling from the *full conditional distributions* determined by the posterior, i.e.,  
+
+<center> $p_{1|23}(\theta_1 | \theta_2, \theta_3), \quad p_{2|13}(\theta_2 | \theta_1, \theta_3), \quad p_{3|12}(\theta_3 | \theta_1, \theta_2)$.</center>  
+
+To define the MC, first sample $\theta^1$ (here superscript indexes the Markov Chain - **not** powers) from the initial distribution $q(\theta_1, \theta_2, \theta_3) \equiv q_1(\theta)$. This can be a one-point distribution (just pick any starting value), or, if making a random selection, it may be convenient to have the three blocks be independent, thus sampling $\theta^1 = (\theta_1^1, \theta_2^1, \theta_3^1)$ as  
+
+<center> $\theta_1^1 \sim q_1(\theta_1) \quad \theta_2^1 \sim q_2(\theta_2) \quad \theta_3^1 \sim q_3(\theta_3)$.</center>  
+
+**The key to Gibbs sampling is that the transition probabilities are defined in terms of the full conditional distributions.** The second complete step of the chain defines $\theta^2$ in three phases. First,  
+
+<center> $\theta_1^2 | \theta_2^1, \theta_3^1 \sim p_{1|23}(\theta_1 | \theta_2^1, \theta_3^1)$,</center>  
+
+then  
+<center> $\theta_2^2 | \theta_1^2, \theta_3^1 \sim p_{2|13}(\theta_2 | \theta_1^2, \theta_3^1)$,</center>  
+
+and finally  
+<center> $\theta_3^2 | \theta_1^2, \theta_2^2 \sim p_{3|12}(\theta_3 | \theta_1^2, \theta_2^2)$,</center>  
+
+In general, we sample $\theta^k = (\theta_1^k, \theta_2^k, \theta_3^k)$  
+
+<center> $\theta_1^k | \theta_2^{k-1}, \theta_3^{k-1} \sim p_{1|23}(\theta_1 | \theta_2^{k-1}, \theta_3^{k-1})$,</center>  
+
+ 
+<center> $\theta_2^k | \theta_1^k, \theta_3^{k-1} \sim p_{2|13}(\theta_2 | \theta_1^k, \theta_3^{k-1})$,</center>  
+
+and  
+<center> $\theta_3^k | \theta_1^k, \theta_2^k \sim p_{3|12}(\theta_3 | \theta_1^k, \theta_2^k)$,</center>  
+
+By construction, this defines a valid conditional distribution for transitioning from $\theta^{k-1}$ to $\theta^k$ that does not depend on $k$. In particular the stationtionary distribution is  
+
+$$
+  \begin{array}{ccl}
+  q(\theta^k | \theta^{k-1}) & \equiv & q(\theta_1^k, \theta_2^k, \theta_3^k | \theta_1^{k-1}, \theta_2^{k-1}, \theta_3^{k-1}) \\
+  & \equiv & p_{1|23}(\theta_1^k | \theta_2^{k-1}, \theta_3^{k-1})p_{2|13}(\theta_2^k | \theta_1^{k}, \theta_3^{k-1})p_{3|12}(\theta_3^k | \theta_1^k, \theta_3^k)
+  \end{array}
+$$.  
+
+With these transition distributions, the posterior is the stationary distribution, a fact that I'll later illustrate for a two-block Gibbs sampler.
+
+## II. A Gibbs sampler for normal data ( min)
+
+### Modeling setup
+
+Suppose we have observations 
+
+<center> $y_1, \ldots, y_n | \mu, \tau \overset{iid}{\sim} N(\mu, 1 / \tau)$ </center>  
+
+where $\tau \equiv 1/\sigma^2$, with prior  
+
+<center> $\mu \sim N(a, 1/b) \quad \perp \!\!\! \perp \quad \tau \sim Gamma(c,d)$ </center>  
+
+The posterior density $p(\mu, \tau | y)$ is not recognizable as any parameteric form but the full conditionals are available:  
+
+<center> $\mu | \tau, y \sim N[\hat{\mu}(\tau), 1/(n\tau + b)]$, </center>  
+
+where $\hat{\mu}(\tau) \equiv \frac{n \tau}{n \tau + b}\overline{y} + \frac{b}{n\tau + b}a$. (equivalent to Bolstad's posterior mean).
+
+and  
+
+<center> $\tau | \mu, y \sim Gamma \left( c + \frac{n}{2}, d + \frac{1}{2}[n\left( \overline{y} - \mu \right)^2 + (n-1)s^2] \right)$, </center>  
+
+where $s^2$ is the sample variance.
+
+
+### A Gibbs sampler
+
+Suppose we data $y$ and now we'd like to sample from the posterior. We'll use simulated data to be sure that our Gibbs sampler is doing its job.
+
+```{r}
+## sampling model
+n <- 20
+mu <- 5
+sigma <- 2 ## so tau = 1 / sigma^2
+y <- rnorm(n = n, mean = mu, sd = sigma)
+
+## weakly informative priors
+## mu ~ N(0, 5^2)
+a <- 0
+b <- 1/5^2 ## this is sigma = 5.
+## tau ~ Gamma(5, 10)
+c <- 5
+d <- 10
+
+## not the most efficient way in R, but shows the steps well:
+reps <- 10000
+post_sample <- matrix(NA, nrow = reps, ncol = 2, dimnames = list(NULL, c("mu","tau")))
+
+i <- 1
+post_sample[i, ] <- c(0, (c-1)/d)
+## It's recommended to the modes of the prior distribution when informative priors are specified
+## I'll do that here to illustrate.
+## But with weakly informative priors it doesn't help much over random starting values
+
+## i <- 2
+for (i in 2:reps) {
+    ## sample mu first
+    n_times_tau <- unname(n * post_sample[(i-1), "tau"])
+    mu_hat <- (n_times_tau / (n_times_tau + b)) * mean(y) + (b / (n_times_tau + b)) * a
+    mu_i <- rnorm(n = 1, mean = mu_hat, sd = sqrt( n_times_tau + b ) )
+    ## then sample tau
+    shape <- c + (n/2)
+    rate <- d + 0.5 * ( n * ( mean(y) - mu_i )^2 + (n - 1) * var(y) )
+    tau_i <- rgamma(n = 1, shape = shape, rate = rate)
+    ## store and repeat
+    post_sample[i, ] <- c(mu_i, tau_i)
+}
+```
+
+Now let's visualize the chains (aka "histories") to assess convergence.
+
+```{r, fig.height = 8}
+## transform tau into standard deviation (sigma)
+post_sample <- cbind(post_sample, sqrt(1/post_sample[, 2]))
+colnames(post_sample)[3] <- "sigma"
+par(mfrow = c(3,1))
+plot(x = 2:reps, y = post_sample[-1 , 1], xlab = 'index', ylab = expression(mu))
+plot(x = 2:reps, y = post_sample[-1 , 2], xlab = 'index', ylab = expression(tau) )
+plot(x = 2:reps, y = post_sample[-1 , 3], xlab = 'index', ylab = expression(sigma) )
+par(mfrow = c(1,1))
+```
+## Visualize the joint distribution
+
+```{r}
+post_sample <- as.data.frame(post_sample)
+## joint distribution, remove burn in
+ggplot2::qplot(x = mu, y = tau, data = post_sample[-1,])
+ggplot2::qplot(x = mu, y = sigma, data = post_sample[-1,])
+```
+
+### Using Just Another Gibbs Sampler (JAGS) and `rjags`
+
+Let's fit the same model with a popular Bayesian inference software: JAGS (Just Another Gibbs Sampler). You need to install the software outside of `R`.
+
+[http://mcmc-jags.sourceforge.net/](http://mcmc-jags.sourceforge.net/)
+
+Create text file called `normal.bug`. The extension comes from the fact that JAGS is a dialect of BUGS (Bayesian Inference using Gibbs Sampling). Specify the model as follows:
+
+```
+model{
+	tau ~ dgamma(5, 1/10)
+	mu ~ dnorm(0, 1/25)
+	y ~ dnorm(mu, tau)
+	sigma <- sqrt( 1 / tau )
+}
+```
+
+Then in `R`:
+
+```{r, results = FALSE}
+library(rjags) ## you need to install JAGS first
+library(ggplot2)
+jags <- jags.model('normal.bug',
+                   data = list('y' = y, 'N' = length(y) ),
+                   n.chains = 4,
+                   n.adapt = 1000)
+ 
+mcmc.samples <- coda.samples(jags,
+                             c('mu', 'tau', 'sigma'),
+                             5000)
+```
+
+### Diagnostics
+
+```{r}
+plot(mcmc.samples)
+```
+
+### Visualize posterior
+
+```{r}
+chain1 <- mcmc.samples[[1]]
+plot( x = as.vector(chain1[,1]), y = as.vector(chain1[,2]), xlab = expression(mu), ylab = expression(tau) )
+```
+
+
+## III. Weibull model for survival data modeled ( min)
+
+Feigl and Zelen (1965) present data on the survival times, measured in weeks, of patients who were diagnosed with leukemia. The samples consists of $n=17$ times in weeks from diagnosis to death: 65, 156, 100, 134, 16, 108, 121, 4, 39, 143, 56, 26, 22, 1, 1, 5, 65. The data must be strictly positive, so we need  models that are concentrated on $(0, \infty)$. A flexible such model is the Weibull distribution. We denote
+
+<center> $y_i \sim Weibull(\alpha, \lambda)$ </center>
+
+if the density is  
+
+<center> $f({y_i} | \alpha, \lambda) = \lambda \: \alpha \: {y_i}^{\alpha - 1} e^{- \lambda \: {{y_i}}^\alpha} \quad {y_i} > 0$. </center>
+
+### Discuss what do you notice about the Weibull and how it relates to other well-known distributions?
+
+The likelihood is  
+
+<center> $L(\alpha, \lambda) \propto \prod_{i = 1}^n \lambda \: \alpha \: {y_i}^{\alpha - 1} e^{- \lambda \: {y_i}^\alpha} = \lambda^n \alpha^n \left( \prod_{i = 1}^n {y_i} \right)^{\alpha - 1} exp \left(- \lambda \sum_{i = 1}^n {y_i}^\alpha \right)$. </center>  
+
+We select the prior on $\lambda$ as $\lambda \sim Gamma(a, b)$ and assume that $\alpha$ is independent of $\lambda$ with prior density $p_0(\alpha)$ having support on $(0, infty)$. The joint prior density then has the form  
+
+<center> $p(\alpha, \lambda) \propto p_0(\alpha) \lambda^{a - 1} e^{-\lambda b}$. </center>  
+
+The posterior has the form  
+
+$$
+  \begin{array}{ccl}
+  p(\alpha, \lambda | y) & \propto & \lambda^n \alpha^n \left( \prod_{i = 1}^n {y_i} \right)^{\alpha - 1} exp \left(- \lambda \sum_{i = 1}^n {y_i}^\alpha \right) p_0(\alpha) \lambda^{a - 1} e^{-\lambda b} \\
+  & \propto & \lambda^{a + n - 1} exp \left[ -\lambda \left( b + \sum_{i = 1}^n {y_i}^\alpha \right) \right] \alpha^n \left( \prod_{i=1}^n y_i \right)^\alpha p_0(\alpha).
+  \end{array}
+$$  
+
+We know of no choice for $p_0(\alpha)$ that makes this joint posterior recognizable.
+
+Gibbs sampling for this problem involves an additional wrinkle. The conditional density for $\lambda | \alpha, y$ can be seen to be  
+
+<center> $p(\lambda | \alpha, y) \propto \lambda^{a + n - 1} exp \left[ -\lambda \left( b + \sum_{i = 1}^n {y_i}^\alpha \right) \right],$ </center>  
+
+so  
+
+<center> $\lambda | \alpha, y \sim Gamma \left( a + n, b + \sum_{i = 1}^n {y_i}^\alpha \right).$ </center>  
+
+The conditional density for $\alpha | \lambda, y$ is  
+
+<center> $p(\alpha | \lambda, y) \propto \alpha^n \left( \prod_{i=1}^n y_i \right)^\alpha exp \left[ -\lambda \sum_{i = 1}^n {y_i}^\alpha \right] p_0(\alpha)$. </center>  
+
+
+Again this is not a recognizable conditional distribution. But *it is* still possible to sample via a modified Gibbs approach. The full conditional of $\alpha$ will be log concave provided that $p_0(\alpha)$ is log concave. Then one could sample from it using an adaptive acceptance-rejection algorithm.
+
+We then would alternate between the sampling from the full conditionals in turn as above. But let's let JAGS and `rjags` do the heavy lifting for us!
+
+### JAGS implementation of the Weibull data
+
+```
+model{
+	for (i in 1:N)
+	{
+		y[i] ~ dweib(alpha, lambda)
+	}
+	lambda ~ dgamma(1.53, 26.3)
+	alpha ~ dgamma(1, 1)
+	median <- log(2)/lambda
+}
+```
+
+```{r, results = FALSE}
+y <- c(65, 156, 100, 134, 16, 108, 121, 4, 39, 143, 56, 26, 22, 1, 1, 5, 65)
+N <- length(y)
+
+weibull_jags <- jags.model('weibull.bug',
+                   data = list('y' = y, 'N' = N ),
+                   n.chains = 4,
+                   n.adapt = 1000)
+ 
+mcmc.samples <- coda.samples(weibull_jags,
+                             c('lambda', 'alpha', 'median'),
+                             10000)
+```
+
+### Diagnostics
+
+```{r, fig.height = 8}
+plot(mcmc.samples)
+chain1 <- mcmc.samples[[1]]
+```
+
+```{r}
+plot( x = as.vector(chain1[-(1:1000),"lambda"]), y = as.vector(chain1[-(1:1000),"alpha"]), xlab = expression(lambda), ylab = expression(alpha), main = "Samples from the joint posterior")
+```
+
+Now we'll visualize the **survival function**, $S(t) = Pr( T > t ) = 1 - F(t) =  e^{-\lambda {y_i}^\alpha}$ using the posterior samples. 
+
+```{r}
+## survival function for Weibull data
+st <- function(t, lambda = 1, alpha = 1) {
+    exp(-lambda * t^alpha)
+}
+
+## plot survival curves
+## code derived from Alex Knudson's work in psychometrics.
+n <- 100
+
+pSurv <- ggplot(data.frame(x = c(0, 365), y = c(0, 1)), aes(x = x, y = y))
+
+index <- sample(2000:10000,n)
+for (i in index) {
+    pSurv <- pSurv +
+        stat_function(fun = st,
+                      args = list(lambda = chain1[i, "lambda"],
+                                  alpha = chain1[i, "alpha"]),
+                      col = "black", alpha = 0.1)
+}
+
+pSurv <- pSurv +
+    ## plot the mean
+    stat_function(fun = st,
+                  args = list(lambda = mean(chain1[, "lambda"]),
+                                  alpha = mean(chain1[, "alpha"])),
+                  col = "blue",
+                  size = 1,
+                  linetype = "dotdash") +
+    scale_x_continuous(breaks = seq(0, 365, 30)) +
+    scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
+    labs(title = "Posterior samples from the Weibull distribution", x = 'Survival times (days)', y = 'Survival probability')
+pSurv
+
+```
+
+## What does an $\alpha = 1$ suggest?
+
+## Closing (5 - 10 min)
+
+Explain Gibbs sampling in your own words.

@@ -12,7 +12,7 @@ set.seed(44)
 
 <bring to class: laptop>
 
-# What is Gibbs sampling (MCMC) and how do we use it to do Bayesian inference?
+# What is Gibbs sampling and how do we use it to do Bayesian inference?
 
 ## Start-of-class work (5 - 10 min)
 
@@ -101,7 +101,7 @@ y <- rnorm(n = n, mean = mu, sd = sigma)
 ## weakly informative priors
 ## mu ~ N(0, 5^2)
 a <- 0
-b <- 1/5^2 ## this is sigma = 5.
+b <- 1/10^2 ## this is sigma = 10.
 ## tau ~ Gamma(5, 10)
 c <- 5
 d <- 10
@@ -121,7 +121,7 @@ for (i in 2:reps) {
     ## sample mu first
     n_times_tau <- unname(n * post_sample[(i-1), "tau"])
     mu_hat <- (n_times_tau / (n_times_tau + b)) * mean(y) + (b / (n_times_tau + b)) * a
-    mu_i <- rnorm(n = 1, mean = mu_hat, sd = sqrt( n_times_tau + b ) )
+    mu_i <- rnorm(n = 1, mean = mu_hat, sd = sqrt( 1 / ( n_times_tau + b ) ))
     ## then sample tau
     shape <- c + (n/2)
     rate <- d + 0.5 * ( n * ( mean(y) - mu_i )^2 + (n - 1) * var(y) )
@@ -150,6 +150,10 @@ post_sample <- as.data.frame(post_sample)
 ## joint distribution, remove burn in
 ggplot2::qplot(x = mu, y = tau, data = post_sample[-1,])
 ggplot2::qplot(x = mu, y = sigma, data = post_sample[-1,])
+
+## save to compare against software version
+my_gibbs_dat <- post_sample
+
 ```
 
 ### Using Just Another Gibbs Sampler (JAGS) and `rjags`
@@ -163,7 +167,7 @@ Create text file called `normal.bug`. The extension comes from the fact that JAG
 ```
 model{
 	tau ~ dgamma(5, 1/10)
-	mu ~ dnorm(0, 1/25)
+	mu ~ dnorm(0, 1/100)
 	y ~ dnorm(mu, tau)
 	sigma <- sqrt( 1 / tau )
 }
@@ -194,7 +198,15 @@ plot(mcmc.samples)
 
 ```{r}
 chain1 <- mcmc.samples[[1]]
-plot( x = as.vector(chain1[,1]), y = as.vector(chain1[,2]), xlab = expression(mu), ylab = expression(tau) )
+plot( x = as.vector(chain1[-1,1]), y = as.vector(chain1[-1,2]), xlab = expression(mu), ylab = expression(tau) )
+```
+
+### Compare the two approaches
+
+```{r}
+apply(my_gibbs_dat[-1,], 2, quantile)
+apply(chain1[-1, c(1,3,2)], 2, quantile)
+
 ```
 
 

@@ -6,6 +6,6 @@ model
 		
 	}
 	tau ~ dgamma(5, 1/10)
-	mu ~ dnorm(0, 1/25)
+	mu ~ dnorm(0, 1/100)
    	sigma <- sqrt( 1 / tau )
 }

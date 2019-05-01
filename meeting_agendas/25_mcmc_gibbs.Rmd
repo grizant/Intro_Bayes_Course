@@ -10,7 +10,7 @@ knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
 set.seed(44)
 ```
 
-<bring to class: laptop>
+<bring to class: laptop, BIDA textbook>
 
 # What is Gibbs sampling and how do we use it to do Bayesian inference?
 
@@ -297,7 +297,7 @@ chain1 <- mcmc.samples[[1]]
 plot( x = as.vector(chain1[-(1:1000),"lambda"]), y = as.vector(chain1[-(1:1000),"alpha"]), xlab = expression(lambda), ylab = expression(alpha), main = "Samples from the joint posterior")
 ```
 
-Now we'll visualize the **survival function**, $S(t) = Pr( T > t ) = 1 - F(t) =  e^{-\lambda {y_i}^\alpha}$ using the posterior samples. 
+Now we'll visualize the **survival function**, $S(t) = Pr( T > t ) = 1 - F(t) =  e^{-\lambda {t}^\alpha}$ using the posterior samples. 
 
 ```{r}
 ## survival function for Weibull data

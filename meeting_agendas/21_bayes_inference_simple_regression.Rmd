@@ -55,6 +55,16 @@ $y = \overline{y} - B\left( x - \overline{x} \right)$.
 
 ### Estimating the variance around the LS line
 
+```{r}
+estimate_var_simple_ls <- function(x, y) {
+    ls_soln <- compute_simple_ls(x = x, y = y)
+    fits <- ls_soln$A0 + ls_soln$B * x
+    residuals <- y - fits
+    return( ( 1 / (length(y) - 2) ) * sum( residuals^2 ) )
+}
+    
+```
+
 ### Produce the LS solution for our exam data
 
 ```{r, echo = TRUE, results = TRUE}

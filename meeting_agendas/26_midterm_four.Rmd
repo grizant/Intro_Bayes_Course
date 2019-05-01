@@ -21,9 +21,36 @@ You may begin working as soon as you get your exam. Please keep all cell phones/
 
 If you finish early, then please submit your work and return your desk. You may work on other things, but make sure you do not disrupt the test or use a communication device.
 
-## II. Solution discussion (20 min)
+## II. Solution discussion (15 min)
 
 Let's discuss the solutions as drafted and make sure we all agree on the correct answers, identify any poor questions, etc.
+
+## III. Projects, final exam, and poster session  (15 min)
+
+### Project poster expectations
+
+- project organization pdf [project tasks](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro-to-Bayesian-Statistics_project_organization.pdf)
+- poster guidelines [poster guidelines](http://www.grantschissler.com/teaching/SP19/STAT429/poster_guidelines.pdf)
+- poster rubric [poster rubric](http://www.grantschissler.com/teaching/SP19/STAT429/poster_rubric.pdf)
+- also provide all code that produced the results (within reason). Email or point me to your git repo.
+- poster printing procedures. I plan to print posters on Friday 5/10 (unless they need more time for some reason... I'll check and let you know).
+
+### Final exam
+
+- It will be released by Monday 5/6 (if not before).
+- You will submit an electronic copy only of your Final Exam. If you must hand write anything, make sure that you scan the document well and convert to a pdf.
+- You must work alone. Violations of this will be taken seriously.
+- It is a test. You may ask for clarifications, but I won't give hints (unless I decide to give to the whole class) or teach you how to do something.
+- No late submissions. You have to submit your solutions on Canvas by 11:59pm 5/13/19. Much better to submit incomplete than to be late.
+
+### Final exam period on 5/13 9:50 - 11:50am: Poster session
+
+- All students are expected to attend.
+- All students will score the posters based on the rubric.
+- Best poster(s) will receive class awards and be displayed in the math dept lobby on the 2nd floor.
+- If you evaluate all posters, I'll award an extra 20 points to your total points.
+
+### Questions?
 
 ## Closing: Exam Wrapper (5 min)
 

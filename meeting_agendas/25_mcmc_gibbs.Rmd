@@ -89,7 +89,7 @@ where $s^2$ is the sample variance.
 
 ### A Gibbs sampler
 
-Suppose we data $y$ and now we'd like to sample from the posterior. We'll use simulated data to be sure that our Gibbs sampler is doing its job.
+Suppose we have data $y$ and now we'd like to sample from the posterior. We'll use simulated data to be sure that our Gibbs sampler is doing its job.
 
 ```{r}
 ## sampling model

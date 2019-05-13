@@ -256,9 +256,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -283,22 +281,92 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -308,8 +376,8 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Computational Bayesian Statistics (Ch.20)</h1>
-<h4 class="author"><em>AG Schissler</em></h4>
-<h4 class="date"><em>04/29/2019</em></h4>
+<h4 class="author">AG Schissler</h4>
+<h4 class="date">04/29/2019</h4>
 
 </div>
 
@@ -394,7 +462,7 @@ and<br />
 </div>
 <div id="a-gibbs-sampler" class="section level3">
 <h3>A Gibbs sampler</h3>
-<p>Suppose we data <span class="math inline">\(y\)</span> and now we’d like to sample from the posterior. We’ll use simulated data to be sure that our Gibbs sampler is doing its job.</p>
+<p>Suppose we have data <span class="math inline">\(y\)</span> and now we’d like to sample from the posterior. We’ll use simulated data to be sure that our Gibbs sampler is doing its job.</p>
 <pre class="r"><code>## sampling model
 n &lt;- 20
 mu &lt;- 5
@@ -459,10 +527,15 @@ my_gibbs_dat &lt;- post_sample</code></pre>
 <p>Let’s fit the same model with a popular Bayesian inference software: JAGS (Just Another Gibbs Sampler). You need to install the software outside of <code>R</code>.</p>
 <p><a href="http://mcmc-jags.sourceforge.net/" class="uri">http://mcmc-jags.sourceforge.net/</a></p>
 <p>Create text file called <code>normal.bug</code>. The extension comes from the fact that JAGS is a dialect of BUGS (Bayesian Inference using Gibbs Sampling). Specify the model as follows:</p>
-<pre><code>model{
+<pre><code>model
+{
+    for (i in 1:N)
+    {
+        y[i] ~ dnorm(mu, tau)
+        
+    }
     tau ~ dgamma(5, 1/10)
     mu ~ dnorm(0, 1/100)
-    y ~ dnorm(mu, tau)
     sigma &lt;- sqrt( 1 / tau )
 }</code></pre>
 <p>Then in <code>R</code>:</p>

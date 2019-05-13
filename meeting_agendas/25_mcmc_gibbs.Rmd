@@ -165,11 +165,16 @@ Let's fit the same model with a popular Bayesian inference software: JAGS (Just 
 Create text file called `normal.bug`. The extension comes from the fact that JAGS is a dialect of BUGS (Bayesian Inference using Gibbs Sampling). Specify the model as follows:
 
 ```
-model{
+model
+{
+	for (i in 1:N)
+	{
+		y[i] ~ dnorm(mu, tau)
+		
+	}
 	tau ~ dgamma(5, 1/10)
 	mu ~ dnorm(0, 1/100)
-	y ~ dnorm(mu, tau)
-	sigma <- sqrt( 1 / tau )
+   	sigma <- sqrt( 1 / tau )
 }
 ```
 

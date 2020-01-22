@@ -1,7 +1,7 @@
 ---
-title: "Welcome to Introduction to Bayesian Statistics (MATH 429/629)"
+title: "Welcome to Introduction to Bayesian Statistics (STAT 446/646)"
 author: "AG Schissler"
-date: "01/23/2018"
+date: "01/22/2020"
 output: html_document
 ---
 
@@ -28,13 +28,13 @@ Let's discuss the maps of showing estimating US Kidney cancer rates.
 
 (modified from Bolstad & Curran Ch.1, p.6)
 
-Frequentist (classical) approach to statistics
+### Frequentist (classical) approach to statistics
 
-- parameters, the numerical characterics of a population (think of them as **targets of learning**), as fixed but unknown constants.
+- parameters, the numerical characterics of a population (think of them as **targets of learning**), are fixed but unknown constants.
 - probabilities as *always* long-run relative frequency.
 - Statistical procedures are judged how often things occur in an infinite number of repetitions of the experiment
  
-Bayesian approach to statistics
+### Bayesian approach to statistics
 
 - We model parameters as random variables since we are uncertain about their true value.
 - The basic rules of probability are used **directly** to make statistical inferences about the parameters (it's how we **update** our beliefs about uncertain quantities in light of data)
@@ -45,7 +45,7 @@ Bayesian approach to statistics
 
 ### Students: 
 
-Undergraduate and graduate students (mostly) in math, engineering, and computer science
+Undergraduate and graduate students in math, engineering, computer science, or other applied field
  
 #### Activity
 
@@ -58,15 +58,15 @@ Please introduce yourself to your neighbor(s):
 
 Let's go around the room and everyone please introduce your partner(s).
 
-### Grader: Diana Powers, MS
+### Grader: Emily
 
-Diana, please introduce yourself.
+Emily excelled last year taking this course. She will help to evaluate your work. 
 
 ### Instructor: A. Grant Schissler, PhD
 
-- background: 6 years of high schools teaching, 4 years at higher Ed teaching
+- background: 6 years of high schools teaching, 5 years at higher Ed teaching
 - education: BS in Applied Math, MS in Applied Stat, PhD in Statistics
-- research interests: Developing stats methods for personalized medicine, statistical computing, Bayesian modeling, clustering, high dimensional data, large scale hypothesis testing
+- research interests: Developing stats methods for personalized medicine, statistical computing, Bayesian modeling, clustering, high dimensional data, large scale hypothesis testing, simulation, multivariate analysis, limited data 
 - other interests: hiking, tennis, running, ukulele, games
 
 ### Reciprocal interview
@@ -79,7 +79,7 @@ Diana, please introduce yourself.
 5) What is the most likely outcome imagined for the course?
 6) What can I do to help you learn best?
 
-#### Questions for me/Diana
+#### Questions for me?
 
 Please, please, ask anything on your mind (about the class) --- anxieties, hopes, policies, procedures, anything.
 
@@ -89,14 +89,33 @@ Assume good will among everyone here. **Ask Questions** and **Work Together** --
 
 ## III. Course expectations and learning outcomes (25 min)
 
-### Some thoughts
+### Course goals and caveats
 
-- Focus is on core Bayesian statistical ideas and techniques, both computational and analytic.
-- Class will be cumulative, so keep up with the material and assignments!
-- There will be both online and paper assignments.
-- I'll use a variety of instructional in-class activites: lecture, group activities, more involved "lab" assignments, and student-led presentations.
+#### Audience
 
-### Expectations for time committment
+- This course is designed for a broad audience: Grad, UG, various majors.
+- This means that rarely is everyone satisfied completely.
+- My goal introduce Bayesian statistics through building an active-learning community (us).
+- That means meetings will be active and designed to engage most of the audience.  
+- There will be both online (individual) and paper assignments.
+- I'll use a variety of instructional in-class activites: lecture, solo/group activities, and student-led presentations.
+
+#### Scope
+
+- The focus is on core Bayesian statistical ideas and techniques, both computational and analytic.
+- This is not a "rigorous" introduction as those ideas are not required to do applied Bayesian statistics.
+- However, there is symbolic manipulation ("math"), of course: you will need to use basic probability, algebra, and calculus.
+- Programming is required for applied Bayesian Statistics. This should not be your first programming experience.
+- We will use `R` primarily.
+- Feel free to bring your laptop to compute in class.
+
+#### Not happy? Talk with me
+
+- All, that being said, if I'm ever not meeting your learning goals or other issue, just talk with me.
+- It saddens me to see evaluations at the end that indicate problems I could have helped had I known.
+- It doesn't help you or me to keep issues to yourself.
+
+### Estimated time commitment
 
 In-class activities require 2.5 hours/week.
 
@@ -117,13 +136,13 @@ bp <- ggplot(sum_dat, aes(x="", y=Percent, fill=Activity)) +
 ## bp
 
 pie <- bp + coord_polar("y", start=0)
-pie
+print(pie)
 ```
 
 Out-of-class activities depend on many individual factors. I'd regard these expected durations to be on the low end (it will likely take a bit longer).
 
 ```{r}
-outclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_outside_class_schedule.xlsx")
+outclass_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_outside_class_schedule_SP20.xlsx")
 ## str(outclass_dat)
 
 ## drop 'None' category
@@ -173,11 +192,11 @@ You can always ask, "How does this activity relate to the learning outcomes?".
 
 Points are aligned with my valuation of the learning outcomes according to this matrix.
 
-[Intro_Bayes_Course_course_assessment_plan.xlsx](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro_Bayes_Course_course_assessment_plan.xlsx)
+[Intro_Bayes_Course_course_assessment_plan.xlsx](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro_Bayes_Course_course_assessment_plan_SP20.xlsx)
 
 
 ```{r}
-points_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_points_time.xlsx")
+points_dat <- read_excel("~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/course_materials/Spring2019_points_time_SP20.xlsx")
 ## str(outclass_dat)
 
 ## scatterplot
@@ -187,12 +206,6 @@ sp
 ```
 
 ### Course resources
-
-#### Website
-
-Let's tour the website:
-
-[course website](http://www.grantschissler.com/teaching/SP19/STAT429/).
 
 #### Canvas (WebCampus)
 
@@ -211,9 +224,11 @@ Only three modules assigned, but DataCamp has a wealth of tutorials to supplemen
 
 #### Term project
 
-629 students are required to complete a term project with my guidance. More on this soon.
+646 students are required to complete a term project with my guidance. More on this soon.
 
 #### Github
+
+Just clone and enjoy. Note that files will be updated from the previous semester as we go. So it would not be wise to go too far ahead. Once a file is uploaded to Canvas, clone the repo again. Sorry no forks.
 
 [https://github.com/grizant/Intro_Bayes_Course/tree/develop](https://github.com/grizant/Intro_Bayes_Course/tree/develop)
 

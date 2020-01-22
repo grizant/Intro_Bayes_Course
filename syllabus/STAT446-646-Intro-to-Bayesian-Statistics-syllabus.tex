@@ -30,14 +30,14 @@
 
 %Just fill these in to fill in the basic syllabus information.
 \newcommand{\coursename}{Introduction to Bayesian Statistics - STAT 446/646}
-\newcommand{\semester}{Spring 2019}
-\newcommand{\roomnumb}{AB 206}
-\newcommand{\classtimes}{Mon,Wed 1:00pm - 2:15pm}
+\newcommand{\semester}{Spring 2020}
+\newcommand{\roomnumb}{PE 104}
+\newcommand{\classtimes}{Mon,Wed 2:30pm - 3:45pm}
 \newcommand{\myname}{A.~Grant Schissler}
 % \newcommand{\myemail}{\href{mailto:aschissler@unr.edu}{aschissler@unr.edu}}
 \newcommand{\myemail}{aschissler@unr.edu}
 \newcommand{\office}{DMSC 224}
-\newcommand{\officehours}{Tue 3:00pm-4:00pm, Wed 2:30pm-3:30pm, or by appointment}
+\newcommand{\officehours}{TBD and by appointment}
 % \newcommand{\university}{The University of Nevada, Reno}
 \renewcommand{\familydefault}{\sfdefault}
 
@@ -60,7 +60,7 @@
 \end{tabular}
 \end{center}
 
-This course introduces Bayesian statistics to a technical audience. Early on, we focus on the logic behind Bayesian statistics, including the mathematical formalization of updating beliefs under uncertainty. Then we describe Bayesian methods for well-known probability models and compare these methods to classical (frequentist) alternatives. Topics include Bayes' Theorem, prior specification, Bayesian inference for discrete and continuous univariate random variables, and linear regression. We'll implement methods analytically and using software such as Minitab, R, and Stan.
+\noindent This course introduces Bayesian statistics to a technical audience. Early on, we focus on the logic behind Bayesian statistics, including the mathematical formalization of updating beliefs under uncertainty. Then we describe Bayesian methods for well-known probability models and compare these methods to classical (frequentist) alternatives. Topics include Bayes' Theorem, prior specification, Bayesian inference for discrete and continuous univariate random variables, and linear regression. We'll implement methods analytically and using software such as Minitab, R, and Stan.
 
 The latter portions of the course focus on implementing more advanced Bayesian methods through modern computational techniques to sample posterior distributions including Markov Chain Monte Carlo (MCMC) and Hamiltonian Monte Carlo (HMC). The aim will be to provide the concepts and technical skills to conduct a realistic Bayesian data analysis. 
 
@@ -84,27 +84,41 @@ In addition to the above 400-level outcomes, graduate students will:
 \end{description}
 
 \section*{Required text}
-\emph{Introduction to Bayesian Statistics, 3rd edition}, by William M. Bolstad, James M. Curran\\
+\emph{Introduction to Bayesian Statistics, 3rd edition}, by William M. Bolstad and James M. Curran\\
 Textbook website:\\~\url{https://www.wiley.com/en-us/Introduction+to+Bayesian+Statistics%2C+3rd+Edition-p-9781118091562}
+
+\section*{Supplemental texts}
+
+For more theory:\\
+\emph{Bayesian Data Analysis, 3rd edition}, by Andrew Gelman et al\\
+Textbook website:~\url{http://www.stat.columbia.edu/~gelman/book/}\\
+
+For more applied:\\
+\emph{Data Analysis Using Regression and Multilevel/Hierarchical Models}, by Andrew Gelman and Jennifer Hill\\
+Textbook website:~\url{http://www.stat.columbia.edu/~gelman/arm/}\\
+\emph{Statistical Rethinking}, by Richard McElreath\\
+Textbook website:~\url{https://xcelab.net/rm/statistical-rethinking/}\\
+\emph{Doing Bayesian Data Analysis}, by John K.~Krushchke\\
+Textbook website:~\url{https://sites.google.com/site/doingbayesiandataanalysis/}\\
+
 
 \section*{Assignments}
 Exercises will be assigned approximately weekly. You are encouraged to discuss assignments between each other and with instructor. However, the assignment must be completed and submitted individually. 
 
 \section*{Midterms}
-There will be four midterms, the first on Wednesday, February 13, the second on Wednesday, March 13, the third on Wednesday, April 10, and the fourth on Wednesday, May 1.
+There will be three midterms, the first on Wednesday, February 5, the second on Wednesday, March 11, and the third on Wednesday, April 8.
 
 \section*{Final exam}
 Due to the computational complexity involved in latter topics, the final exam will be take home.
 
-\section*{Exam policy} You will be allowed at one 8.5x11in page of handwritten (on both sides) notes for the first midterm. And one additional page of notes for each following midterm (four total pages). If you believe that your grade for exam or assignment is incorrect, contact instructor at the office hours with a rational justification. All such requests must be submitted to instructor within one week after a grade is announced; late requests will not be granted. Please understand that everyone can make a mistake, and that mistakes can go both ways: higher or lower than original grade.
+\section*{Exam policy} You will be allowed at one 8.5x11in page of handwritten (on both sides) notes for the first midterm. And one additional page of notes for each following midterm (three total pages). If you believe that your grade for exam or assignment is incorrect, contact instructor at the office hours with a rational justification. All such requests must be submitted to instructor within one week after a grade is announced; late requests will not be granted. Please understand that everyone can make a mistake, and that mistakes can go both ways: higher or lower than original grade.
 
 \section*{400/600 Students}
 As indicated above, the student learning outcomes differ at the 400 and 600 levels. 600-level students must complete a \textbf{term project} in addition to all 400-level requirements.
 
 \section*{Makeup, Late Policy}
-Late assignments, exams, and projects will not be graded. Exceptions will be made when a student misses work due to a documented (doctor's note) illness or an extraordinary situation (up to the discretion of the instructor). There will be no early or make-up exams. However, if you need to miss an exam due to participation in a religious holiday or an official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. Since the late policy is rather strict, \textbf{I'll drop your lowest two grades in the ``Assignments'' category and your lowest ``Midterm Exam'' grade to give a more realistic description of your performance.}
+Late assignments, exams, and projects will be graded with a 5 point (out of 20) penalty per day. Exceptions will be made when a student misses work due to a documented (doctor's note) illness or an extraordinary situation (up to the discretion of the instructor). There will be no early or make-up exams. However, if you need to miss an exam due to participation in a religious holiday or an official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. \textbf{I'll drop your lowest grade in the ``Assignments'' category to give a more realistic description of your performance, if you aren't able to finish all assignment on time.}
 
-\clearpage
 \section*{Grading}
 
 We'll use a point system to evaluate student learning. There are four categories of assignments. Table \ref{tab:points} shows the total points possible within each category before dropping any low scores.
@@ -114,11 +128,11 @@ We'll use a point system to evaluate student learning. There are four categories
   \begin{tabular}{l|c|c}	%For grade items (quizzes, homework, etc.)
 Item&400-level& 600-level\\\hline\hline
   Assignments& 300 & 300\\
-  Midterm Exams& 200 & 200\\
+  Midterm Exams& 150 & 150\\
   Final Exam& 150 & 150\\
   Term project &-- & 150 \\
   \end{tabular}
-  \caption{Total points available within each assignment category. \label{tab:points}}
+  \caption{Total points available within each assignment category (ignoring any extra credit). \label{tab:points}}
 \end{center}
 
 \end{table}
@@ -129,13 +143,20 @@ The sum of all points earned determine the final letter grades, according to the
 \begin{center}
   \begin{tabular}{r|l|l}
     Letter grade &400-level& 600-level\\\hline\hline
-A ($\geq 90\%$)&504 or above&639 or above\\
-B ($\geq 80\%$)&448 to 503&568 to 638\\
-C ($\geq 70\%$)&392 to 447&497 to 567\\
-D ($\geq 60\%$)&336 to 391&426 to 496\\
-F ($< 60\%$)&335 or below&425 or below
+    A ($\geq 92\%$)&534 or above&672 or above\\
+    A- ($\geq 90\%$)&522 to 533&657 to 671\\
+    B+ ($\geq 88\%$)&511 to 521&643 to 656\\
+    B ($\geq 82\%$)&476 to 510&599 to 642\\
+    B- ($\geq 80\%$)&464 to 475&584 to 598\\
+    C+ ($\geq 78\%$)&453 to 463&570 to 583\\
+    C ($\geq 72\%$)&418 to 452&526 to 569\\
+    C- ($\geq 70\%$)&407 to 417&511 to 525\\
+    D+ ($\geq 68\%$)&395 to 406&497 to 510\\
+    D ($\geq 62\%$)&360 to 394&453 to 496\\
+    D- ($\geq 60\%$)&348 to 359&439 to 452\\
+    F ($< 60\%$)&347 or below&438 or below
   \end{tabular}
-  \caption{Conversion table between points and letter grades, after dropping the two lowest ``Assignments'' grades and lowest ``Midterm Exam'' grade.\label{tab:grade}}
+  \caption{Conversion table between points and letter grades, after dropping the lowest ``Assignments'' grade (20 points dropped).\label{tab:grade}}
 \end{center}
 
 \end{table}
@@ -168,35 +189,35 @@ Cheating, plagiarism, or otherwise obtaining grades under false pretenses consti
     \hline
     1 & MLK Day & Why Bayes?/Syllabus/expectations & Ch.1-3\\
     \hline
-    2 & Probability & Probability & Ch.4 \\
+    2 & Probability/Bayes' Rule & Discrete random variables (RVs) & Ch.4-6 \\
     \hline
-    3 & Discrete random variables & Discrete RVs & Ch.5,6 \\ \\
+    3 & Discrete RVs & \textbf{Midterm 1} & Ch.1-6 \\ \\
     \hline
-    4 & Discrete RVs& \textbf{Midterm 1} & Ch.5,6 \\ \\
+    4 & Continuous RVs & Continuous RVs & Ch.7-10 \\ \\
     \hline
-    5 & Continuous RVs & Continuous RVs & Ch.7-10 \\
+    5 & President's Day & Continuous RVs & Ch.7-10 \\
     \hline
-    6 & Review session & President's Day & \\
+    6 & Continuous RVs & Continuous RVs & Ch.7-10 \\
     \hline
-    7 & Continuous RVs & Continuous RVs & Ch.7-10 \\
+    7 & Continuous RVs & Continuous RVs & Ch.11-13 \\
     \hline
-    8 & Continuous RVs & \textbf{Midterm 2} & Ch.7-10 \\
+    8 & Continuous RVs & \textbf{Midterm 2} & Ch.1-13 \\
     \hline
     9 & -- & -- & Spring break  \\
     \hline
-    10 & Continuous RVs II & Continuous RVs II & Ch.11,12,13 \\
+    10 & Bayesian model development/Regression & Regression & Ch.14 \\
     \hline
-    11 & Continuous RVs II & Continuous RVs II & Ch.11,12,13 \\
+    11 & Computing/MCMC & Computing/MCMC & Ch.20\\
     \hline
-    12 & Continuous RVs II & \textbf{Midterm 3} & \\
+    12 & Computing/MCMC & \textbf{Midterm 3} & Ch.20\\
     \hline
-    13 & Simple linear regression & Simple linear regression & Ch.14 \\
+    13 & HMC & Applied Bayesian modeling & Course notes  \\
     \hline
-    14 & Computing/MCMC & Computing/MCMC & Ch.20\\
+    14 & Applied Bayesian modeling & con'd & Course notes \\
     \hline
-    15 & Computing/MCMC & \textbf{Midterm 4} & Ch.20\\
+    15 & Applied Bayesian modeling & con'd & Course notes \\
     \hline
-    16 & Student talks & Prep Day &  \\
+    16 & Student talks/posters & Prep Day & Course notes \\
     \hline
     17 & \textbf{Take-home final exam} & & \\
     \hline

@@ -1,0 +1,104 @@
+---
+title: "Discrete random variables"
+author: "AG Schissler"
+date: "02/06/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: textbook>
+
+## Start-of-class work: Please complete Exercise 5.7 (15 min)
+
+This exercise works with a Poisson random variable.
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.7:
+
+```{r, fiveSeven}
+dpois(x = 2, lambda = 2)
+```
+
+If you finish early, then work on your other HW problems (5.1 - 5.3, 5.5 - 5.7, 5.10).
+
+## I. Joint random variables (Section 5.6; 5 min)
+
+Let's discuss notation and the tabular representation for discrete rvs (Table 5.3, p.97).
+
+### Expectated value of a sum of two random variables (5 min)
+
+$E[X + Y] = E[X] + E[Y]$ for any two rvs.
+
+### Variance of a sum of two random variables (5 min)
+
+Let's discuss the variance of a sum and a decomposition into a triple sum (p.98).
+
+Introduce the notion of covariance.
+
+### Special case: variance of a sum of independent rvs (5 min)
+
+Whole group discussion.
+
+### Mean and variance of a difference of independent rvs (5 min)
+
+Simulate to show how summing OR substracting independent rvs increases variation according to equation 5.12.
+
+```{r}
+set.seed(22)
+n <- 1e8
+x <- rbinom(n = n, size = 10, prob = 0.2)
+## mean of 2, 10*(.2)*(.8) = 1.6
+y <- rpois(n = n, lambda = 2)
+
+## estimate quantities
+mean(x + y)
+mean(x) + mean(y)
+mean(x - y)
+mean(x) - mean(y)
+
+var(x + y) 
+var(x) + var(y)
+## why are these different?
+var(x - y) 
+var(x) + var(y)
+```
+
+### Example 5.2 (10 min)
+
+Let's discuss example 5.2 on the doc cam.
+
+## II. Conditional probability for joint rvs (15 min)
+
+Reduced universe idea again (doc cam Tables 5.4 and 5.5).
+
+### Continue example 5.2
+
+Whole class discussion with doc cam.
+
+### Conditional probability through the multiplication rule
+
+Recall that $f(y_j | x_i) = \frac{f(x_i, y_j)}{f(x_i)}$.  
+
+which implies that $f(x_i, y_j) = f(x_i) \times f(y_j | x_i)$.
+
+Remember that $X$ is an unobservable parameter while $Y$ is an observable rv (data) whose probability distribution depends on the parameter in Bayesian statistics. We'll develop Bayes' theorem using this rule for discrete rvs in Chapter 6.
+
+### Please complete exercise 5.10 in teams (15 min)
+
+I'll circulate and answer questions. Let's go our HW done!
+
+If you finish early, then work on your other HW problems (5.1 - 5.3, 5.5 - 5.7, 5.10).
+
+## Closing (5 min)
+
+Review the main points from Chapter 5 (p.102 - 104).
+
+1. What are the two most important properties we focused on computing?
+2. What rule surprised you the most (either now or when you first saw it)?
+3. List all mathematical vocabulary terms are new/essential from the chapter.

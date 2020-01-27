@@ -1,0 +1,75 @@
+---
+title: "Computational Bayesian Statistics (Ch.20)"
+author: "AG Schissler"
+date: "04/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: laptop>
+
+## Essential question: How to do Bayesian statistics when you can't easily derive the exact posterior?
+
+### Start-of-class work (5 - 10 min)
+
+Discuss and share out: Give an example setting and model that an analytic posterior is not available.
+
+## I. Bayesian Statistics: Easy in Theory, Difficult in Practice (Intro Ch.20; 10 - 15 min)
+
+### Discuss Example 20.1
+
+### Discuss motivation and rationale
+
+### Answer the following:
+
+1. Why is Bayesian statistics easy in theory yet (often) difficult in practice?
+2. What is strategy are we proposing instead of analytic posterior calculation or numerical integration?
+
+## II. Direct methods for sampling the posterior  (20.1; 20 - 25 min)
+
+
+### Inverse probability sampling
+
+Discuss text and Figure 20.2, Example 20.2
+
+### An example of inverse probability sampling
+
+Xiang Li, A. Grant Schissler, Rui Wu, Lee Barford, and Frederick C. Harris, Jr.
+A graphical processing unit accelerated NORmal To Anything algorithm for high dimensional multivariate simulation
+*Advances in Intelligent Systems and Computing*, Volume 800, Chapter 46, pp 339-346. 
+*Proceedings of the 16th International Conference on Information Technology : New Generations (ITNG 2019)* April 1-3, Las Vegas, NV.
+
+### Acceptance–Rejection Sampling
+
+Discuss the algorithm and example.
+
+### Adaptive–Rejection Sampling
+
+Discuss the algorithm and example. 
+
+### Discuss and share out:
+
+What is the trickiest part of the algorithm?
+
+## III. Sampling Importance Resampling (20.2; 20 - 25 min)
+
+### Importance sampling
+
+Discuss text examples and figures.
+
+### Sampling Importance Resampling
+
+Discuss text examples and figures.
+
+## Closing (5 - 10 min)
+
+3-2-1.
+
+3 Techniques learned today
+2 New ideas you encountered 
+1 Question you have
+
+

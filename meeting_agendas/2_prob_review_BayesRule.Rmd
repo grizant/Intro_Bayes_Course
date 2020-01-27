@@ -19,7 +19,7 @@ If I select a card at random and reveal a blue side, what is the probability tha
 
 ## What's the color on the other side of the card?
 
-<Gelman/Nolan Section 8.5.1, p.125>
+Class demonstration.
 
 ## 1. Administration items
 
@@ -81,6 +81,8 @@ c. `gggg`
 
 <Draw probablity tree on the board>
 
+Now let's discuss a realistic and (perhaps) surprising twist to the calculation:
+
 ```{r, babies}
 ## our code here
 prob_female <- 0.487
@@ -92,10 +94,6 @@ prob_male^4
 (prob_female)^2 * (prob_male)^2
 
 ```
-
-Now let's discuss a realistic and (perhaps) surprising twist to the calculation:
-
-<Insert here>
 
 ### Joint probability for independent events
 

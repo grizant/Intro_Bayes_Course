@@ -66,7 +66,15 @@ If you give done with your assigned problem, please work the other exercises and
 
 ## IV. Project discussion (10 min)
 
-Let's discuss [Intro-to-Bayesian-Statistics_project_organization.pdf](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro-to-Bayesian-Statistics_project_organization.pdf).
+Let's discuss the following project organization documents.  
+
+*(note: links will not work --- use git or Canvas)*
+
+- [project_organization.html](/Users/alfred/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/project_docs/project_organization.html)
+
+- [poster_guidelines.html](/Users/alfred/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/project_docs/poster_guidelines.html)
+
+- [poster_rubric.html](/Users/alfred/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/project_docs/poster_rubric.html)
 
 ## Closing (5 min)
 

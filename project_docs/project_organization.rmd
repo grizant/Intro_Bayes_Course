@@ -1,0 +1,48 @@
+---
+title: "Term Project Description"
+author: "STAT 446/646 Introduction to Bayesian Statistics (Spring 2020)"
+date: "02/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+## Project Overview
+
+Graduate students will complete an independent research project. I encourage you to work on projects related to your graduate research, if possible. Separate rubrics and checklists will describe the standards for each item below.
+
+## Detailed instruction and work products
+
+For each part of the project, hand in a single assignment for the group, giving the names of all group members. Your group will share the grade for all parts of the project. Make sure to keep your own copies of submitted work as we go along. 
+
+1. Upload **Initial Group** (due 2/14/20): Form graduate student groups up to 3 members. You may work alone.
+2. Upload/present **Milestone 0: Proposal talk** (due 2/19/20): Give a 5-minute presentation to the class on your proposed research topic. After the talk, undergraduate students should express interest in working with any group.
+3. Upload **Final Group** final group members (due 2/24/20): Submit your final group team, including graduate and undergraduate students.
+4. Upload **Milestone 1: Q and Data**(due 3/2/20): Share specific research question(s) and plan to gather data you will analyze.
+5. Upload **Milestone 2: Analysis plan**(due 3/9/20): Share initial analysis plan and model development. Convince me you have the data.
+6. Upload **Milestone 3: Preliminary results**(due 4/6/20): Share preliminary results by uploading code, summarizing findings, develop 1-3 figures.
+7. Upload **Milestone 4: Near-final draft**(due 4/20/20): Share a near-polished draft of your poster. This is the last opportunity for feedback before evaluation.
+8. Upload **Final poster**(due 4/27/20): Upload your final poster. **5-points per day late penalty.**
+9. **Present** your final poster (due 5/4/20). **Print** and present your final poster in a interactive poster session.
+
+
+| Item No. | Task | Due by | Max Points |
+|--:|---|---|---|
+    1 | Initial group | 2/14/20 | 5 |
+    2 | M0 Proposal Talk | 2/19/20  | 5 |
+    3 | Final group | 2/24/20  | 5 |
+    4 | M1 Q and Data | 3/2/20  | 5 |
+    5 | M2 Analysis plan | 3/9/20 | 5 |
+    6 | M3 Preliminary results | 4/6/20  | 5 |
+    7 | M4 Near-final draft poster | 4/20/20  | 10 |
+    8 | Submit final poster | 4/27/20 | 100 |
+	9 | Present final poster | 5/4/20 | 10 |
+    Total | Total project points | NA | 150 |
+
+## Undergraduate participation
+
+Undergraduate students may contribute to a project, if the graduate student(s) agree to direct and supervise their work. Undergraduate students will serve as "research assistants" with budget of no more than an average of 1 - 2 hours of work a week. In return, any undergraduate student will have to option to replace a midterm grade (50 points) with the graduate student group's evaluation grade. Also, I will ask undergraduate students to evaluate projects and vote towards the "best in class" project for extra credit during the 5/4/20 poster session.
+
+

@@ -1,0 +1,36 @@
+---
+title: "Grading rubric: Homework 1"
+author: "STAT 446/646 Introduction to Bayesian Statistics (Spring 2020)"
+date: "1/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+Please complete exercises Ch.4, #1,3,5-7,9-11 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome1 — students will recall the axioms, basic terms/algebra of probability, including Bayes’ Theorem. I aimed to avoid redundancy except when needed for slippery concepts or difficult computation. Questions 1 and 3 apply basic rules of probability to check for independence. Try to recall the rules from memorywhile working. Questions 5-7 provide practice listing outcomes in slightly more complex settings. Questions 9, 10 practice computing conditional probability essential to understand Bayesian statistics. Exercise 11 provides yet a more complex probability setting.
+
+```{r}
+text_tbl <- data.frame(
+  `Point Value Label` = c("Explanation and justification", "Mathematical errors", "Completion", "Neatness and organization", "Mathematical terminology and notation"),
+  `Needs Improvement` = c("Explanation is difficult to understand  and  is  missing several components OR was not included.", "More than 25% of computations/statements have errorsin selected problems.", "Several  problems are not completed.", "The work appears sloppyand unorganized. It is hard to know what  information goes together.", "There is little use, or a lot of inappropriate use, of terminology and notation."),
+  `Approaching standards` = c("Explanation is a little difficult to understand, but includes critical components.","Most (75%-89%) of computations/statements are free of errors in selected problems.","All but two of the problemsare completed.","The work is presented in an organized  fashion  but  maybe hard to read at times.","Correct terminology and no-tation are used, but it is some-times not easy to understandwhat was done."),
+  `Meets standards` = c("Explanation is clear.","Almost all (90%-99%) of computations/statementsare free of errors in selected problems.","One problem  not completed.","The work is presented in aneat and organized fashion that is usually easy to read.","Correct terminology and no-tation are usually used, mak-ing  it  fairly  easy  to  under-stand what was done."),
+  `Exceeds standards` = c("Explanation is detailed andclear yet concise.","All computations/statements are free of errors in selected problems.","All problems addressed.","The work is presented in a neat, clear, organized fashion that is easy to read.","Correct terminology and no-tation are always used, making  it  easy  to  understand what was done."),
+  x = as.numeric(c( "2", "2", "1", "1", "1")),
+  score = c("", "", "", "", "")
+)
+```
+```{r}
+library(kableExtra)
+
+kable(text_tbl) %>%
+  kable_styling(full_width = T) %>%
+  column_spec(1, bold = T, border_right = T) %>%
+  column_spec(6, bold = T, border_left = T, border_right = T) %>%
+  add_header_above(c(" ", "0" , "1", "2", "3", "",""), line_sep = 0, include_empty = T)
+
+
+```
+**Total Score (out of 20 points, 21 points possible):**

@@ -1,0 +1,74 @@
+---
+title: "Continuous random variables (Ch.7)"
+author: "AG Schissler"
+date: "02/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: textbook>
+
+## I. Start-of-class work: Exploring continuous random variables (5 - 10 min)
+
+Discuss and prepare to share your thoughts on:
+
+1. Why do we call P(X = x) a probability *density* function for a continuous random variable?
+2. Why is P(X = x) = 0 for any continuous random variable X?
+3. What does $\Gamma(\cdot)$ denote?
+
+## II. Continuous random variables (10 - 20 min)
+
+When our random variable can take on any value in a interval, we need to redefine the probability function and use more sophisticated mathematical notions.
+
+### Probability density function (pdf)
+
+Let's walk through Bolstad's "Thought Experiment 4" to motivate the concept of a pdf.
+
+### The mean, variance of a cont. rvs.
+
+$E[Y]= \int_{-\infty}^\infty y f(y) dy$  
+
+$Var[Y] = \int_{-\infty}^\infty (y - \mu)^2 f(y) dy$.
+
+Bolstad motivates these quantities as the limit of the sample mean as $n \rightarrow \infty$ and motivate using a "histogram" construction.
+
+### Overview of common conts rvs. 
+
+- Uniform (standard)
+- Beta
+- Gamma
+- Normal
+
+Recall the CLT (Central Limit Theorem):
+
+For $n \geq 25$, 
+
+$$\frac{\bar{y} - \mu}{\sigma / \sqrt{n}} \approx normal(0,1)$$  
+
+for **any** continuous random variable, $Y$. What this means is the sums of indendepent rvs become normally distributed. This powerful fact is why the normal distribution is so useful and common.
+
+### Joint cont rvs
+
+Let's inspect/discuss Figures 7.10 and 7.11
+
+## III. Application: Jigsaw of HW 4 problems
+
+Learning outcome 3: Students will model parameters and data using discrete and continuous random variables.
+
+### Work your assigned problem: Ch.7, #1,3-5,8,9,12 in Bolstad & Curran (10 min)
+
+If you give done with your assigned problem, please work the other exercises and help each other.
+
+### A randomly select a member from each group shares their solution (30 min)
+
+## IV. Project discussion (10 min)
+
+Let's discuss [Intro-to-Bayesian-Statistics_project_organization.pdf](https://github.com/grizant/Intro_Bayes_Course/blob/develop/course_materials/Intro-to-Bayesian-Statistics_project_organization.pdf).
+
+## Closing (5 min)
+
+1. What worked for you in today's lesson?
+2. What didn't?

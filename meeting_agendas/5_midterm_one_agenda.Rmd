@@ -1,0 +1,24 @@
+---
+title: "Midterm One"
+author: "AG Schissler"
+date: "02/05/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<bring to class: copies of the exam>
+
+## Start-of-class work: Please prepare your workspace
+
+Scratch paper, handheld calculator, pencils with eraser, 1 page of notes, etc.
+
+## Midterm One
+
+- You may begin working as soon as you get your exam.  
+- I'll project a timer counting down. All exams must be turned in promptly.
+- Please keep all cell phones/laptops/other communication devices away until all exams are turned in. If not, you have violated the student conduct code.  
+- You may ask for clarification on any question. But I cannot intrepret the question or give hints.  
+- If you finish early, then please submit your work and you may leave quietly.

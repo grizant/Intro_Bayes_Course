@@ -9,11 +9,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<bring to class: textbook, plastic globe>
-
 ## Start-of-class work: How much of the Earth is covered by water?
 
 Without any research, discuss/share out how much of the Earth is covered by water. How sure are you of your guess? How could we formalize this? 
+
+### Class demonstration: Globe tossing
+
+Let's collect data on the proportion of water covering the globe through a ball-tossing experiment. 
+
+## i. Midterm 1
+
+Please come to office hours (or make an appointment) if you'd like to see your individual scores on your midterm.
 
 ## I. Bayesian inference for a binomial proportion
 
@@ -47,7 +53,7 @@ $$
 f(\pi|y) \propto \binom{n}{y}\pi^y(1-\pi)^{n-y}, \pi \in [0,1].
 $$
 
-Stare at this for a moment. It's a beta density! So, with a uniform prior, the posterior $g(\pi|y) \sim beta(a = y + 1, b = n - y + 1)$. And your inference is essentially complete!
+Stare at this for a moment. It contains the **kernel** of a beta density! So, with a uniform prior, the posterior $g(\pi|y) \sim beta(a = y + 1, b = n - y + 1)$. And your inference is essentially complete!
 
 ### More generally, using a beta prior
 
@@ -74,15 +80,12 @@ When you use a conjugate family, you are updating the parameters after seeing th
 
 ### Jeffrey's prior for the binomial
 
-Jeffrey's priors are a way of constructing priors that are invariant under continuous transformations. Since we can parameterize probability densities in multiple ways, this is an appealing feature --- that we get the same inference under whatever formulation of the density. But often Jeffrey's prior is quite information. For the binomial data model, Jeffrey's prior is
+Jeffrey's priors are a way of constructing priors that are invariant under continuous transformations. Since we can parameterize probability densities in multiple ways, this is an appealing feature --- that we get the same inference under whatever formulation of the density. But often Jeffrey's prior is quite *informative*. For the binomial data model, Jeffrey's prior is
 
 $$
 \pi \sim beta(0.5, 0.5).
 $$
 
-### Think-pair-share
-
-My prior belief is that $\pi$ has mean of 0.25 with standard deviation of 0.1. What $beta$ density reflects that belief? What is my equivalent sample size?
 
 ## III. Choosing your prior
 
@@ -106,6 +109,10 @@ $$
 ### Find the equivalent sample size
 
 Following the arguments on page 155, the equivalent sample size of beta prior is $n_{eq} = a + b + 1$.
+
+### Think-pair-share
+
+My prior belief is that $\pi$ has mean of 0.25 with standard deviation of 0.1. What $beta$ density reflects that belief? What is my equivalent sample size?
 
 ### Choosing a conjugate prior by matching moments from expert knowledege
 
@@ -143,19 +150,19 @@ Bolstad::binobp(x = 26, n = 100, a = 1, b = 1)
 Bolstad::binogcp(x = 26, n = 100, "user", pi = pi, pi.prior = pi.prior)
 par(mfrow = c(1, 1))
 ```
-## Class demonstration: Collect data on proportion of the earth covered by water
+## Analyze data informing on the  proportion of the earth covered by water
 
-Let's collect data on the proportion of water covering the globe through a ball tossing experiment. 
+Class demonstration: 
+Let's analyze data on the proportion of water covering the globe through a ball tossing experiment. 
 
 ```{r}
 ### our data goes here
-y = 7
-n = 10
+y = 16
+n = 24
 
 Bolstad::binobp(x = 0, n = 0, a = 57.09, b = 21.66)
-Bolstad::binobp(x = 7, n = 10, a = 57.09, b = 21.66)
-Bolstad::binobp(x = 23, n = 40, a = 57.09, b = 21.66)
-
+Bolstad::binobp(x = y, n = n, a = 57.09, b = 21.66)
+Bolstad::binobp(x = y, n = n, a = 0.5, b = 0.5)
 ## G's GCP
 pi = seq(0, 1, by = 0.001)
 pi.prior = rep(0, length(pi))

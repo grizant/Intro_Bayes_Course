@@ -370,10 +370,17 @@ summary {
 </div>
 
 
-<p>&lt;bring to class: textbook, plastic globe&gt;</p>
 <div id="start-of-class-work-how-much-of-the-earth-is-covered-by-water" class="section level2">
 <h2>Start-of-class work: How much of the Earth is covered by water?</h2>
 <p>Without any research, discuss/share out how much of the Earth is covered by water. How sure are you of your guess? How could we formalize this?</p>
+<div id="class-demonstration-globe-tossing" class="section level3">
+<h3>Class demonstration: Globe tossing</h3>
+<p>Let’s collect data on the proportion of water covering the globe through a ball-tossing experiment.</p>
+</div>
+</div>
+<div id="i.-midterm-1" class="section level2">
+<h2>i. Midterm 1</h2>
+<p>Please come to office hours (or make an appointment) if you’d like to see your individual scores on your midterm.</p>
 </div>
 <div id="i.-bayesian-inference-for-a-binomial-proportion" class="section level2">
 <h2>I. Bayesian inference for a binomial proportion</h2>
@@ -398,7 +405,7 @@ g(\pi | y) \propto g(\pi) \times f(y|\pi).
 <p><span class="math display">\[
 f(\pi|y) \propto \binom{n}{y}\pi^y(1-\pi)^{n-y}, \pi \in [0,1].
 \]</span></p>
-<p>Stare at this for a moment. It’s a beta density! So, with a uniform prior, the posterior <span class="math inline">\(g(\pi|y) \sim beta(a = y + 1, b = n - y + 1)\)</span>. And your inference is essentially complete!</p>
+<p>Stare at this for a moment. It contains the <strong>kernel</strong> of a beta density! So, with a uniform prior, the posterior <span class="math inline">\(g(\pi|y) \sim beta(a = y + 1, b = n - y + 1)\)</span>. And your inference is essentially complete!</p>
 </div>
 <div id="more-generally-using-a-beta-prior" class="section level3">
 <h3>More generally, using a beta prior</h3>
@@ -420,14 +427,10 @@ b^{\prime} = b + n - y
 </div>
 <div id="jeffreys-prior-for-the-binomial" class="section level3">
 <h3>Jeffrey’s prior for the binomial</h3>
-<p>Jeffrey’s priors are a way of constructing priors that are invariant under continuous transformations. Since we can parameterize probability densities in multiple ways, this is an appealing feature — that we get the same inference under whatever formulation of the density. But often Jeffrey’s prior is quite information. For the binomial data model, Jeffrey’s prior is</p>
+<p>Jeffrey’s priors are a way of constructing priors that are invariant under continuous transformations. Since we can parameterize probability densities in multiple ways, this is an appealing feature — that we get the same inference under whatever formulation of the density. But often Jeffrey’s prior is quite <em>informative</em>. For the binomial data model, Jeffrey’s prior is</p>
 <p><span class="math display">\[
 \pi \sim beta(0.5, 0.5).
 \]</span></p>
-</div>
-<div id="think-pair-share" class="section level3">
-<h3>Think-pair-share</h3>
-<p>My prior belief is that <span class="math inline">\(\pi\)</span> has mean of 0.25 with standard deviation of 0.1. What <span class="math inline">\(beta\)</span> density reflects that belief? What is my equivalent sample size?</p>
 </div>
 </div>
 <div id="iii.-choosing-your-prior" class="section level2">
@@ -464,6 +467,10 @@ Var(\pi) = \frac{ab}{(a+b)^2 \times (a + b + 1)}
 <div id="find-the-equivalent-sample-size" class="section level3">
 <h3>Find the equivalent sample size</h3>
 <p>Following the arguments on page 155, the equivalent sample size of beta prior is <span class="math inline">\(n_{eq} = a + b + 1\)</span>.</p>
+</div>
+<div id="think-pair-share" class="section level3">
+<h3>Think-pair-share</h3>
+<p>My prior belief is that <span class="math inline">\(\pi\)</span> has mean of 0.25 with standard deviation of 0.1. What <span class="math inline">\(beta\)</span> density reflects that belief? What is my equivalent sample size?</p>
 </div>
 <div id="choosing-a-conjugate-prior-by-matching-moments-from-expert-knowledege" class="section level3">
 <h3>Choosing a conjugate prior by matching moments from expert knowledege</h3>
@@ -528,9 +535,9 @@ Bolstad::binogcp(x = 26, n = 100, &quot;user&quot;, pi = pi, pi.prior = pi.prior
 <pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 </div>
 </div>
-<div id="class-demonstration-collect-data-on-proportion-of-the-earth-covered-by-water" class="section level2">
-<h2>Class demonstration: Collect data on proportion of the earth covered by water</h2>
-<p>Let’s collect data on the proportion of water covering the globe through a ball tossing experiment.</p>
+<div id="analyze-data-informing-on-the-proportion-of-the-earth-covered-by-water" class="section level2">
+<h2>Analyze data informing on the proportion of the earth covered by water</h2>
+<p>Class demonstration: Let’s analyze data on the proportion of water covering the globe through a ball tossing experiment.</p>
 <pre class="r"><code>### our data goes here
 y = 7
 n = 10

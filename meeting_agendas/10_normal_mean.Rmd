@@ -1,0 +1,61 @@
+---
+title: "Bayesian inference for Normal Mean (Ch.11)"
+author: "AG Schissler"
+date: "02/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Start-of-class work
+
+### Exercise 11.1 
+
+### Begin working in groups on Exercise 11.1. What tools do you need to solve the problem?
+
+## 11.1 Bayes’ Theorem for Normal Mean with a Discrete Prior
+
+Discuss Bolstad's notes.
+
+### Finish Exercise 11.1 as a group.
+
+On chalkboard.
+
+## 11.2 Bayes’ Theorem for Normal Mean with a Continuous Prior
+
+Discuss Bolstad's notes.
+
+## 11.3 Choosing Your Normal Prior
+
+Discuss Bolstad's notes.
+
+## 11.4 Bayesian Credible Interval for Normal Mean
+
+Discuss Bolstad's notes.
+
+### Example: Exercise 11.6.
+
+## Main points:
+
+- Analyzing the observations sequentially one at a time, using the posterior from the previous observation as the next prior, gives the same results as analyzing all the observations at once using the initial prior.
+
+- The likelihood of a random sample of normal observations is proportional to the likelihood of the sample mean.
+
+- The conjugate family of priors for normal observations with known variance is the normal(m, s2) family.
+
+- If we have a random sample of normal observations and use a normal(m, s2) prior the posterior is normal(m', (s')2), where m' and (s')2 are found by the simple updating rules:
+1. The precision is the reciprocal of the variance.
+2. Posterior precision is the sum of the prior precision and the precision of the sample.
+3. The posterior mean is the weighted average of the prior mean and the sample mean, where the weights are the proportions of their precisions to the posterior precision.
+
+- The same updating rules work for the flat prior, remembering the flat prior has precision equal to zero.
+
+- A Bayesian credible interval for μ can be found using the posterior distribution.
+
+- If the variance σ2 is not known, we use the estimate of the variance calculated from the sample, , and use the critical values from the Student’s t table where the degrees of freedom is n — 1, the sample size minus 1. Using the Student’s t critical values compensates for the extra uncertainty due to not knowing σ2. (This actually gives the correct credible interval if we used a prior  and marginalized σ2 out of the joint posterior.)
+
+- The predictive distribution of the next observation is normal(m', (s')2) where the mean m' = mn, the posterior mean, and , the observation variance plus the posterior variance. (The posterior variance  allows for the uncertainty in estimating μ.) The predictive distribution is found by marginalizing μ out of the joint distribution f(yn+1, μ|y1, ..., yn).
+
+## Next time: 11.5 Predictive Density for Next Observation

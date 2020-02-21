@@ -392,8 +392,55 @@ summary {
 <li><p><strong>Each member</strong> at your table completes an the random experiment and collects data, <span class="math inline">\(y\)</span>.</p></li>
 </ol>
 </div>
-<div id="i.-analysis-of-hands-on-monte-carlo-similar-to-ch.-9-c1" class="section level2">
-<h2>I. Analysis of Hands-on Monte Carlo (similar to Ch. 9, C1)</h2>
+<div id="i.-quickly-discuss-the-rest-of-ch.9-that-we-didnt-cover-last-time" class="section level2">
+<h2>I. Quickly discuss the rest of Ch.9 that we didn’t cover last time</h2>
+<p>Let’s discuss Section 9.3, Figure 9.2 on projector.</p>
+<div id="interval-estimation" class="section level3">
+<h3>Interval estimation</h3>
+<div id="confidence-intervals" class="section level4">
+<h4>Confidence intervals</h4>
+</div>
+</div>
+<div id="comparing-confidence-and-credible-intervals" class="section level3">
+<h3>Comparing confidence and credible intervals</h3>
+</div>
+<div id="hypothesis-testing" class="section level3">
+<h3>Hypothesis testing</h3>
+</div>
+<div id="testing-a-one-sided-hypothesis" class="section level3">
+<h3>Testing a one-sided hypothesis</h3>
+<div id="frequentists-tests-of-one-sided-hypothesis" class="section level4">
+<h4>Frequentists tests of one-sided hypothesis</h4>
+</div>
+<div id="bayesian-tests-of-one-sided-hypothesis" class="section level4">
+<h4>Bayesian tests of one-sided hypothesis</h4>
+</div>
+<div id="aside-numerical-integration-in-r" class="section level4">
+<h4>Aside: Numerical integration in R</h4>
+<pre class="r"><code>integrate(dbeta, 0, 0.15, 7, 75)</code></pre>
+<pre><code>## 0.9685669 with absolute error &lt; 1.2e-07</code></pre>
+<pre class="r"><code>integrate(dbeta, 0.15, 1, 7, 75)</code></pre>
+<pre><code>## 0.03143313 with absolute error &lt; 9.9e-07</code></pre>
+<pre class="r"><code>pbeta(0.15, 7, 75, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.03143313</code></pre>
+</div>
+</div>
+<div id="testing-a-two-sided-hypothesis" class="section level3">
+<h3>Testing a two-sided hypothesis</h3>
+<div id="frequentists-tests-of-two-sided-hypothesis" class="section level4">
+<h4>Frequentists tests of two-sided hypothesis</h4>
+</div>
+<div id="bayesian-tests-of-two-sided-hypothesis" class="section level4">
+<h4>Bayesian tests of two-sided hypothesis</h4>
+</div>
+</div>
+</div>
+<div id="example-exercise-9.4-time-permitting" class="section level2">
+<h2>Example: Exercise 9.4 (time permitting)</h2>
+<p>Work on whiteboard and computer.</p>
+</div>
+<div id="ii.-analysis-of-hands-on-monte-carlo-similar-to-ch.-9-c1" class="section level2">
+<h2>II. Analysis of Hands-on Monte Carlo (similar to Ch. 9, C1)</h2>
 <p>Let’s return to the data collected at the start of class.</p>
 <ol style="list-style-type: decimal">
 <li>Compute the frequentist estimator <span class="math inline">\(\hat{\pi}_f\)</span> for each person’s data.</li>
@@ -415,8 +462,8 @@ MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
 <li>Aggregate class data and discuss.</li>
 </ul>
 </div>
-<div id="ii.-poisson-inference-notes-and-example" class="section level2">
-<h2>II. Poisson inference notes and example</h2>
+<div id="iii.-poisson-inference-notes-and-example-ch.-10" class="section level2">
+<h2>III. Poisson inference notes and example (ch. 10)</h2>
 <p>Key concepts/formulas from the chapter:</p>
 <ul>
 <li>Gamma is the conjugate family for Poisson observations, with density proportional to <span class="math inline">\(\mu^{r-1} e^{-v\mu}; \mu \geq 0, r,v &gt; 0\)</span>. Here <span class="math inline">\(r\)</span> is the <em>shape</em> parameter and <span class="math inline">\(v\)</span> is the <em>rate</em> parameter (1/rate is the <em>scale</em> parameterization).</li>
@@ -451,11 +498,10 @@ qgamma(p = my_area, shape = r_prime, rate = v_prime)</code></pre>
 <div id="you-try-hw-7-ch.10-exercise-10.2" class="section level3">
 <h3>You try: HW 7, Ch.10 Exercise 10.2</h3>
 </div>
-</div>
-<div id="iii.-computer-based-example-poisson-inference" class="section level2">
-<h2>III. Computer-based example Poisson inference</h2>
-<div id="example-bolstad-ch.10-c2" class="section level3">
-<h3>Example: Bolstad Ch.10, C2</h3>
+<div id="computer-based-example-poisson-inference" class="section level3">
+<h3>Computer-based example Poisson inference</h3>
+<div id="example-bolstad-ch.10-c2" class="section level4">
+<h4>Example: Bolstad Ch.10, C2</h4>
 <pre class="r"><code>y = c(3, 4, 3, 0, 1)
 ## Jeffrey&#39;s prior
 r &lt;- 0.5
@@ -495,6 +541,7 @@ my_posterior &lt;- Bolstad::poisgamp(y = y, shape = 0.5, rate = 0)</code></pre>
 <pre><code>## [1] 2.233688</code></pre>
 <pre class="r"><code>round(quantile(my_posterior, probs = c(alpha / 2, 1 - ( alpha / 2 ) )), 2)</code></pre>
 <pre><code>## [1] 1.17 3.81</code></pre>
+</div>
 </div>
 </div>
 <div id="closing-5-min" class="section level2">

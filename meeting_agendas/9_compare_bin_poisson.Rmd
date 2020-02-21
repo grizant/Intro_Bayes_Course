@@ -21,7 +21,43 @@ Student teams will
 
 2. **Each member** at your table completes an the random experiment and collects data, $y$.
 
-## I. Analysis of Hands-on Monte Carlo (similar to Ch. 9, C1)
+## I. Quickly discuss the rest of Ch.9 that we didn't cover last time
+
+Let's discuss Section 9.3, Figure 9.2 on projector.
+
+### Interval estimation
+
+#### Confidence intervals
+
+### Comparing confidence and credible intervals
+
+### Hypothesis testing 
+
+### Testing a one-sided hypothesis
+
+#### Frequentists tests of one-sided hypothesis
+
+#### Bayesian tests of one-sided hypothesis
+
+#### Aside: Numerical integration in R
+
+```{r}
+integrate(dbeta, 0, 0.15, 7, 75)
+integrate(dbeta, 0.15, 1, 7, 75)
+pbeta(0.15, 7, 75, lower.tail = FALSE)
+```
+
+### Testing a two-sided hypothesis
+
+#### Frequentists tests of two-sided hypothesis
+
+#### Bayesian tests of two-sided hypothesis
+
+## Example: Exercise 9.4 (time permitting)
+
+Work on whiteboard and computer.
+
+## II. Analysis of Hands-on Monte Carlo (similar to Ch. 9, C1)
 
 Let's return to the data collected at the start of class.
 
@@ -49,8 +85,7 @@ Which has smaller MSE for your $\pi$?
 
 - Aggregate class data and discuss.
 
-
-## II. Poisson inference notes and example
+## III. Poisson inference notes and example (ch. 10)
 
 Key concepts/formulas from the chapter:
 
@@ -88,9 +123,9 @@ Hand example on the board and R code:
 
 ### You try: HW 7, Ch.10 Exercise 10.2
 
-## III. Computer-based example Poisson inference
+### Computer-based example Poisson inference
   
-### Example: Bolstad Ch.10, C2
+#### Example: Bolstad Ch.10, C2
 
 ```{r}
 y = c(3, 4, 3, 0, 1)

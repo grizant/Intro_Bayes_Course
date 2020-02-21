@@ -1,7 +1,7 @@
 ---
-title: "Grading rubric: Homework 6"
+title: "Grading rubric: Homework 7"
 author: "STAT 446/646 Introduction to Bayesian Statistics (Spring 2020)"
-date: "03/06/2020"
+date: "03/13/2020"
 output: html_document
 ---
 
@@ -9,9 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
 ```
 
-Please complete exercises Ch.9 #1-3,C1 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 6 --- *students will compare Frequentist/Bayesian approaches in statistical inference*. All exercises provide practice evaluating approaches to estimate and test hypotheses for a binomial proportion. This homework features an elaborate Monte Carlo exercise to compare MSE of estimators.  You have the option of calculating these quantities by hand (using formula/tables) or by writing `R` code --- just be sure to justify your work well (such as include `R` code snippets in your report).
+Please complete exercises Ch.11 #2,5 C1-C8 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 3 --- *students will conduct Bayesian inference for parameters of discrete and continuous random variables*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the Normal mean parameter. This homework features several computer exercises to help you build intuition rapidly. Please include the `R` code you used.
 
-Please complete exercises Ch.10 #2, C1,C3-C6 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 3 --- *students will conduct Bayesian inference for parameters of discrete and continuous random variables*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the Poisson mean parameter. This homework features several computer exercises to help you build intuition rapidly. Please include the `R` code you used in your report instead of saying something like "I used `R`.
+Please complete exercises Ch.12 #4 in Bolstad & Curran. I selected this problem to give deliberate practice towards mastering learning outcome 3 --- *students will compare Frequentist/Bayesian approaches to statistical inference*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the Normal mean parameter. This homework features some small data sets that you may use software to analyze. Please include the `R` code you used in your report.
+
+Please complete exercises Ch.13 #1,2,6 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 3 --- *students will conduct Bayesian inference for parameters of discrete and continuous random variables*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the differences in two normal mean parameters. This homework features some small data sets that you may use software to analyze. Please include the `R` code you used in your report.
 
 ```{r, echo = FALSE}
 text_tbl <- data.frame(

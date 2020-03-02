@@ -9,17 +9,99 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Start-of-class work
+## Start-of-class work (10 - 20 min)
 
-### Exercise 11.1 
+1) Find an *exact* 90% credible interval (posterior) for the binomial proportion $\pi$ with $n=25$ under a uniform prior and given data $y = 10$.
+2) Compare this to an *approximate* 90% credible interval (using normal approximation) for the binomial proportion $\pi$ with $n=25$ under a uniform prior and given data $y = 10$.
+3) Finally, compare the both intervals above to the frequentist 90% confidence interval (normal approximation).
 
-### Begin working in groups on Exercise 11.1. What tools do you need to solve the problem?
+## I. Poisson inference notes and example (ch. 10)
+
+Key concepts/formulas from the chapter:
+
+- Gamma is the conjugate family for Poisson observations, with density proportional to $\mu^{r-1} e^{-v\mu}; \mu \geq 0, r,v > 0$. Here $r$ is the *shape* parameter and $v$ is the *rate* parameter (1/rate is the *scale* parameterization).
+- If the prior is $gamma(r, v)$, then the posterior, $\mu|y$, is $gamma\left(r^\prime = \sum y + r, v^\prime = n + v \right)$.
+- The posterior mean, $E[\mu|y]$, is $\frac{r^\prime}{v^\prime}$.
+- The posterior mode is $\frac{r^\prime - 1}{v^\prime}$.
+- The posterior variance, $Var[\mu|y]$, is $\frac{r^\prime}{{v^\prime}^2}$.
+- The posterior median must be found numerically:
+
+```{r}
+r_prime <- 2
+v_prime <- 1
+## CAREFUL: v is the "rate" parameter in R
+## not the scale (1/v).
+## Let's read ?qgamma
+cat("Median is ")
+my_area <- 0.5
+qgamma(p = my_area, shape = r_prime, rate = v_prime)
+```
+
+- Equivalent sample size is $n_{eq}=v$.
+- Bias of the "best" Bayesian point estimator (the posterior mean, $\hat{\mu_B}$): $E[\hat{\mu_B}] - \mu = \frac{r - v\mu}{v + n}$.
+- Variance of the "best" Bayesian point estimator: $Var[\hat{\mu_B}] = \frac{n\mu}{(v + n)^2}$.
+- Positive uniform (improper) density is defined as $1, \mu \geq 0$. This can be viewed as the limit of a gamma with $r = 1, v \rightarrow 0$.
+- Jeffrey's prior (improper) density is $\mu^{-1/2}, \mu > 0$. This can be viewed as the limit of a gamma with $r = 1/2, v \rightarrow 0$.
+- *Remark: Beware improper priors in practice, especially for model selection*.
+
+### Example: Bolstad Ch.10, 10.1 Part A
+
+Hand example on the board and R code:
+
+```{r}
+## OUR CODE HERE
+```
+
+### Computer-based example Poisson inference
+  
+#### Example: Bolstad Ch.10, C2
+
+```{r}
+y = c(3, 4, 3, 0, 1)
+## Jeffrey's prior
+r <- 0.5
+v <- 0
+(r_prime <- r + sum(y))
+(v_prime <- v + length(y))
+## mean
+r_prime / v_prime
+## median
+qgamma(p = 0.5, shape = r_prime, rate = v_prime)
+## 95% posterior credible interval
+alpha = 0.05
+(lower <- qgamma(p = alpha / 2, shape = r_prime, rate = v_prime))
+(upper <- qgamma(p = alpha / 2, shape = r_prime, rate = v_prime, lower.tail = FALSE))
+
+## using Bolstad package
+my_posterior <- Bolstad::poisgamp(y = y, shape = 0.5, rate = 0)
+mean(my_posterior)
+quantile(my_posterior, probs = 0.5)
+round(quantile(my_posterior, probs = c(alpha / 2, 1 - ( alpha / 2 ) )), 2)
+```
+
+## I. Bayesian Inference for Normal Mean (ch. 11)
+
+Project textbook and discuss.
+
+Recall standardization (centering at 0 and scaling to unit variance):
+
+$Z = \frac{X - \mu}{\sigma}$.
 
 ## 11.1 Bayes’ Theorem for Normal Mean with a Discrete Prior
 
-Discuss Bolstad's notes.
+- Using the tables in textbook is tricky. Let's discuss Tables B.2 and B.3.
 
-### Finish Exercise 11.1 as a group.
+Using R to find the likelihood values in Table 11.1
+
+```{r, table111, results='hold'}
+dnorm(x = -1.2)
+dnorm(x = -0.7)
+dnorm(x = -0.2)
+dnorm(x = 0.3)
+dnorm(x = 0.8)
+```
+
+### Begin Exercise 11.2 in your groups and we'll sketch the solution
 
 On chalkboard.
 
@@ -56,6 +138,13 @@ Discuss Bolstad's notes.
 
 - If the variance σ2 is not known, we use the estimate of the variance calculated from the sample, , and use the critical values from the Student’s t table where the degrees of freedom is n — 1, the sample size minus 1. Using the Student’s t critical values compensates for the extra uncertainty due to not knowing σ2. (This actually gives the correct credible interval if we used a prior  and marginalized σ2 out of the joint posterior.)
 
+## Next time: 11.5 Predictive Density for Next Observation
+
 - The predictive distribution of the next observation is normal(m', (s')2) where the mean m' = mn, the posterior mean, and , the observation variance plus the posterior variance. (The posterior variance  allows for the uncertainty in estimating μ.) The predictive distribution is found by marginalizing μ out of the joint distribution f(yn+1, μ|y1, ..., yn).
 
-## Next time: 11.5 Predictive Density for Next Observation
+
+## Closing 
+
+- How to conduct Bayesian Inference Poisson mean?
+- How to conduct Bayesian Inference Normal mean?
+

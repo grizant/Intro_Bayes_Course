@@ -59,6 +59,14 @@ Work on whiteboard and computer.
 
 ## II. Analysis of Hands-on Monte Carlo (similar to Ch. 9, C1)
 
+```{r}
+n = 1e2
+success <- c(2, 4, 5, 8)
+set.seed(44)
+data <- sample( 0:9, size = n, replace = T)
+sum(data %in% success) / n
+```
+
 Let's return to the data collected at the start of class.
 
 1. Compute the frequentist estimator $\hat{\pi}_f$ for each person's data.

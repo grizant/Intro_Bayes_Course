@@ -1,0 +1,217 @@
+---
+title: "Bayesian Inference for the Normal Mean (Ch.11)"
+author: "AG Schissler"
+date: "3/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Start-of-class work:
+
+## 11.1 Bayes’ Theorem for Normal Mean with a Discrete Prior
+
+### Let's revisit Exercise 11.2 
+
+- Convince me that one could evaluate the normal density at standardized $z$ values or the original data $y$.
+- How does the calculation change?
+- Why is the posterior the same?
+
+```{r, ex11point2}
+## let's do Exercise 11.2 using code
+mu <- seq(160, 230, by = 10)
+sigma <- 15
+g_of_mu <- 1 / length(mu) ## equal weights
+y <- c(175, 190, 215, 198, 184, 207, 210, 193, 196, 180)
+n <- length(y)
+
+## for one data point y_1
+likelihood_y <- as.vector(sapply( y[1], dnorm, mean = mu, sd= sigma ))
+z1 <- (y[1] - mu) / sigma
+likelihood_z <- sapply( z1, dnorm)
+
+## prior times likelihood
+unnormalized_posterior_y <- g_of_mu * likelihood_y
+unnormalized_posterior_z <- g_of_mu * likelihood_z
+
+## marginal
+marginal_y <- sum(unnormalized_posterior_y)
+marginal_z <- sum(unnormalized_posterior_z)
+
+## posterior
+(posterior_y <- unnormalized_posterior_y / marginal_y)
+(posterior_z <- unnormalized_posterior_z / marginal_z)
+all.equal(posterior_y, posterior_z)
+
+## all observations at once using sufficient statistics (Equation 11.2)
+
+## CAREFUL to put in the correct standard deviation = sqrt (sigma^2 / n)
+likelihood_y_bar <- as.vector(sapply( mean(y), dnorm, mean = mu, sd= sigma/sqrt(n) ))
+
+## prior times likelihood
+unnormalized_posterior_y_bar <- g_of_mu * likelihood_y_bar
+
+## marginal
+marginal_y_bar <- sum(unnormalized_posterior_y_bar)
+
+## posterior
+posterior_y_bar <- unnormalized_posterior_y_bar / marginal_y_bar
+plot(x = mu, y = posterior_y_bar) 
+```
+
+## 11.2 Bayes’ Theorem for Normal Mean with a Continuous Prior
+
+### To motivate these analyses let's collect some data from the class
+
+```{r, section11point2}
+sleep_times <- c(10, 8, 7, 9, 8, 7.5, 5, 6.5, 7.5, 6, 11, 7, 8, 8.33, 8.25, 10, 6, 7, 8.5,8, 9, 9, 8, 9.5, 8, 9, 8.11, 7)
+mean(sleep_times)
+sd(sleep_times)
+```
+
+### Flat prior for $\mu$ (Jeffrey's Prior for Normal Mean)
+
+Since $g(\mu)=1$ everywhere on the real line the posterior $(\mu | y_1, \ldots, y_n) \sim Normal(\bar{y}, \sigma^2 / n)$.
+
+### Normal prior
+
+Let's discuss the derivation of the updated (posterior) parameters for the normal mean $\mu$ under a conjugate (normal-normal) model.
+
+Equation 11.4:
+
+$$
+m^\prime = \frac{(\sigma^2 m + s^2 y)}{\sigma^2 + s^2} = \frac{\sigma^2}{\sigma^2 + s^2} \times m + \frac{s^2}{\sigma^2 + s^2} \times y
+$$
+
+$$
+(s^\prime)^2 = \frac{\sigma^2 s^2}{\sigma^2 + s^2}
+$$
+
+Or in terms of precision $1 / \sigma^2$:
+
+By factoring out, we see that 
+
+$$
+m^\prime = \frac{1 / s^2}{1 / \sigma^2 + 1 / s^2} \times m + \frac{1 / \sigma^2}{1 / \sigma^2 + 1 / s^2} \times y
+$$
+
+$$
+\frac{1}{(s^\prime)^2} = \left( \frac{\sigma^2 s^2}{\sigma^2 + s^2} \right)^{-1} = \frac{\sigma^2 + s^2}{\sigma^2 s^2} =\frac{1}{\sigma^2} + \frac{1}{s^2}
+$$
+
+Let's go back to the question whether the prior and observation variances "add" like do would with independent random variables. What do we say now?
+
+### From a random sample $y_1, \ldots, y_n$
+
+$$
+\frac{1}{(s^\prime)^2} = \frac{1}{s^2} + \frac{n}{\sigma^2}
+$$
+
+$$
+m^\prime = \frac{1 / s^2}{n / \sigma^2 + 1 / s^2} \times m + \frac{n / \sigma^2}{n / \sigma^2 + 1 / s^2} \times \bar{y}
+$$
+
+
+## 11.3 Choosing Your Normal Prior
+
+Choose your prior mean $m$ and prior variance $s^2$ based on your prior beliefs about $E(\mu)$ and $Var(\mu)$. Remember that means are less variable than individual observations. 
+
+It is recommended to check your *equivalent sample size*: Set your prior variance $s^2 = \sigma^2 / n_{eq}$ and solve for $n_{eq}$.
+
+```{r, section11point3}
+## 6 to 8 hours
+m <- 7
+s2 <- 1
+## assume true sigma (or could estimate from data)
+sigma2 <- 2
+## then equivalent sample size in the prior specification is 
+(n_eq <- sigma2/s2)
+## this is an importat ratio...
+```
+
+## now let's compute the posterior under some of your priors
+
+```{r, section11point3b}
+update_normnp <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+
+y_bar <- mean(sleep_times)
+n <- length(sleep_times)
+sigma2 <- 1
+s2 <- 1
+m <- 7
+
+update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+Bolstad::normnp(x = sleep_times, m.x = m, s.x = sqrt(s2), sigma.x = sqrt(sigma2), plot = TRUE)
+```
+
+
+## 11.4 Bayesian Credible Interval for Normal Mean
+
+### Known variance
+
+```{r, section11point4}
+posterior <- update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+
+## 89% credible Interval
+alpha = 0.11
+z_alpha_over_2 <- qnorm(p = 1 - alpha/2)
+
+(lower <-  posterior$m_prime - z_alpha_over_2* posterior$s_prime)
+(upper  <-  posterior$m_prime + z_alpha_over_2* posterior$s_prime)
+
+```
+
+### Unknown variance
+
+
+```{r, section11point4b}
+
+## use the sample variance estimated for sigma2
+sigma2 <- var(sleep_times)
+posterior <- update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+
+## 89% credible Interval
+alpha = 0.11
+## additional uncertainty
+t_alpha_over_2 <- qt(p = 1 - alpha/2, df = n - 1)
+
+(lower <-  posterior$m_prime - t_alpha_over_2* posterior$s_prime)
+(upper  <-  posterior$m_prime + t_alpha_over_2* posterior$s_prime)
+
+```
+
+## 11.5 Predictive Density for Next Observation
+
+- The predictive distribution of the next observation $y_{n+1}$ is normal$(m^\prime, (s^\prime)^2)$ where the mean $m^\prime = m_n$, the posterior mean, and, the observation variance plus the posterior variance. (The posterior variance  allows for the uncertainty in estimating $\mu$.) The predictive (posterior) distribution is found by marginalizing $\mu$ out of the joint distribution $f(y_{n+1}, \mu | y_1, \ldots, y_n)$.
+
+- Let's discuss the derivation of Equation 11.9. It is a beastly bit of algebra. Keep the goal in mind and be thankful you don't have to do this since someone already did.
+
+```{r, section11point5}
+## predictive distribution
+compute_normnp_predictive <- function(m, s2, n, y_bar, sigma2){
+    posterior_params <- update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+    ## return as a list
+    list(m_nplus1 = posterior_params$m_prime, s_nplus1_2= sigma2 + posterior_params$s_prime2)
+}
+
+## compare
+update_normnp(m = 7, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1)
+compute_normnp_predictive(m = m, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1 )
+
+```
+
+## Practice today's concepts on HW 7 Ch. 11 Exercise 5
+
+## Closing
+
+What is the difference between the *posterior* and the *predictive posterior*?

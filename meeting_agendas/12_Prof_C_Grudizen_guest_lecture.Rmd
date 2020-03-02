@@ -1,0 +1,156 @@
+---
+title: "Comparing Bayesian and Frequentist Inferences for Proportion (Ch.9)"
+author: "AG Schissler"
+date: "2/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Start-of-class work:
+
+Think-pair-share:
+
+1. Think about Figure 9.1 that displays the sampling distributions of three estimators.
+
+- Which estimator do you prefer?
+- What characteristics are important?
+
+2. Pair up and share.
+3. A few share the whole class
+
+## I. Project proposal talks (5 minutes each ~ 30 min)
+
+### Austin Boone
+
+???
+
+### Bo Liu
+
+Robust Bayesian regression for Benchmark-Dose modeling
+
+### Benjamin Agyare, Conner Dayton, and Richard Foote
+
+Using Bayesian statistics with limited data points to answer Is the US Electoral College fair? 
+
+### Jacob Ellis
+
+Using socioeconomic variables to predict Reno crime patterns via Bayesian modeling
+
+### Samantha Faulstich
+
+Imputing undectected mRNA expression in single-cell RNA-sequencing
+
+### Tyler Ewing
+
+???
+
+## II. Frequentist interpretation of probability and parameters  (Ch. 9 Bolstad)
+
+### Bayesian approach
+1) Compute or approximate the posterior distribution (*post-data*).
+2) Summarize the posterior as it relates to estimation or hypothesis testing.
+
+### Frequentist approach
+1) Compute or approximate the **sampling distribution** of a statistic summarizing your data under all possible samples (*pre-data*).
+2) Use the observed statistic and its sampling distribution to estimate or test hypotheses about the fixed, unknown parameters.
+
+### Sampling distribution of a statistic
+
+Frequentist (*pre-data*) compute the sampling distribution: $f(s | \theta)$.
+
+Let's discuss this notion based on your prior knowledge/training. Does this make sense as to what you have done in the past?
+
+In constrast, the Bayesian approach focuses on inferences based on the data that actually occurred:
+
+Bayesian (*post-data*): $g(\theta | data)$.
+
+## III. Point estimation
+
+Frequentist point estimator for the binomial proportion is $\hat{\pi}_f= y / n$.
+
+### Frequentist criteria for evaluating estimators
+
+Let's discuss these three concepts and make sure notion/concepts are clear.
+
+1. Unbiasedness
+
+2. Minimum Variance Unbiased Estimators
+
+3. Mean squared error of an estimator
+
+### Comparing estimators for proportion
+
+Let's discuss Section 9.3, Figure 9.2 on projector.
+
+### Interval estimation
+
+#### Confidence intervals
+
+### Comparing confidence and credible intervals
+
+### Hypothesis testing 
+
+### Testing a one-sided hypothesis
+
+#### Frequentists tests of one-sided hypothesis
+
+#### Bayesian tests of one-sided hypothesis
+
+#### Aside: Numerical integration in R
+
+```{r}
+integrate(dbeta, 0, 0.15, 7, 75)
+integrate(dbeta, 0.15, 1, 7, 75)
+pbeta(0.15, 7, 75, lower.tail = FALSE)
+```
+
+### Testing a two-sided hypothesis
+
+#### Frequentists tests of two-sided hypothesis
+
+#### Bayesian tests of two-sided hypothesis
+
+## Detailed example: Exercise 9.4 (time permitting)
+
+Work on whiteboard and computer.
+
+## Finish Hands-on Monte Carlo (similar to Ch. 9, C1)
+
+Let's return to the data collected at the start of class.
+
+1. Compute the frequentist estimator $\hat{\pi}_f$ for each person's data.
+2. Compute the Bayes' estimator $\hat{\pi}_B$ for each person's data.
+3. Calculate the mean of each estimator (across people in your group).
+4. Using step 3, calculate the bias of each estimator (across people in your group).
+5. Calculate the variance of each estimator.
+6. Calculate the mean squared error of these estimators two ways:
+
+First way:  
+
+$$
+MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
+$$
+
+Second way:  
+
+Find the mean of the squared difference of your estimator and the true value.
+
+Answer the following,
+
+Are the estimators unbiased?
+Which has smaller MSE for your $\pi$?
+
+- Aggregate class data if time and discuss.
+
+## Closing: 3-2-1
+
+Please write down and share responses to the following prompts:
+
+- Which project interests you the most?
+- List 3 ways to evaluate an estimator.
+- 2 questions: Why is frequentist estimation procedure *pre-data*? And why is Bayesian *post-data*?
+- Why is it not as meaningful to produce a Bayesian 2-sided P-value?
+

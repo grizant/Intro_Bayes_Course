@@ -48,7 +48,7 @@ all.equal(posterior_y, posterior_z)
 ## all observations at once using sufficient statistics (Equation 11.2)
 
 ## CAREFUL to put in the correct standard deviation = sqrt (sigma^2 / n)
-likelihood_y_bar <- as.vector(sapply( mean(y), dnorm, mean = mu, sd= sigma/sqrt(n) ))
+likelihood_y_bar <- dnorm(x = mean(y), mean = mu, sd= sigma/sqrt(n) )
 
 ## prior times likelihood
 unnormalized_posterior_y_bar <- g_of_mu * likelihood_y_bar
@@ -66,7 +66,7 @@ plot(x = mu, y = posterior_y_bar)
 ### To motivate these analyses let's collect some data from the class
 
 ```{r, section11point2}
-sleep_times <- c(10, 8, 7, 9, 8, 7.5, 5, 6.5, 7.5, 6, 11, 7, 8, 8.33, 8.25, 10, 6, 7, 8.5,8, 9, 9, 8, 9.5, 8, 9, 8.11, 7)
+sleep_times <- c(6.5, 6.5, 8, 6, 6, 6, 7, 7, 3, 7, 7, 8, 6, 9.25, 6, 7, 7, 7.5, 8, 6, 4)
 mean(sleep_times)
 sd(sleep_times)
 ```
@@ -123,7 +123,8 @@ It is recommended to check your *equivalent sample size*: Set your prior varianc
 ```{r, section11point3}
 ## 6 to 8 hours
 m <- 7
-s2 <- 1
+s2 <- 2
+sqrt(s2)
 ## assume true sigma (or could estimate from data)
 sigma2 <- 2
 ## then equivalent sample size in the prior specification is 
@@ -146,8 +147,8 @@ update_normnp <- function(m, s2, n, y_bar, sigma2){
 
 y_bar <- mean(sleep_times)
 n <- length(sleep_times)
-sigma2 <- 1
-s2 <- 1
+sigma2 <- 2
+s2 <- 2
 m <- 7
 
 update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)

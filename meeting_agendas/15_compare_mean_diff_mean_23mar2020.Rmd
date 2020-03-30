@@ -1,0 +1,248 @@
+---
+title: "Ch.12: Compare Bayes/Freq for Mean and Ch.13 Diff between Means"
+author: "AG Schissler"
+date: "3/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## I. Start of class work
+
+- Check that your mic is muted. Only unmute when you are speaking.
+- Type "Hello World" into the Zoom chat to practice how you may ask a question (sorry I couldn't resist).
+- Open up R (via RStudio or other) and the HTML doc for today's meeting.
+
+## II. Chapter 12. Comparing Bayesian and Frequentist for Mean
+
+The discussion centers on efficiency (measured by Mean Squared Error and estimation precision using intervals) and Statistical Testing for Bayesian and Frequentist Inferences for mean.
+
+## 12.1. Comparing Frequentist and Bayesian Point Estimators
+
+### Example 12.1 via screen share
+
+Arnold, Beth, and Carol want to estimate the mean weight of "1 kg" packages of milk powder produced at a dairy company. The weight in individual packages is subject to random variation. They know that when the machine is adjusted properly, the weights are normally distributed with mean 1015 grams, and standard deviation 5 g. They are going to base their estimate on a sample of size 10. Arnold decides to use a normal prior with mean 1,000 g and standard deviation 10 g. Beth decides she will use a normal prior with mean 1,015 g and standard deviation 7.5 g. Carol decides she will use a "flat" prior. They calculate the bias, variance, and mean squared error of their estimators for various values of μ to see how well they perform.
+
+The `R` code below implements the equations from Section 12.1:
+
+```{r}
+## Bias of the Bayesian estimator, m_prime (the posterior mean)
+compute_bayes_bias <- function(mu, m, s2, sigma2, n) {( sigma2 / (n*s2 + sigma2) ) * (m - mu) }
+compute_bayes_var <- function(mu, m, s2, sigma2, n) {( n * s2 / (n*s2 + sigma2) )^2 * (sigma2 / n) }
+compute_bayes_mse <- function(mu, m, s2, sigma2, n) {
+    my_bias <- compute_bayes_bias(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_var <- compute_bayes_var(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_mse <- my_bias^2 + my_var
+    return(my_mse)
+}
+
+## range of mu (a bit larger than Bolstad's "feasible region")
+mu_seq <- 990:1040
+
+## store evaluation data
+eval_data <- data.frame(mu = rep(mu_seq, times = 3), prior = rep(c("Arnold", "Beth", "Carol"), each = length(mu_seq)))
+
+## head(eval_data)
+## known quantities (CHANGE THESE DURING CLASS TO DEMONSTRATE)
+my_n <- 10
+my_sigma2 <- 5^2
+
+## biases
+arnold_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+beth_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_bias <- rep(0, length(mu_seq))
+eval_data$bias <- c(arnold_bias, beth_bias, carol_bias)
+ggplot(data = eval_data, aes(x = mu, y = bias, color = prior)) + geom_line(aes(linetype = prior))
+
+## mse
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
+## PLAY WITH ARNOLD'S TO DISCUSS WEAKLY INFORMATIVE PRIORS
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+beth_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_mse <- rep(my_sigma2 / my_n, length(mu_seq))
+eval_data$mse <- c(arnold_mse, beth_mse, carol_mse)
+ggplot(data = eval_data, aes(x = mu, y = mse, color = prior)) + geom_line(aes(linetype = prior))
+```
+
+### You try:
+
+Explore changing the sample size $n$ and population variance $\sigma^2$. How does it impact the evaluation above?
+
+## 12.2. Comparing Confidence and Credible Intervals for Mean
+  
+### Example 12.2 (continued from Example 11.3, p. 222)
+
+Let's discuss.
+
+## 12.3 Testing a One-Sided Hypothesis about a Normal Mean
+  
+### Example 12.3 (continued from Example 11.3, p. 222)
+
+Arne, Barb, and Chuck read in a journal that the mean length of yearling rainbow trout in a typical stream habitat is 31 cm. They each decide to determine if the mean length of trout in the stream they are researching is greater than that by testing 
+
+$$
+H_0: \mu \leq 31 \: versus \: H_1: \mu > 31
+$$
+
+at the $\alpha$ = 5% level. For one-sided Bayesian hypothesis tests, they calculate the posterior probability of the null hypothesis. Arnie and Barb have normal posteriors, so they use Equation 12.4. Chuck has a nonnormal posterior that he calculated numerically.
+
+```{r}
+## OUR CODE HERE
+compute_normalMean_normalPrior <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+
+(arnie_post <- compute_normalMean_normalPrior(m = 30, s2 = 4^2, n = 12, y_bar = 32, sigma2 = 2^2))
+## P( m_prime <= mu0)
+pnorm(q = 31, mean = arnie_post$m_prime, sd = arnie_post$s_prime)
+## pnorm(q = 31, mean = 32, sd = 2^2 / 12)
+```
+
+## 12.4 Testing a Two-Sided Hypothesis about a Normal Mean
+  
+### Extend Example 12.3 (continued from Example 11.3, p. 222)
+
+$$
+H_0: \mu = 31 \: versus \: H_1: \mu \neq 31
+$$
+
+Let's extend the last the example to test a two-sided hypothesis. 
+
+```{r}
+Bolstad::normnp(x = rep(32, 12), m.x = 30, s.x = 4, sigma.x = 2)
+```
+## III. Ch.13 Bayesian Inference for Difference between Means
+
+Often the core scientific question is whether a parameter is different between two groups (patients who took Drug A vs Drug B, online class vs. traditional, etc). This chapter discusses Bayesian inference for a difference of means, using Normal modeling.
+
+## Ch. 13.1 Independent Random Samples from Two Normal Distributions
+
+### Generate data: Many times a day do you check email?
+
+1. Think carefully about how many times a day do you check email, $\mu$, in a 24-hour period.
+2. Enter your guess in the chat (only once please) and state your student status (Grad or UG).
+
+#### Perform Bayesian inference for these data
+
+1. Let's enter the class data, noting if the student belongs to the graduate population or the undergraduate population.
+2. Construct the posterior distribution for each group, assumming independent random samples from two normal distributions and known standard deviation of 10.
+
+```{r, echo = TRUE, results = TRUE}
+y_u <- c(10, 3,3, 5,8,10,1,4,8,8,6,15,15,2,6,4,15,15,3,10,3,6,4,6,8,10)
+y_g <- c(3.5, 8, 10,6,15,20,7,25,40,12)
+
+## 
+m <- 10
+s2 <- 5^2
+## y_bar <- mean(sleep)
+## n <- length(sleep)
+sigma2 <- 10^2
+
+compute_normalMean_normalPrior <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+
+mu_u_post <- compute_normalMean_normalPrior(m = m, s2 = s2, n =  length(y_u), y_bar = mean(y_u), sigma2 = 10^2)
+mu_g_post <- compute_normalMean_normalPrior(m = m, s2 = s2, n =  length(y_g), y_bar = mean(y_g), sigma2 = 10^2)
+
+## Bolstad::normnp(x = sleep, m.x = 7, s.x = 1, sigma.x = 1, plot = TRUE)
+```
+
+## 13.2 Inference with equal variances
+
+Discuss what is meant by "additive" model.
+
+### 1. Using the results from the previous section, find a 95% credible interval the mean difference.
+
+```{r}
+mu_d_mean <- mu_g_post$m_prime - mu_u_post$m_prime
+mu_d_stderror <- sqrt(mu_g_post$s_prime2 + mu_u_post$s_prime2)
+
+c(mu_d_mean - qnorm(0.975) * mu_d_stderror, mu_d_mean + qnorm(0.975) * mu_d_stderror)
+
+## one sided hypothesis test
+pnorm(0, mean = mu_d_mean, sd = mu_d_stderror)
+## z score
+pnorm((0 - mu_d_mean) / mu_d_stderror)
+
+```
+
+### 2. Now test the hypotheses that
+
+$H_0: \mu_d \leq 0$ versus $H_0: \mu_d > 0$.
+
+### 3. And the two-sided test
+
+$H_0: \mu_d = 0$ versus $H_0: \mu_d \neq 0$.
+
+### 4. Repeat 1-3, but assume unknown (but equal) variance with flat priors
+
+Hint: Use $t(n_u + n_g - 2)$ and Equation 13.7. Pool together the samples to estimate the variances since the variances are the same for the two groups.
+
+## 13.3. Inferences with unequal variances
+
+Discuss using textbook (nonadditive).
+
+## Now let's do the same analysis with unequal variances.
+
+Assume that $\sigma_u = 10$ and $\sigma_g = 5$ and use equation (13.10).
+
+### Now assume the variances are unequal & unknown
+
+Use Satterthwaite's approximation for the degrees of freedom on page 263.
+
+## 13. 5 Finally let's collect data and think about a paired design (10 - 15 min)
+
+1. Think about how many times you check your email on a regular workday day versus a COVID-19 workday.
+2. Let's disregard the graduate/undergraduate aspect for this analysis.
+3. Enter your difference (COVID-19 num of email checks) - (Regular workday).
+
+```{r}
+diff_in_email <- c(5,3,1,1,2.5,4,6,4.09,4,5,1,3,6,5,10,1,20,5.5,5,6,3,30,4,3,2,0,15, 2,5,1,9,4,1,4,5,2)
+
+summary(diff_in_email)
+hist(diff_in_email)
+
+## WIP 
+(post_param <- compute_normalMean_normalPrior(m = 0, 20^2, n = length(diff_in_email), y_bar = mean(diff_in_email), sigma2 = var(diff_in_email)))
+
+```
+
+### Construct the posterior of the difference $\mu_{reg} - \mu_{COVID-19}$ using a flat prior.
+
+How to do this?
+
+Construct a 95% credible interval.
+
+```{r}
+n <- length(diff_in_email)
+qt(p = 0.95, df = n - 1)
+post_param$m_prime - qt(p = 0.95, df = n - 1) * post_param$s_prime
+post_param$m_prime + qt(p = 0.95, df = n - 1) * post_param$s_prime
+t.test(x = diff_in_email, conf.level = 0.9)
+```
+## VI. Closing
+
+Reply in the chat:
+
+- When is Bayesian estimation of a Normal Mean preferred to Frequentist (in terms of MSE)?
+- How to know which difference formula to use from Ch. 13?
+
+## Notes
+
+Exercise 12.2 has a typo: emphnormal is a $\LaTeX$ typo. It is just *normal*$(75,10^2)$ .

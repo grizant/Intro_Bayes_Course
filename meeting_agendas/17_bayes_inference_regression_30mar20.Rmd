@@ -37,6 +37,8 @@ saveRDS(reg_data, "data/exam_reg_data.rds")
 ```{r, accessibleCode}
 reg_data <- readRDS("data/exam_reg_data.rds")
 
+str(reg_data)
+
 ### explore numerically
 head(reg_data)
 summary(reg_data)

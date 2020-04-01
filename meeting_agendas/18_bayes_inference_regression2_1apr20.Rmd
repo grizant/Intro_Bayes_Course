@@ -9,9 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(Bolstad)
 library(ggplot2)
+theme_set(theme_bw())
 ```
 
-## How well does the first midterm score predict the third midterm score? (5 - 10 min)
+## I. Start of class work
+
+## We discussed the joint likelihood of $\beta$ and $\alpha_{\bar{x}}$ last time (see Section 14.4).
+
+Some Questions for the group: 
+
+- Starting from a normal model for the data $y|x$, what distributions do $\beta$ and $\alpha_{\bar{x}}$ follow?  
+- How do we know the two regression parameters (coefficients) behave independently in the joint likelihood?  
+- Why does $Var(\alpha_{\bar{x}})=\sigma^2/n$? Why should that agree with our intuition about the quantity?  
+
+## Recall the motivating example: How well does the first midterm score predict the third midterm score? 
 
 ```{r}
 ### load scrambled midterm one and midterm three scores
@@ -58,65 +69,53 @@ compute_sigma_hat <- function(x, y){
 }
 
 compute_sigma_hat(x = reg_data$MidtermOne, y = reg_data$MidtermTwo)
-
 summary(lm(MidtermTwo ~ MidtermOne, data = reg_data))
-
 ssx <- sum( (reg_data$MidtermOne - mean(reg_data$MidtermOne))^2 )
-
 ```
 
-## I. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
+## II. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
 
-### Joint prior for $\beta$ and $\alpha_{\overline{x}}$
+Now that we have analyzed joint likelihood for $\beta$ and $\alpha_{\overline{x}}, we select the form of the prior.
+
+### We'll assume independent for the joint prior for $\beta$ and $\alpha_{\overline{x}}$
 
 $g(\alpha_{\overline{x}}, \beta) = g(\alpha_{\overline{x}}) \times g(\beta)$. 
 
-This assumes independence (not required, but it is reasonable). To get simple updating rules for the posterior, choose either a flat prior (which is also Jeffrey's prior in the normal model) or a normal prior for each parameter.
+The independence assumption simplifies the calculation (not required, but it is reasonable). To get closed-form updating rules for the posterior, choose either a flat prior (which is also Jeffrey's prior in the normal model) or a normal prior for each parameter.
 
-### The role of standardization in prior specification
+- To choose a prior $g$ for $\alpha_{\overline{x}}$, the analyst to needs to guess at the mean of $y$ and its variation. Bolstad suggests
 
-- Enchances interpretation
-- Improves fit
-- Reduces standard errors
+1. Pick a prior mean $m_{a_x}$ for $\alpha_{\overline{x}}$.  
+2. Guess lower and upper bounds for $m_{a_x}$.  
+3. Divide the range of your bounds by 6 (since we have a normal model) to estimate your prior standard deviation $s_{a_x}$.
 
-### Community of priors
+- Usually we are more interested in the slope $\beta$. To set a prior $g(\beta)$,
 
-Let's form a *community of priors* for this regression problem.
+1. Select a viewpoint. A default viewpoint and widely accepted is to assume $m_\beta=0$, that there is no relationship between the variables. But one could have different prior beliefs that are pessimistic or optimistic.  
+2. Then think about the possible range values of the slope, the corresponding change in $y$ for a unit change in $x$.   
+3. Divide the range of your bounds by 6 (since we have a normal model) to estimate your prior standard deviation $s_\beta$.
 
-1. Moderate Skeptical view
-2. Highly Skeptical view
-3. Moderate Optimistic view
-4. Highly Optimistic view
-5. Reference (aka "flat")
-6. Weakly informative (aka weakly skeptical)
+## III. The joint posterior for $\beta$ and $\alpha_{\overline{x}}$ (14.5; 15 - 20 min)
 
-Use the guidelines in Bolstad for normal priors...
-
-## II. The joint posterior for $\beta$ and $\alpha_{\overline{x}}$ (14.5; 15 - 20 min)
+Now that we have the prior and likelihood specified. Let's get that Bayesian posterior and complete our inference!
 
 ### Walk through Section 14.4 
 
 ### Updating rules under a normal prior
 
-See text equations 14.7, 14.8 and two equations below.
+See text equations 14.7, 14.8 and the two equations below them for the updating rules.
 
-### Example 14.2
-
-Discuss.
-
-### Please find the posterior under your prior from earlier
+### Let's find the posterior
 
 Assume unknown variance.
 
-Then we'll combine into and explore...
-
 ```{r}
 
-bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
 
 ## skeptical prior
 mb0 <- 0
-sb0 <- (1/10)
+sb0 <- 1/10
 ma0 <- 80
 sa0 <- 3
 
@@ -136,15 +135,38 @@ bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "n
 
 ### Bayesian credible interval around the slope
 
+```{r}
+
+```
+
 Just normal model here. Please find a 95% credible interval under your priors with unknown variance.
 
-### Frequentist credible interval around the slopee
+### Frequentist credible interval around the slope
 
 $\hat{\beta} \pm t_{\alpha/2,df=n-2} \frac{\hat{\sigma}}{\sqrt{SS_x}}$.
 
+```{r}
+fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+## An 1-alpha% confidence interval
+alpha = 0.11
+df <- nrow(reg_data) - 2
+t_star <- qt( p = alpha / 2, df = df, lower.tail = FALSE)
+c(fit$post.coef[2] - t_star * fit$post.coef.sd[2], fit$post.coef[2] + t_star * fit$post.coef.sd[2])
+
+## from lm()
+alpha = 0.11
+lm_summ <- summary(lm(MidtermTwo ~ MidtermOne, reg_data, alpha = alpha))
+c("lower" = lm_summ$coef[2,1] - qt(1-alpha/2, df = lm_summ$df[2]) * lm_summ$coef[2, 2],
+  "upper" = lm_summ$coef[2,1] + qt(1-alpha/2, df = lm_summ$df[2]) * lm_summ$coef[2, 2])
+
+## This doesn't use a t distribution (assumes known variance).
+quantile(fit$slope, probs = c(alpha / 2, 1 - alpha/2) )
+
+```
+
 ### Testing One-sided hypothesis about slope
 
-Please test whether the slope is larger than 0.
+Please test whether the slope is larger than 0 and be prepared to share your screen.
 
 ### Testing Two-sided hypothesis about slope
 
@@ -160,7 +182,7 @@ Discuss the derivation.
 
 Please find the predictive distribution under your prior and unknown variance.
 
-1. Find the predictive density when a student scores a 70 on the first exam.
+1. Find the predictive density when a student scores a 70 on the first exam. Use either Equations 14.13, 14.14 or `bayes.lin.reg`.
 
 2. Find a 95% prediction interval
 

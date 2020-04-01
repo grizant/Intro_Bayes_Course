@@ -75,9 +75,9 @@ ssx <- sum( (reg_data$MidtermOne - mean(reg_data$MidtermOne))^2 )
 
 ## II. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
 
-Now that we have analyzed joint likelihood for $\beta$ and $\alpha_{\overline{x}}, we select the form of the prior.
+Now that we have analyzed joint likelihood for $\beta$ and $\alpha_{\bar{x}}$, we select the form of the prior.
 
-### We'll assume independent for the joint prior for $\beta$ and $\alpha_{\overline{x}}$
+### We'll assume independent for the joint prior for $\beta$ and $\alpha_{\bar{x}}$.
 
 $g(\alpha_{\overline{x}}, \beta) = g(\alpha_{\overline{x}}) \times g(\beta)$. 
 
@@ -148,6 +148,7 @@ $\hat{\beta} \pm t_{\alpha/2,df=n-2} \frac{\hat{\sigma}}{\sqrt{SS_x}}$.
 ```{r}
 fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
 ## An 1-alpha% confidence interval
+## str(fit)
 alpha = 0.11
 df <- nrow(reg_data) - 2
 t_star <- qt( p = alpha / 2, df = df, lower.tail = FALSE)
@@ -162,12 +163,20 @@ c("lower" = lm_summ$coef[2,1] - qt(1-alpha/2, df = lm_summ$df[2]) * lm_summ$coef
 ## This doesn't use a t distribution (assumes known variance).
 quantile(fit$slope, probs = c(alpha / 2, 1 - alpha/2) )
 
+fit$slope
+
 ```
 
 ### Testing One-sided hypothesis about slope
 
 Please test whether the slope is larger than 0 and be prepared to share your screen.
 
+```{r}
+fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+pnorm(0, mean = fit$post.coef[2], sd = fit$post.coef.sd[2], lower.tail = TRUE)
+pt( (fit$post.coef[2] - 0) / fit$post.coef.sd[2], df = nrow(reg_data) - 2, lower.tail = FALSE)
+
+```
 ### Testing Two-sided hypothesis about slope
 
 Please test whether the slope is different from 0.
@@ -183,6 +192,10 @@ Discuss the derivation.
 Please find the predictive distribution under your prior and unknown variance.
 
 1. Find the predictive density when a student scores a 70 on the first exam. Use either Equations 14.13, 14.14 or `bayes.lin.reg`.
+
+```{r}
+Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE, pred.x = 70)
+```
 
 2. Find a 95% prediction interval
 

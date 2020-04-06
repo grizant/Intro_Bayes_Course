@@ -101,7 +101,8 @@ example(bayes.lm)
 
 ### Discuss HW 10 Ch. 15
 
+Let me give some hints to begin.
+
 ## Closing (5 min)
 
-- 
-- 
+- What are some issues in HW that you could use guidance on?

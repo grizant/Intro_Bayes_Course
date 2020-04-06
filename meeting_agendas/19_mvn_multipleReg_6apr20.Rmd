@@ -1,0 +1,107 @@
+---
+title: "Bayesian Inference for Multivariate Normal and Multiple Regression"
+author: "AG Schissler"
+date: "04/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Bolstad)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+## I. Start of class work
+
+- Download today's files (rmd, html, and any data)  
+- Run the `setup` chunk above and import ay data  
+- Please be prepared to try exercises in class.  
+
+There were lots of differing answers for the HW 8, problem 14.4 (especially parts h and i). Let's discuss a solution to begin and agree on the answer.
+
+```{r 144}
+dat144 <- data.frame( Cans = c(rep(0, 4), rep(2, 4), rep (4, 4)), Score = c(78, 82, 75, 58, 75, 42, 50, 55, 27, 48, 49, 39) )
+## part A
+ggplot2::qplot(x = Cans, y = Score, data = dat144)
+## part B
+## Use built-in functions or code yourself
+lm_fit <- lm(Score ~ Cans, data = dat144)
+coef(lm_fit)
+## Part C
+## or extract and use abline
+## turning off frequentist error bars
+ggplot2::qplot(x = Cans, y = Score, data = dat144) + ggplot2::geom_smooth(method = "lm", se = F)
+## Part D
+sum(lm_fit$residuals^2)/ (nrow(dat144) - 2)
+summary(lm_fit)$sigma^2
+## Part E
+sigma = 12
+mb0 = 0
+sb0 = 10
+?bayes.lin.reg
+bayes_fit <- bayes.lin.reg(y = dat144$Score, x = dat144$Cans, slope.prior = "normal",
+                           intcpt.prior = "flat", mb0 = mb0, sb0 = sb0, sigma = sigma)
+## why are the intercept estimators different?
+## why are the slope estimators different?
+bayes_fit$post.coef
+bayes_fit$post.coef.sd
+summary(lm_fit)
+## Part F
+alpha = 0.05
+c(bayes_fit$post.coef[2] - qnorm(1 - alpha / 2)* bayes_fit$post.coef.sd[2], bayes_fit$post.coef[2] + qnorm(1 - alpha / 2)* bayes_fit$post.coef.sd[2])
+## Part g
+mu0 = 0
+## lower.tail = FALSE since H0 is greater than or equal to 0.
+pnorm(mu0, mean = bayes_fit$post.coef[2], sd = bayes_fit$post.coef.sd[2], lower.tail = FALSE)
+## reject H0 in favor of H1
+## part H
+x13 = 3
+bayes_fit <- bayes.lin.reg(y = dat144$Score, x = dat144$Cans, slope.prior = "normal",
+                           intcpt.prior = "flat", mb0 = mb0, sb0 = sb0, sigma = sigma, pred.x = x13)
+## part I
+alpha = 0.05
+c(bayes_fit$pred.y - qnorm(1 - alpha / 2)* bayes_fit$pred.se, bayes_fit$pred.y + qnorm(1 - alpha / 2)* bayes_fit$pred.se)
+```
+
+## Bayesian Inference for Multivariate Normal Mean (Ch. 18)
+
+- This is necessary background information to understand Bayesian inference for the multiple linear regression model (more than 1 predictor).  
+- But that doesn't do the multivariate normal (MVN) distribution justice!  
+- It is one of the most powerful modeling framework with applications arises naturally for many types of measurement and many statistical asymptotic results.   
+- Bolstad begins with a bivariate normal discussion (2D) and then generalizes to $p$-dimensional spaces (multivariate).
+- The MVN is evaluated at $p$-dimensional point and assigns probability weight to points in the space.   
+- It is parametrized by a mean vector $\mu$ the and variance-covariance matrix $\Sigma$.  
+
+Let's briefly discuss the following sections in turn.
+
+### Section 18.1 Bivariate Normal Density
+
+### Section 18.2 Multivariate Normal Distribution
+
+### Section 18.3 Posterior of MVN Mean Vector with $\Sigma$ known
+
+### Section 18.4 Credible region
+
+### Section 18.5 Posterior of MVN Mean Vector with $\Sigma$ unknown
+
+This section can be omitted but is recommended reading.
+
+### Discuss HW 9 Ch. 14 C1-C3
+
+Quick Discussion
+
+## Bayesian Inference for Multiple Normal Linear Regression Model (Ch. 19)
+
+Let's begin this discussion by way of example then I briefly discuss the mathematics.
+
+```{r bayes.lm}
+example(bayes.lm)
+```
+
+### Discuss HW 10 Ch. 15
+
+## Closing (5 min)
+
+- 
+- 

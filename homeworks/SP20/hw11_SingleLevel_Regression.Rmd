@@ -1,0 +1,30 @@
+---
+title: "Homework 1: Single-level Regression"
+author: "AG Schissler"
+date: "04/24/2020"
+output: html_document
+---
+
+Please respond to the questions below. I encourage you to collaborate with your classmates, but you must submit your own work. This assignment is due on the date listed above. **If you use `R`, please run `set.seed(04242020)` at the top your script**. This will make the simulations reproducible. If using `knitr` (`.Rmd` file), place the following at the top of the script:
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
+set.seed(04242020)
+```
+
+URLs for the data sets for your HW:
+
+http://www.stat.columbia.edu/~gelman/arm/examples/
+http://www.stat.columbia.edu/~gelman/arm/software/
+
+
+
+## Question 1: Monte Carlo experiment regression with independent random variables
+
+## Question 2: Inverse probability sampling
+
+## Question 3: Acceptance-rejection sampling
+
+## Question 4: Importance sampling
+
+## Question 5: Metropolis-Hastings MCMC for a single parameter

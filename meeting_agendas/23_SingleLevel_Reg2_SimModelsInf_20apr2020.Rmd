@@ -1,0 +1,703 @@
+---
+title: "Single-level Regression Part 2 and Simulating from Models"
+author: "Presented by AG Schissler"
+date: "04/20/2020"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(arm)
+library(R2OpenBUGS)
+library(foreign)
+```
+
+## Start of class work: Simulation
+
+Design a simulation to answer the question *how many girls in 400 births*? Assume the probability that a baby is a girl or boy is 48.8% and 51.2%, respectively. Suppose that 400 babies are born in a hosiptal in a given year. How many will be girs?
+
+Now extend your simulation to get a sense of the *distribution* of what could happen. The aim of this experiment is to capture (quantify) the *uncertainty*.
+
+```{r twins}
+## YOUR CODE HERE
+
+```
+
+## Today's lesson is derived from Gelman and Hill Ch. 4, 7
+
+Most of these notes are direct quotes, paraphrases, and adaptations from 
+
+[Data Analysis Using Regression and Multilevel/Hierarchical Models (Gelman and Hill 2007)](http://www.stat.columbia.edu/~gelman/arm/)
+
+Your exercises will also be derived from the same textbook. You can find data sets and examples here:
+
+http://www.stat.columbia.edu/~gelman/arm/software/
+
+### The `arm` R package
+
+I recommend you install the Applied Regression Modeling R package: `arm`. It has helpful convenience functions for fitting Bayesian (multilevel) regression modeling and simulating from these models.
+
+```{r arm, include = F}
+## From CRAN
+## install.packages("arm")
+```
+
+## A note about the coding practices for the examples
+
+The examples below frequently attach objects to the `R` global environment and to the `R2BUGS` search path. This works okay in isolation, but can be dangerous when objects have the same name and other scoping issues. I recommend to keep data in a data structure (`data.frame`, `matrix`, etc). And reference that object (instead of extracting vectors to use separate). It keeps things tidy and is safer. Also `R2BUGS`interactively requests confirmation for `attach.all` which is a pain when knitting your `rmarkdown`. Also many values are *hardcoded* instead of done in a dynamic way. Moreover, it is more natural in `R` to write functions for repeated tasks and avoid loops (and use the `apply` family of functions). Please keep that in mind as you reuse the code in your assignments and projects (and future work).
+
+## Ch.4 Linear regression: before and after fitting the model
+
+### 4.1 Linear transformations
+
+```{r sect41}
+## make sure to download the data first and specify your path
+heights <- read.dta ("data/heights.dta")
+suppressMessages(attach.all (heights))
+
+## recode sex variable
+male <- 2 - sex
+
+## (for simplicity) remove cases with missing data
+
+ok <- !is.na (earn+height+sex) & earn>0
+heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
+n <- nrow (heights.clean)
+suppressMessages(attach.all (heights.clean))
+height.jitter.add <- runif (n, -.2, .2)
+
+## Model fit
+lm.earn <- lm (earn ~ height)
+display (lm.earn)
+sim.earn <- sim (lm.earn)
+beta.hat <- coef(lm.earn)
+
+## Figure 4.1 (left)
+par (mar=c(6,6,4,2)+.1)
+plot (height + height.jitter.add, earn, xlab="height", ylab="earnings", pch=20, mgp=c(4,2,0), yaxt="n", col="gray10",
+      main="Fitted linear model")
+axis (2, c(0,100000,200000), c("0","100000","200000"), mgp=c(4,1.1,0))
+for (i in 1:20){
+    curve (sim.earn@coef[i,1] + sim.earn@coef[i,2]*x, lwd=.5, col="gray", add=TRUE)}
+curve (beta.hat[1] + beta.hat[2]*x, add=TRUE, col="red")
+
+## Figure 4.1 (right) 
+par (mar=c(6,6,4,2)+.1)
+plot (height + height.jitter.add, earn, xlab="height", ylab="earnings", pch=20, mgp=c(4,2,0), yaxt="n", col="gray10",
+      main="Fitted linear model",xlim=c(0,80),ylim=c(-200000,200000))
+axis (2, c(-100000,0,100000), c("-100000","0","100000"), mgp=c(4,1.1,0))
+for (i in 1:20){
+    curve (sim.earn@coef[i,1] + sim.earn@coef[i,2]*x, lwd=.5, col="gray", add=TRUE)}
+curve (beta.hat[1] + beta.hat[2]*x, add=TRUE, col="red")
+```
+
+### 4.2 Centering and standardizing, especially for models with interactions
+
+```{r sect42}
+kidiq <- read.dta("data/kidiq.dta")
+suppressMessages(attach(kidiq))
+
+## Estimations
+
+## original model
+fit.4 <- lm (kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq)
+display(fit.4)
+
+## centering by subtracting the mean
+c_mom_hs <- mom_hs - mean(mom_hs)
+c_mom_iq <- mom_iq - mean(mom_iq)
+
+fit.5 <- lm (kid_score ~ c_mom_hs + c_mom_iq + c_mom_hs:c_mom_iq)
+display(fit.5)
+
+## using a conventional centering point
+c2_mom_hs <- mom_hs - 0.5
+c2_mom_iq <- mom_iq - 100
+
+fit.6 <- lm (kid_score ~ c2_mom_hs + c2_mom_iq + c2_mom_hs:c2_mom_iq)
+display(fit.6)
+
+## centering by subtracting the mean & dividing by 2 sd
+z_mom_hs <- (mom_hs - mean(mom_hs))/(2*sd(mom_hs))
+z_mom_iq <- (mom_iq - mean(mom_iq))/(2*sd(mom_iq))
+
+fit.7 <- lm (kid_score ~ z_mom_hs + z_mom_iq + z_mom_hs:z_mom_iq)
+display(fit.7)
+```
+
+### 4.3 Correlation and "regression to the mean"
+
+```{r sect43}
+
+```
+
+### 4.4 Logarithm transformations
+
+```{r sect44}
+## Log transformation
+## make sure to download the data first and specify your path
+heights <- read.dta ("data/heights.dta")
+suppressMessages(attach.all (heights))
+
+## recode sex variable
+male <- 2 - sex
+
+## (for simplicity) remove cases with missing data
+
+ok <- !is.na (earn+height+sex) & earn>0
+heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
+n <- nrow (heights.clean)
+suppressMessages(attach.all (heights.clean))
+height.jitter.add <- runif (n, -.2, .2)
+
+
+log.earn <- log(earn)
+earn.logmodel.1 <- lm(log.earn ~ height)
+display(earn.logmodel.1)
+ 
+## Figure 4.3
+
+sim.logmodel.1 <- sim (earn.logmodel.1)
+beta.hat <- coef (earn.logmodel.1)
+
+n <- nrow(heights.clean)
+
+par (mar=c(6,6,4,2)+.1)
+plot (height + runif(n,-.2,.2), log.earn, xlab="height", ylab="log (earnings)", pch=20, yaxt="n", mgp=c(4,2,0), col="gray10",
+      main="Log regression, plotted on log scale")
+axis (2, seq(6,12,2), mgp=c(4,1.1,0))
+for (i in 1:20)
+  curve (sim.logmodel.1@coef[i,1] + sim.logmodel.1@coef[i,2]*x, lwd=.5, col="gray", add=TRUE)
+curve (beta.hat[1] + beta.hat[2]*x, add=TRUE, col="red")
+
+par (mar=c(6,6,4,2)+.1)
+plot (height + runif(n,-.2,.2), earn, xlab="height", ylab="earnings", pch=20, yaxt="n", mgp=c(4,2,0), col="gray10",
+      main="Log regression, plotted on original scale")
+axis (2, c(0,100000,200000), c("0","100000","200000"), mgp=c(4,1.1,0))
+for (i in 1:20)
+  curve (exp(sim.logmodel.1@coef[i,1] + sim.logmodel.1@coef[i,2]*x), lwd=.5, col="gray", add=TRUE)
+curve (exp(beta.hat[1] + beta.hat[2]*x), add=TRUE, col="red")
+
+## Log-base-10 transformation
+
+log10.earn <- log10(earn)
+earn.log10model <- lm(log10.earn ~ height)
+display(earn.log10model)
+
+## Log scale regression model
+
+earn.logmodel.2 <- lm(log.earn ~ height + male)
+display(earn.logmodel.2)
+
+## Including interactions
+
+earn.logmodel.3 <- lm(log.earn ~ height + male + height:male)
+display(earn.logmodel.3)
+
+## Linear transformations
+
+z.height <- (height - mean(height))/sd(height)
+earn.logmodel.4 <- lm(log.earn ~ z.height + male + z.height:male)
+display(earn.logmodel.4)
+
+## Log-log model
+
+log.height <- log(height)
+earn.logmodel.5 <- lm(log.earn ~ log.height + male)
+display(earn.logmodel.5)
+```
+
+### 4.5 Other transformations
+
+```{r sect45}
+kidiq <- read.dta("data/kidiq.dta")
+suppressMessages(attach(kidiq))
+
+## Fit the model
+fit <- lm (kid_score ~ as.factor(mom_work))
+display(fit)
+```
+
+### 4.6 Building regression models for prediction
+
+#### General principles
+
+1. Include all variables that, for substantive reasons, might be expected to be important in predicting the outcome.
+2. It is not always necessary to include these inputs as separate predictors ---- for example create a composite average or total "score".
+3. For inputs that have large effects, consider including their interactions as well.
+4. We suggest the following strategy for decisions whether to exclude a variable from a prediction model based on expected sign and statistical significance.
+   * If the predictor is **not** significance, but has the expected sign, it is fine to keep it in.
+   * If the predictor is **not** significance, but does **not** have the expected sign, it may help to remove the variable (decrease noise).
+   * If the predictor **is** significance, but does **not** have the expected sign. There is something strange going on. Consider lurking variables and any other explanations. Possibly find/measure confounders and include them in the model.
+   * If the predictor is significance, but has the expected sign, include the term.
+
+
+#### Example: Predicting yield of mesquite bushes
+
+```{r sect46}
+mesquite <- read.table("data/mesquite.dat",header=TRUE)
+suppressMessages(attach(mesquite))
+
+## Data are at http://www.stat.columbia.edu/~gelman/arm/examples/mesquite
+
+## Rename variables
+weight <- LeafWt
+canopy.height <- CanHt
+total.height <- TotHt
+density <- Dens
+group <- ifelse (Group == "MCD", 0, 1)
+diam1 <- Diam1
+diam2 <- Diam2
+
+## First model
+fit.1 <- lm (weight ~ diam1 + diam2 + canopy.height + total.height + density + group)
+display(fit.1)
+
+## Data summary
+summary(mesquite)
+IQR(diam1)
+IQR(diam2)
+IQR(canopy.height)
+IQR(total.height)
+IQR(density)
+IQR(group)
+
+## Other models
+
+## Log model
+fit.2 <- lm (log(weight) ~ log(diam1) + log(diam2) + log(canopy.height) + log(total.height) + 
+                 log(density) + group)
+display(fit.2)
+
+## Volume model
+canopy.volume <- diam1*diam2*canopy.height
+
+fit.3 <- lm (log(weight) ~ log(canopy.volume))
+display(fit.3)
+
+## Volume, area & shape model
+canopy.area <- diam1*diam2
+canopy.shape <- diam1/diam2
+
+fit.4 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + log(canopy.shape) + 
+                 log(total.height) + log(density) + group)
+display(fit.4)
+
+## Last two models
+fit.5 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + group)
+display(fit.5)
+
+fit.6 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + log(canopy.shape) + 
+                 log(total.height) + group)
+display(fit.6)
+```
+
+### 4.7 Fitting a series of regressions
+
+```{r sect47}
+brdata <- read.dta("data/nes5200_processed_voters_realideo.dta",convert.factors=F)
+## Data are at http://www.stat.columbia.edu/~gelman/arm/examples/nes
+
+## Clean the data
+brdata <- brdata[is.na(brdata$black)==FALSE&is.na(brdata$female)==FALSE&is.na(brdata$educ1)==FALSE
+                 &is.na(brdata$age)==FALSE&is.na(brdata$income)==FALSE&is.na(brdata$state)==FALSE,]
+kept.cases <- 1952:2000
+matched.cases <- match(brdata$year, kept.cases)
+keep <- !is.na(matched.cases)
+data <- brdata[keep,]
+plotyear <- unique(sort(data$year))
+year.new <- match(data$year,unique(data$year))
+n.year <- length(unique(data$year))
+income.new <-data$income-3
+age.new <- (data$age-mean(data$age))/10
+y <- data$rep_pres_intent
+data <- cbind(data, year.new, income.new, age.new, y)
+nes.year <- data[,"year"]
+age.discrete <- as.numeric (cut (data[,"age"], c(0,29.5, 44.5, 64.5, 200)))
+race.adj <- ifelse (data[,"race"]>=3, 1.5, data[,"race"])
+data <- cbind (data, age.discrete, race.adj)
+
+female <- data[,"gender"] - 1
+black <- ifelse (data[,"race"]==2, 1, 0)
+rvote <- ifelse (data[,"presvote"]==1, 0, ifelse(data[,"presvote"]==2, 1, NA))
+
+region.codes <- c(3,4,4,3,4,4,1,1,5,3,3,4,4,2,2,2,2,3,3,1,1,1,2,2,3,2,4,2,4,1,1,4,1,3,2,2,3,4,1,
+                  1,3,2,3,3,4,1,3,4,1,2,4)
+suppressMessages(attach.all(data))
+
+## Regression & plot
+regress.year <- function (yr) {
+    this.year <- data[nes.year==yr,]
+    lm.0 <- lm (partyid7 ~ real_ideo + race.adj + factor(age.discrete) + educ1 + gender + income,
+                data=this.year)
+    coefs <- summary(lm.0)$coef[,1:2]
+}
+
+summary <- array (NA, c(9,2,8))
+for (yr in seq(1972,2000,4)){
+    i <- (yr-1968)/4
+    summary[,,i] <- regress.year(yr)
+}
+yrs <- seq(1972,2000,4)
+
+coef.names <- c("Intercept", "Ideology", "Black", "Age.30.44", "Age.45.64", "Age.65.up", 
+                "Education", "Female", "Income")
+
+par (mfrow=c(2,5), mar=c(3,4,2,0))
+for (k in 1:9){
+    plot (range(yrs), range(0,summary[k,1,]+.67*summary[k,2,],summary[k,1,]-.67*summary[k,2,]), 
+          type="n", xlab="year", ylab="Coefficient", main=coef.names[k], mgp=c(1.2,.2,0), cex.main=1,
+          cex.axis=1, cex.lab=1, tcl=-.1)
+    abline (0,0,lwd=.5, lty=2)
+    points (yrs, summary[k,1,], pch=20, cex=.5)
+    segments (yrs, summary[k,1,]-.67*summary[k,2,], yrs, summary[k,1,]+.67*summary[k,2,], lwd=.5)
+}
+```
+
+## Ch. 7 Simulation of probability models and statistical inferences
+
+Let's complicate the model. Let's further assume there is a 1/125 chance that a birth results in fraternal twins and of which there is an approximate 49.5% chance of the twin being a girl, and a 1/300 chance of identical twins, which have an approximate 49.5% chance of being girls. We simulate 400 births as follows:
+
+```{r ch7twins}
+
+## Accounting for twins
+birth.type <- sample (c("fraternal twin", "identical twin", "single birth"),
+                      size=400, replace=TRUE, prob=c(1/25, 1/300, 1 - 1/25 - 1/300))
+girls <- rep (NA, 400)
+for (i in 1:400){
+    if (birth.type[i]=="single birth"){
+        girls[i] <- rbinom (1, 1, .488)}
+    else if (birth.type[i]=="identical twin"){
+            girls[i] <- 2*rbinom (1, 1, .495)}
+    else if (birth.type[i]=="fraternal twin"){
+                girls[i] <- rbinom (1, 2, .495)}
+}
+n.girls <- sum (girls)
+print(n.girls)
+```
+
+```{r ch7twinsb}
+## putting in a loop
+
+n.sims <- 1000
+n.girls <- rep (NA, n.sims)
+for (s in 1:n.sims){
+    birth.type <- sample (c("fraternal twin", "identical twin", "single birth"),
+                          size=400, replace=TRUE, prob=c(1/25, 1/300, 1 - 1/25 - 1/300))
+    girls <- rep (NA, 400)
+    for (i in 1:400){
+        if (birth.type[i]=="single birth"){
+            girls[i] <- rbinom (1, 1, .488)}
+        else if (birth.type[i]=="identical twin"){
+                girls[i] <- 2*rbinom (1, 1, .495)}
+        else if (birth.type[i]=="fraternal twin"){
+                    girls[i] <- rbinom (1, 2, .495)}
+    }
+    n.girls[s] <- sum (girls)
+}
+
+par(mfrow = c(1,1))
+hist(n.girls)
+mean(n.girls); sd(n.girls)
+
+## or more compactly
+## girls <- ifelse (birth.type=="single birth", rbinom (400, 1, .488),
+##                  ifelse (birth.type=="identical twin", 2*rbinom (400, 1, .495),
+##                         rbinom (400, 2, .495)))
+```
+
+### 7.1 Simulation of probability models
+
+#### An example of continuous predictive simulations
+
+Now let's practice simulating continuous random variables. Suppose 52% of adults in the US are women and 48% are men. The heights of the men are approximately normally distributed with mean 69.1 incheds and standard deviation of 2.9 inches; women with a mean of 63.7 in. and sd 2.7 in. Let's simulate selecting 10 adults at random. What can we say about their average height?
+
+```{r sect71}
+woman <- rbinom (10, 1, .52)
+height <- ifelse (woman==0, rnorm (10, 69.1, 2.9), rnorm (10, 64.5, 2.7))
+avg.height <- mean (height)
+print(avg.height)
+```
+
+To simulate the distribution of average heights:
+
+```{r sect71b}
+## simulation & Figure 7.1
+n.sims <- 1000
+avg.height <- rep (NA, n.sims)
+for (s in 1:n.sims){
+  sex <- rbinom (10, 1, .52)
+  height <- ifelse (sex==0, rnorm (10, 69.1, 2.9), rnorm (10, 64.5, 2.7))
+  avg.height[s] <- mean (height)
+}
+hist (avg.height, main="Average height of 10 adults") 
+```
+
+What about the maximum height?
+
+```{r sect71c}
+## simulation for the maximum height
+
+n.sims <- 1000
+max.height <- rep (NA, n.sims)
+for (s in 1:n.sims){
+  sex <- rbinom (10, 1, .52)
+  height <- ifelse (sex==0, rnorm (10, 69.1, 2.9), rnorm (10, 64.5, 2.7))
+  max.height[s] <- max (height)
+}
+hist (max.height, main="Maximum height of 10 adults")
+```
+
+To simulate using custom-made functions
+
+```{r sect71d}
+Height.sim <- function (n.adults){
+  sex <- rbinom (n.adults, 1, .52)
+  height <- ifelse (sex==0, rnorm (10, 69.1, 2.9), rnorm (10, 64.5, 2.7))
+  return (mean(height))
+}
+
+avg.height <- replicate (1000, Height.sim (n.adults=10))
+hist (avg.height, main="Average height of 10 adults")
+```
+
+### 7.2 Summarizing linear regression using simulation: an informal Bayesian approach
+
+In a regression setting, we can use simulation to capture both predictive uncertainty and inferential (estimation) uncertainty.We first discuss the simplest case of simulating prediction errors, then consider inferential uncertainty and the **combination of both sources**.
+
+#### Simulation to represent predictive uncertainty
+
+We return to the `heights.dta` data and illustrate predictive uncertainty by considering the earnings of 68-inch-tall US male.
+
+```{r sect72, include = FALSE}
+## make sure to download the data first and specify your path
+## read import the data
+heights <- read.dta ("data/heights.dta")
+suppressMessages(attach.all (heights))
+
+## recode sex variable
+male <- 2 - sex
+
+## (for simplicity) remove cases with missing data
+
+ok <- !is.na (earn+height+sex) & earn>0
+heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
+n <- nrow (heights.clean)
+suppressMessages(attach.all (heights.clean))
+height.jitter.add <- runif (n, -.2, .2)
+
+## Model of log earnings with interactions
+
+earn.logmodel.3 <- lm (log.earn ~ height + male + height:male)
+display (earn.logmodel.3)
+```
+
+```{r sect72b}
+x.new <- data.frame (height=68, male=1)
+pred.interval <- predict (earn.logmodel.3, x.new, interval="prediction", 
+                          level=.95)
+print (exp (pred.interval))
+```
+
+```{r sect72c}
+
+## Constructing the predictive interval using simulation
+
+pred <- exp (rnorm (1000, 9.95, .88))
+pred.original.scale <- rnorm (1000, 9.95, .88)
+
+## Histograms (Figure 7.2)
+
+par (mfrow=c(1,2))
+hist (pred.original.scale, xlab="log(earnings)", main="")
+hist (pred, xlab="earnings", main="")
+```
+
+#### Why do we need simulation for predictive inferences?
+
+```{r sect72d}
+
+pred.man <- exp (rnorm (1000, 8.4 + 0.17*68 - 0.079*1 + .007*68*1, .88))
+pred.woman <- exp (rnorm (1000, 8.4 + 0.17*68 - 0.079*0 + .007*68*0, .88))
+pred.diff <- pred.man - pred.woman
+pred.ratio <- pred.man/pred.woman
+```
+
+#### Simulation to represent uncertainty in regression coefficients
+
+```{r 72e}
+n.sims <- 1000
+fit.1<- lm (log.earn ~ height + male + height:male)
+sim.1 <- sim (fit.1, n.sims)
+
+height.coef <- sim.1@coef[,2]
+mean (height.coef)
+sd (height.coef)
+quantile (height.coef, c(.025, .975))
+
+height.for.men.coef <- sim.1@coef[,2] + sim.1@coef[,4]
+quantile (height.for.men.coef, c(.025, .975))
+
+## Inside the sim function
+## I admit the details to focus on the concept
+## Note the use of multivariate normal
+##for (s in 1: n.sims){
+##  sigma[s] <- sigma.hat*sqrt((n-k)/rchisq (1, n-k))
+##  beta[s] <- mvrnorm (1, beta.hat, V.beta*sigma[s]^2)
+##}
+##return (list (coef=beta, sigma=sigma))
+```
+
+### 7.3 Simulation for nonlinear predictions: congressional elections
+
+#### Background and data issues
+
+```{r sect73}
+## Data are at http://www.stat.columbia.edu/~gelman/arm/examples/cong3
+
+congress <- vector ("list", 49)
+for (i in 1:49){
+    year <- 1896 + 2*(i-1)
+    file <- paste ("data/cong3/", year, ".asc", sep="")
+    data.year <- matrix (scan (file, quiet = T), byrow=TRUE, ncol=5)
+    data.year <- cbind (rep(year, nrow(data.year)), data.year)
+    congress[[i]] <- data.year
+}
+
+## Note: download all ".asc" files into your R working directory in a file
+## named cong3 for the above command to work
+
+i86 <- (1986-1896)/2 + 1
+cong86 <- congress[[i86]]
+cong88 <- congress[[i86+1]]
+cong90 <- congress[[i86+2]]
+
+v86 <- cong86[,5]/(cong86[,5]+cong86[,6])
+bad86 <- cong86[,5]==-9 | cong86[,6]==-9
+v86[bad86] <- NA
+contested86 <- v86>.1 & v86<.9
+inc86 <- cong86[,4]
+
+v88 <- cong88[,5]/(cong88[,5]+cong88[,6])
+bad88 <- cong88[,5]==-9 | cong88[,6]==-9
+v88[bad88] <- NA
+contested88 <- v88>.1 & v88<.9
+inc88 <- cong88[,4]
+
+v90 <- cong90[,5]/(cong90[,5]+cong90[,6])
+bad90 <- cong90[,5]==-9 | cong90[,6]==-9
+v90[bad90] <- NA
+contested90 <- v90>.1 & v90<.9
+inc90 <- cong90[,4]
+
+jitt <- function (x,delta) {x + runif(length(x), -delta, delta)}
+
+## Plot Figure 7.3
+
+v88.hist <- ifelse (v88<.1, .0001, ifelse (v88>.9, .9999, v88))
+hist (v88.hist, breaks=seq(0,1,.05),
+      xlab="Democratic share of the two-party vote", ylab="", yaxt="n",
+      cex.axis=1.1, cex.lab=1.1, cex.main=1.2, 
+      main="Congressional elections in 1988")
+```
+
+#### Fitting the model
+
+```{r 73b}
+v86.adjusted <- ifelse (v86<.1, .25, ifelse (v86>.9, .75, v86))
+vote.86 <- v86.adjusted[contested88]
+incumbency.88 <- inc88[contested88]
+vote.88 <- v88[contested88]
+
+fit.88 <- lm (vote.88 ~ vote.86 + incumbency.88)
+display (fit.88)
+
+## Figure 7.4
+
+## 7.4 (a)
+
+par (mfrow=c(1,1))
+par (pty="s", mar=c(5,5,4,1)+.1)
+plot (0, 0, xlim=c(0,1), ylim=c(0,1), type="n",
+      xlab="Democratic vote share in 1986", ylab="Democratic vote share in 1988",
+      cex.lab=1)
+abline (0,1, lwd=.5)
+j.v86 <- ifelse (contested86, v86, jitt (v86, .02))
+j.v88 <- ifelse (contested88, v88, jitt (v88, .02))
+points (j.v86[inc88==0], j.v88[inc88==0], pch=1)
+points (j.v86[inc88==1], j.v88[inc88==1], pch=16)
+points (j.v86[inc88==-1], j.v88[inc88==-1], pch=4)
+mtext ("Raw data (jittered at 0 and 1)", line=1, cex=1.2)
+
+## 7.4 (b)
+
+par (pty="s", mar=c(5,5,4,1)+.1)
+plot (0, 0, xlim=c(0,1), ylim=c(0,1), type="n",
+      xlab="Democratic vote share in 1986", ylab="Democratic vote share in 1988",
+      cex.lab=1)
+abline (0,1, lwd=.5)
+v86.adjusted <- ifelse (v86<.1, .25, ifelse (v86>.9, .75, v86))
+vote.86 <- v86.adjusted[contested88]
+vote.88 <- v88[contested88]
+incumbency.88 <- inc88[contested88]
+points (vote.86[incumbency.88==0], vote.88[incumbency.88==0], pch=1)
+points (vote.86[incumbency.88==1], vote.88[incumbency.88==1], pch=16)
+points (vote.86[incumbency.88==-1], vote.88[incumbency.88==-1], pch=4)
+mtext ("Adjusted data (imputing 0's and 1's to .75)", line=1, cex=1.2)
+```
+
+#### Simulation for inferences and predictions of new data points
+
+```{r 73c}
+incumbency.90 <- inc90
+vote.88 <- v88
+n.tilde <- length (vote.88)
+X.tilde <- cbind (rep (1, n.tilde), vote.88, incumbency.90)
+
+n.sims <- 1000
+sim.88 <- sim (fit.88, n.sims)
+y.tilde <- array (NA, c(n.sims, n.tilde))
+for (s in 1:n.sims){
+    pred <- X.tilde %*% sim.88@coef[s,]
+    ok <- !is.na(pred)
+    y.tilde[s,ok] <- rnorm (sum(ok), pred[ok], sim.88@sigma[s])
+}
+
+## Predictive simulation for a nonlinear function of new data
+
+y.tilde.new <- ifelse (y.tilde=="NaN", 0, y.tilde)
+dems.tilde <- rowSums (y.tilde.new > .5)
+
+## or
+dems.tilde <- rep (NA, n.sims)
+for (s in 1:n.sims){
+    dems.tilde[s] <- sum (y.tilde.new[s,] > .5)
+}
+```
+
+#### Implementation using functions
+
+```{r 74d}
+Pred.88 <- function (X.pred, lm.fit){
+    sim.88 <- sim (lm.fit, 1)
+    pred <- X.tilde %*% t(sim.88@coef)
+    ok <- !is.na(pred)
+    n.pred <- length (pred)
+    y.pred <- rep (NA, n.pred)
+    y.pred[ok] <- rnorm (sum(ok), pred[ok], sim.88@sigma)
+    return (y.pred)
+}
+
+y.tilde <- replicate (1000, Pred.88 (X.tilde, fit.88))
+dems.tilde <- replicate (1000, Pred.88 (X.tilde, fit.88) > .5)
+```
+
+## Closing
+
+- What was an important point about the lesson?
+- How will this lesson change your approach to regression modeling?
+
+
+
+

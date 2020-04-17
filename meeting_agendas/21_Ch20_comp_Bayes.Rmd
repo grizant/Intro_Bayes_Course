@@ -1,0 +1,220 @@
+---
+title: "Computational Bayesian Statistics (Ch.20)"
+author: "AG Schissler"
+date: "04/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## How to do Bayesian statistics when you can't easily derive or numerically approximate the posterior?
+
+### Start-of-class work
+
+#### Visual Intro to MCMC
+
+First let's see some visualizations of sampling the posterior using different approaches:
+
+[mcmc demo](https://chi-feng.github.io/mcmc-demo/)
+
+####  Sampling the posterior
+
+Discuss Example 20.1. Similar to HW 10 #1.
+
+#### Starting Unit 4: Computational Bayesian Methods and Advanced Regression
+
+I'll make lecture notes Bolstad & Curran and  
+
+[Data Analysis Using Regression and Multilevel/Hierarchical Models (Gelman and Hill 2007)](https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X)
+
+and  
+
+[Statistical Computing with R (Rizzo 2006)](https://www.amazon.com/Statistical-Computing-Chapman-Hall-CRC/dp/1584885459)
+
+possibly other sources.
+
+## Ch. 20 intro. Bayesian Statistics: Easy in Theory, Difficult in Practice
+
+Discussion of text material.
+
+## Section 20.1.Direct methods for sampling the posterior
+
+Discussion of text material. 
+
+### Inverse probability sampling
+
+Discuss text and Figure 20.2, Example 20.2.
+
+Classroom exercise:
+A random variable $y$ is called exponential with **rate** $\lambda$ if it has cdf $F(y)= \lambda e^{- \lambda y}$ for $y \geq 0$ and $\lambda>0$. Let $y \sim exp(\lambda=2$). Use inverse probability sampling to create a random sample of size 10,000 from this exponential distribution. Reproduce Figure 20.3 to visualize your sample.
+
+[A list of the distributions in the `stats` package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html)
+
+```{r section202}
+## our work goes here
+my_uniform_sample <- runif(n = 1e3)
+## qplot(my_uniform_sample)
+my_exp_sample <- qexp(p = my_uniform_sample, rate = 2)
+qplot(my_exp_sample)
+
+.
+```
+
+### An example of inverse probability sampling and computing
+
+Xiang Li, A. Grant Schissler, Rui Wu, Lee Barford, and Frederick C. Harris, Jr.
+A graphical processing unit accelerated NORmal To Anything algorithm for high dimensional multivariate simulation
+*Advances in Intelligent Systems and Computing*, Volume 800, Chapter 46, pp 339-346. 
+*Proceedings of the 16th International Conference on Information Technology : New Generations (ITNG 2019)* April 1-3, Las Vegas, NV.
+
+### Acceptance–Rejection Sampling
+
+Discuss the algorithm and example.
+
+### Adaptive–Rejection Sampling
+
+I'll briefly mention the point of the section and move on.
+
+## Section 20.2 Sampling Importance Resampling 
+
+### Importance sampling
+
+Discuss text examples and figures.
+
+```{r fig2010, fig.cap = "Our version of Figure 20.10"}
+## Here I'll provide some code to reproduce Figure 20.10
+
+
+```
+
+## Section 20.3. Markov Chain Monte Carlo (MCMC) Methods
+
+### The Metropolis-Hastings Algorithm (1970)
+
+From Rizzo 2006,
+
+The *Metropolis-Hastings sampler* generates a Markov chain $\{X_0, X_1, \ldots \}$ as follows:
+
+1. Choose a proposal distribution $g(\cdot | X_t)$, subject to regularity conditions discussed below.  
+2. Generate $X_0$ from distribution $g$.  
+3. Repeat (until chain has convergened to a stationary distribution):  
+	(a) Generate $Y$ from $g(\cdot | X_t)$.  
+	(b) Generate $U$ from Uniform(0,1).
+	(c) If  
+	$$
+	U \leq \frac{f(Y)g(X_t|Y)}{f(X_t)g(Y|X_t)}
+	$$
+accept $Y$ and set $X_{t+1} = Y$; otherwise set $X_{t+1} = X_t$.  
+	(d) Increment $t$.
+
+Observe that in step (3c) the candidate point $Y$ is accepted with probability
+	$$
+	\alpha (X_t, Y) = min \left( 1, \frac{f(Y)g(X_t|Y)}{f(X_t)g(Y|X_t)} \right),
+	$$
+
+So it is only necessary to know the density of the target distribution $f$ up to a constant!
+
+The algorithm is designed so that the stationary distribution of the chain is $f$.
+
+The proposal distribution must be chosen so that the generated chain will converge to a stationary distribution --- the target distribution. A proposal distribution with the same support as the target distribution will generally satisify regularity conditions (irreducibility, positive recurrence, and aperiodicity) to guarantee convergence.
+
+### The Metropolis Sampler (1953)
+
+Note that Metropolis-Hastings is a generalized of the slightly older Metropolis algorithm.
+
+In the Metropolis algorithm, proposal distribution $g$ must be symmetric. I.e., $g(X|Y)=g(Y|X)$.
+
+Then the acceptance ratio
+
+$$
+ r(X_t, Y) = \frac{f(Y)g(X_t|Y)}{f(X_t)g(Y|X_t)}
+$$
+	
+simplies to 
+
+$$
+ r(X_t, Y) = \frac{f(Y)}{f(X_t)}.
+$$
+
+This generalization provides greater efficiency (more rapid convergence to the stationary distribution) in certain cases.
+
+### Example from Rizzo 2006, the Rayleigh distribution
+
+Let's use the M-H algorithm to generate a sample from the Rayleigh distribution. The Rayleigh distribution has density  
+
+$f(x) = \frac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}, x \geq 0, \sigma > 0$  
+
+The Rayleigh distribution is used to model lifetimes subject to rapid aging. The mode is $\sigma$, $E[X] = \sigma \sqrt{\pi / 2}$ and $Var(X) = \sigma^2 (4-\pi) /2$.
+
+For the proposal distribution, try the chi-squared distribution with degrees of freedom of $X_t$.
+
+In R,
+
+```{r}
+## define Rayleigh density
+f <- function(x, sigma) {
+    if (any(x < 0)) return(0)
+    stopifnot(sigma > 0)
+    return((x / sigma^2) * exp(-x^2 / (2*sigma^2)))
+}
+
+## construct the chain
+m <- 10000
+sigma <- 4
+x <- numeric(m)
+x[1] <- rchisq(1, df = 1)
+k <- 0 ## rejections to investigate efficiency
+u <- runif(m) ## acceptance probabilities
+
+for (i in 2:m) {
+    xt <- x[i-1]
+    y <- rchisq(1, df = xt)
+    num <- f(y, sigma) * dchisq(xt, df = y)
+    den <- f(xt, sigma) * dchisq(y, df = xt)
+    if (u[i] <= num/den) {
+        x[i] <- y 
+    } else {
+        ## y is rejected
+        x[i] <- xt
+        k <- k + 1
+    }
+}
+
+print(k) / m
+```
+
+```{r}
+## go past burn-in and thin
+index <- seq(3000, 10000, by = 10)
+y1 <- x[index]
+plot(1:length(x), x, type = "l", main = "Leaving burn-in and not thinning", ylab = "x")
+plot(index, y1, type = "l", main = "Remove burn-in and thin", ylab = "x")
+```
+
+Check the expected value.
+
+```{r}
+## expected value
+mean(y1)
+mean(x)
+## in theory
+sigma * sqrt(pi /2)
+```
+
+### Gibbs Sampling
+
+- Discuss big ideas of Gibbs Sampling and why it is important.  
+- We'll see Gibbs later in this final Unit.
+
+## Closing
+
+3-2-1:
+
+3 Techniques learned today  
+2 New ideas you encountered   
+1 Question you have  
+
+

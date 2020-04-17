@@ -103,6 +103,8 @@ example(bayes.lm)
 
 Let me give some hints to begin.
 
+[Matrix algebra in R](https://www.statmethods.net/advstats/matrix.html)
+
 ## Closing (5 min)
 
 - What are some issues in HW that you could use guidance on?

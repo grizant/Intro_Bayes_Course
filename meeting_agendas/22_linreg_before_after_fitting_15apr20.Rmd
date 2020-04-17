@@ -1,0 +1,186 @@
+---
+title: "Bayesian Inference for Simple Linear Regression (Ch.14), Part II"
+author: "AG Schissler"
+date: "04/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Bolstad)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+## How well does the first midterm score predict the third midterm score? (5 - 10 min)
+
+```{r}
+### load scrambled midterm one and midterm three scores
+reg_data <- readRDS("data/exam_reg_data.rds")
+
+## visualize relationship
+p0 <- ggplot(data = reg_data, mapping =  aes(x = MidtermOne, y = MidtermTwo))
+p1 <- p0 + geom_point(alpha = 0.5, size = 5)
+p1
+
+### explore numerically
+(x_bar <- mean(reg_data$MidtermOne))
+(y_bar <- mean(reg_data$MidtermTwo))
+xy_bar <- mean(reg_data$MidtermOne * reg_data$MidtermTwo)
+x2_bar <- mean(reg_data$MidtermOne^2)
+x_bar2 <- mean(reg_data$MidtermOne)^2
+```
+### Compute the least squares estimates of $\alpha_0, \beta$ and $\alpha_{\overline{x}}$.
+
+for the equations, $\mu_{y|x} = \alpha_0 + \beta x$ or, equivalently, $\mu_{y|x} = \alpha_{\overline{x}} + \beta \left( x - \overline{x} \right)$.
+
+### Now let's compute the variance estimator
+
+$\hat{\sigma^2} = \frac{\sum_{i=1}^n (y_i - \hat{y_i})^2}{n-2}$.
+
+```{r}
+compute_simple_ls <- function(x, y) {
+    B <- ( mean(x*y) - mean(x) * mean(y) ) / ( mean(x^2) - mean(x)^2  )
+    A0 <- mean(y) - B * mean(x)
+    return( list(A0 = A0, B = B) )
+}
+
+my_ls_soln <- compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermTwo)
+
+## Development values
+## x <- reg_data$MidtermOne
+## y <- reg_data$MidtermTwo
+
+compute_sigma_hat <- function(x, y){
+    ls_estimator <- compute_simple_ls(x = x, y = y)
+    y_hat <- ls_estimator$A0 + ls_estimator$B * x
+    ## variance estimator
+    sqrt( sum( (y - y_hat)^2 ) / ( length(x) - 2 ) )
+}
+
+compute_sigma_hat(x = reg_data$MidtermOne, y = reg_data$MidtermTwo)
+
+summary(lm(MidtermTwo ~ MidtermOne, data = reg_data))
+
+ssx <- sum( (reg_data$MidtermOne - mean(reg_data$MidtermOne))^2 )
+
+```
+
+## I. Prior specification in Bayes Theorem for the regression model (14.4 part II; 20 - 25 min)
+
+### Joint prior for $\beta$ and $\alpha_{\overline{x}}$
+
+$g(\alpha_{\overline{x}}, \beta) = g(\alpha_{\overline{x}}) \times g(\beta)$. 
+
+This assumes independence (not required, but it is reasonable). To get simple updating rules for the posterior, choose either a flat prior (which is also Jeffrey's prior in the normal model) or a normal prior for each parameter.
+
+### The role of standardization in prior specification
+
+MOVE THIS TO LATER LECTURE
+
+- Often enhances interpretation
+- Improves fit
+- Reduces standard errors if original scale is larger
+
+```{r}
+reg_data$z1 <- ( reg_data$MidtermOne - mean(reg_data$MidtermOne) ) / sd(reg_data$MidtermOne)
+mean(reg_data$z1); sd (reg_data$z1)
+## or use the built-in scale() fn
+reg_data$z2 <-  scale( reg_data$MidtermTwo)
+mean(reg_data$z2); sd (reg_data$z2)
+## original scale
+summary(lm(formula = MidtermTwo ~ MidtermOne, data = reg_data))
+## standardized
+summary(lm(formula = z2 ~ z1, data = reg_data))
+
+```
+
+### Community of priors
+
+Let's form a *community of priors* for this regression problem.
+
+1. Moderate Skeptical view
+2. Highly Skeptical view
+3. Moderate Optimistic view
+4. Highly Optimistic view
+5. Reference (aka "flat")
+6. Weakly informative (aka weakly skeptical)
+
+Use the guidelines in Bolstad for normal priors...
+
+## II. The joint posterior for $\beta$ and $\alpha_{\overline{x}}$ (14.5; 15 - 20 min)
+
+### Walk through Section 14.4 
+
+### Updating rules under a normal prior
+
+See text equations 14.7, 14.8 and two equations below.
+
+### Example 14.2
+
+Discuss.
+
+### Please find the posterior under your prior from earlier
+
+Assume unknown variance.
+
+Then we'll combine into and explore...
+
+```{r}
+
+bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+
+## skeptical prior
+mb0 <- 0
+sb0 <- (1/10)
+ma0 <- 80
+sa0 <- 3
+
+bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "normal", intcpt.prior = "normal", mb0=mb0, sb0=sb0, ma0=ma0, sa0=sa0, plot.data = TRUE)
+
+## WIP prior
+mb0 <- 0
+sb0 <- 3
+ma0 <- 80
+sa0 <- 10
+
+bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "normal", intcpt.prior = "normal", mb0=mb0, sb0=sb0, ma0=ma0, sa0=sa0, plot.data = TRUE)
+
+```
+
+## III. Credible intervals and hypothesis testing (14.5; 10 - 15 min)
+
+### Bayesian credible interval around the slope
+
+Just normal model here. Please find a 95% credible interval under your priors with unknown variance.
+
+### Frequentist credible interval around the slopee
+
+$\hat{\beta} \pm t_{\alpha/2,df=n-2} \frac{\hat{\sigma}}{\sqrt{SS_x}}$.
+
+### Testing One-sided hypothesis about slope
+
+Please test whether the slope is larger than 0.
+
+### Testing Two-sided hypothesis about slope
+
+Please test whether the slope is different from 0.
+
+## IV. Predictive ditribution for the regression model (14.5; 10 - 15 min)
+
+### Finding the predictive distribution
+
+Discuss the derivation.
+
+### predictive distribution parameters
+
+Please find the predictive distribution under your prior and unknown variance.
+
+1. Find the predictive density when a student scores a 70 on the first exam.
+
+2. Find a 95% prediction interval
+
+## Closing (5 min)
+
+- Enter into the chat your own answer to the guiding question, "How well does Midterm One scores predict Midterm Two?"
+- Share.

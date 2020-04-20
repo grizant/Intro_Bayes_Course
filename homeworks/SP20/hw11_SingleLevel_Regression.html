@@ -402,19 +402,19 @@ set.seed(04242020)</code></pre>
 <pre class="r"><code>## remove eval=FALSE to import the data
 foreign::read.dta(&quot;data/child.iq.dta&quot;)</code></pre>
 <ol style="list-style-type: lower-alpha">
-<li><p>Fit a regression of child test scores on mother’s age, display the data and fitted model, check assumptions, and interpret the slop coefficient. When do you recommend mothers should give birth? What are you assuming in making thees recommendations?</p></li>
+<li><p>Fit a regression of child test scores on mother’s age, display the data and fitted model, check assumptions, and interpret the slope coefficient. When do you recommend mothers should give birth? What are you assuming in making thees recommendations?</p></li>
 <li><p>Repeat this for a regression that further includes mother’s education, interpreting both slope coefficients in this model. Have your conclusions about the timing of birth changed?</p></li>
-<li><p>Now create an indicator variable reflecting whether the mother has completed high school or not. Consider interactions between the high school completion and mother’s age in family. Also, create a plot that shows the separate regression liens for each high school completion status group.</p></li>
+<li><p>Now create an indicator variable <code>hs</code> reflecting whether the mother has completed high school or not, assuming that <code>educ_cat</code> = 1 indicates <em>did not complete High School</em>, so that <code>hs</code> = 1 if <code>educ_cat</code> &gt; 1. Consider interactions between the high school completion and mother’s age in family. Also, create a plot that shows the separate regression lines for each high school completion status group.</p></li>
 <li><p>Finally, fit a regression of child test scores on mother’s age and education level for the first 200 children and use this model to predict test scores for the next 200. Graphically display comparisons of the predicted and actual scores for the final 200 children.</p></li>
 </ol>
 </div>
-<div id="question-3-earnings-data" class="section level2">
-<h2>Question 3: <code>earnings</code> data</h2>
+<div id="question-3-heights-data" class="section level2">
+<h2>Question 3: <code>heights</code> data</h2>
 <p>The <code>heights.dta</code> Stata dataset contains information from the Work, Family, and Well-Being Survey (Ross, 1990). Pull out the data on earnings, sex, height, and weight.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>In R, check the dataset and clean any unusually coded data.</p></li>
+<li><p>In R, check the dataset and clean any unusually coded data (hint: see <code>23_SingleLevel_Reg2_SimModelsInf_20apr2020.Rmd</code> for code related to this).</p></li>
 <li><p>Fit a linear regression model predicting earnings from height. What transformation should you perform in order to interpret the intercept from this model as average earnings for people with average height?</p></li>
-<li><p>Fit some regression models with the goal of predicting earnings from some combination of sex, height, and weight. Be sure to try various transformations and interactions that make sense. Choose your preferred model and justify.</p></li>
+<li><p>Fit some regression models with the goal of predicting earnings from some combination of sex, height, and year born. Be sure to try various transformations and interactions that make sense. Choose your preferred model and justify.</p></li>
 <li><p>Interpret all coefficients from your preferred model.</p></li>
 </ol>
 </div>

@@ -38,19 +38,19 @@ a) Fit a regression of child test scores on mother's age, display the data and f
 
 b) Repeat this for a regression that further includes mother's education, interpreting both slope coefficients in this model. Have your conclusions about the timing of birth changed?
 
-c) Now create an indicator variable reflecting whether the mother has completed high school or not. Consider interactions between the high school completion and mother's age in family. Also, create a plot that shows the separate regression liens for each high school completion status group.
+c) Now create an indicator variable `hs` reflecting whether the mother has completed high school or not, assuming that `educ_cat` = 1 indicates *did not complete High School*, so that `hs` = 1 if `educ_cat` > 1. Consider interactions between the high school completion and mother's age in family. Also, create a plot that shows the separate regression lines for each high school completion status group.
 
 d) Finally, fit a regression of child test scores on mother's age and education level for the first 200 children and use this model to predict test scores for the next 200. Graphically display comparisons of the predicted and actual scores for the final 200 children.
 
-## Question 3: `earnings` data
+## Question 3: `heights` data
 
 The `heights.dta` Stata dataset contains information from the Work, Family, and Well-Being Survey (Ross, 1990). Pull out the data on earnings, sex, height, and weight.
 
-a) In R, check the dataset and clean any unusually coded data.
+a) In R, check the dataset and clean any unusually coded data (hint: see `23_SingleLevel_Reg2_SimModelsInf_20apr2020.Rmd` for code related to this).
 
 b) Fit a linear regression model predicting earnings from height. What transformation should you perform in order to interpret the intercept from this model as average earnings for people with average height?
 
-c) Fit some regression models with the goal of predicting earnings from some combination of sex, height, and weight. Be sure to try various transformations and interactions that make sense. Choose your preferred model and justify.
+c) Fit some regression models with the goal of predicting earnings from some combination of sex, height, and year born. Be sure to try various transformations and interactions that make sense. Choose your preferred model and justify.
 
 d) Interpret all coefficients from your preferred model.
 

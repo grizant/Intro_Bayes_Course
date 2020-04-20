@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
 library(ggplot2)
 library(arm)
 library(R2OpenBUGS)
@@ -15,7 +16,7 @@ library(foreign)
 
 ## Start of class work: Simulation
 
-Design a simulation to answer the question *how many girls in 400 births*? Assume the probability that a baby is a girl or boy is 48.8% and 51.2%, respectively. Suppose that 400 babies are born in a hosiptal in a given year. How many will be girs?
+Design a simulation to answer the question: *how many girls in 400 births*? Assume the probability that a baby is a girl or boy is 48.8% and 51.2%, respectively. Suppose that 400 babies are born in a hosiptal in a given year. How many will be girs?
 
 Now extend your simulation to get a sense of the *distribution* of what could happen. The aim of this experiment is to capture (quantify) the *uncertainty*.
 
@@ -47,9 +48,36 @@ I recommend you install the Applied Regression Modeling R package: `arm`. It has
 
 The examples below frequently attach objects to the `R` global environment and to the `R2BUGS` search path. This works okay in isolation, but can be dangerous when objects have the same name and other scoping issues. I recommend to keep data in a data structure (`data.frame`, `matrix`, etc). And reference that object (instead of extracting vectors to use separate). It keeps things tidy and is safer. Also `R2BUGS`interactively requests confirmation for `attach.all` which is a pain when knitting your `rmarkdown`. Also many values are *hardcoded* instead of done in a dynamic way. Moreover, it is more natural in `R` to write functions for repeated tasks and avoid loops (and use the `apply` family of functions). Please keep that in mind as you reuse the code in your assignments and projects (and future work).
 
+## Regression diagnostics
+
+Try the `lindia` package
+
+```{r lindia, eval=FALSE}
+## install.packages("lindia")
+library(lindia)
+library(MASS)
+data(Cars93)
+# a regression with categorical variable
+cars_lm <- lm(Price ~ Passengers + Length + RPM + Origin, data = Cars93)
+gg_diagnose(cars_lm)
+# customize which diagnostic plot is included
+plots <- gg_diagnose(cars_lm, plot.all = FALSE)
+names(plots)     # get name of the plots
+exclude_plots <- plots[-c(1, 3) ]    #exclude certain diagnostics plots
+include_plots <- plots[c(1, 3)]      # include certain diagnostics plots
+plot_all(exclude_plots)              # make use of plot_all() in lindia
+plot_all(include_plots)
+```
+
 ## Ch.4 Linear regression: before and after fitting the model
 
+It is not always appropriate to fit a classical (single-level) linear regression model using data in their raw form. As we discuss in Section 4.1 and 4.4, linear and logarithmic transformations can sometimes help the interpretation of the model. Nonlinear transformations of the data are sometimes necessary to more closely satisfy additivity and linearity assumptions, which in turn should improve the fit and predictive power of the model. Section s4.5 presents some other univariate transformations that are occasionally useful.
+
 ### 4.1 Linear transformations
+
+Linear transformations **do not affect** the fit of a classical regression model, and they do not affect predictions: the changes in the inputs and the coefficients cancel in forming the predicted value $X \beta$. However, well-chosen linear transformations can improve interoperability of coefficients and make a fitted model easier to understand. And they may improve the **accuracy** of your estimation which increases statistical power when testing coefficients.
+
+#### Untransformed (raw) data
 
 ```{r sect41}
 ## make sure to download the data first and specify your path
@@ -92,72 +120,119 @@ for (i in 1:20){
 curve (beta.hat[1] + beta.hat[2]*x, add=TRUE, col="red")
 ```
 
+#### Scaling of predictors and regression coefficients
+
+Ignoring the adequacy of fit for now, we interpret the slope coefficient as an exected $1300 increase for an inch difference in height. This seems like a lot, but a minimeter scale we get for the same data a $51 increase. Or on the mile-scale, a $81,000,000 increase. This creates problems interpreting and can make models very misleading. 
+
+We need some sense of variation to interpret data on a comparable scale. One option is to *standardize* by scaling the heights by their sample standard deviation 3.8:
+
+```{r sect41b}
+heights.clean$height2 <- heights.clean$height / sd(heights.clean$height)
+lm.earn <- lm(earn ~ height2, data = heights.clean)
+display(lm.earn)
+```
+
+Now for each standard deviation increase in height (about 4 inches), we expect around $4900 increase in earnings.
+
+#### Standardization by z-scores
+
+One can go a bit further and also **center** the data by substracting the sample mean prior to scaling by sd.
+
+
+```{r sect41c}
+heights.clean$heightZ <- ( heights.clean$height - mean(heights.clean$height) ) / sd(heights.clean$height)
+## or use scale()
+mean(heights.clean$heightZ); sd(heights.clean$heightZ)
+lm.earn <- lm(earn ~ heightZ, data = heights.clean)
+display(lm.earn)
+```
+
+Now we have the same interpretation as before except the intercept now corresponds to the average $y$ value when all predictors are at their mean values. 
+
+#### Scaling using reasonable scales
+
+You can scale by any reasonable quantity to aid in interpretation.
+
 ### 4.2 Centering and standardizing, especially for models with interactions
+
+We now explore centering/standardizing in a regression predicting a child's IQ from maternal characteristics.
+
+### original model
 
 ```{r sect42}
 kidiq <- read.dta("data/kidiq.dta")
 suppressMessages(attach(kidiq))
 
 ## Estimations
-
-## original model
 fit.4 <- lm (kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq)
 display(fit.4)
+```
 
-## centering by subtracting the mean
+Interpreting these coefficients is difficult. Does the 51.3 mean that mother's who complete HS do, on average, 51.3 points better? No! The model includes an interaction, and 51.3 is the predicted difference for kids that differ in `mom.hs`, *among* the children who mothers `mom.iq` = 0. Since no `mom.iq` is 0, this value has little meaning.
+
+#### centering by subtracting the mean
+
+```{r sect42b}
 c_mom_hs <- mom_hs - mean(mom_hs)
 c_mom_iq <- mom_iq - mean(mom_iq)
 
 fit.5 <- lm (kid_score ~ c_mom_hs + c_mom_iq + c_mom_hs:c_mom_iq)
 display(fit.5)
+```
 
-## using a conventional centering point
+The resulting regression is easier to interpret, with each main effect corresponding to a predictive difference with the other value at its **average**.
+
+#### using a conventional centering point
+
+Or we can take the midpoint of the range of predictor (see `mom_hs` below). Or a known population value (IQ of 100).
+
+```{r sect42c}
+
 c2_mom_hs <- mom_hs - 0.5
 c2_mom_iq <- mom_iq - 100
 
 fit.6 <- lm (kid_score ~ c2_mom_hs + c2_mom_iq + c2_mom_hs:c2_mom_iq)
 display(fit.6)
+```
 
-## centering by subtracting the mean & dividing by 2 sd
-z_mom_hs <- (mom_hs - mean(mom_hs))/(2*sd(mom_hs))
-z_mom_iq <- (mom_iq - mean(mom_iq))/(2*sd(mom_iq))
+#### centering by subtracting the mean & dividing by 2 sd
+
+We still have an issue that the effect of `mom_iq` seems smaller than `mom_hs`. But does this reflect the reality? 1-point increase in IQ is not very much, but switching entire categories of `mom_hs` is a big deal. A natural solution would be scale by standard deviation. Here we'll scale by 2 sd (we divide by 2 standard deviations rather than 1 to maintain coherence when considering binary variables.). Now a 1-unit change in the rescaled predictor corresponds to a change of 1 standard deviation below the mean, to 1 standard devation above.
+
+```{r sect42d}
+z_mom_hs <- (mom_hs - mean(mom_hs))/(2* sd(mom_hs))
+z_mom_iq <- (mom_iq - mean(mom_iq))/(2* sd(mom_iq))
 
 fit.7 <- lm (kid_score ~ z_mom_hs + z_mom_iq + z_mom_hs:z_mom_iq)
 display(fit.7)
 ```
 
-### 4.3 Correlation and "regression to the mean"
-
-```{r sect43}
-
-```
+We can now interpret all coefficients on a common scale (except for the intercept). In regression it is usually fine to just scale by 1 sd but just take care comparing values directly.
 
 ### 4.4 Logarithm transformations
 
+When additivity and linearity are not reasonable assumptions, a nonlinear transformation can sometimes remedy the situation. Logarithm is great choice to linearize, as multiplicative effects become additive on the log scale. And logarithmic transformations enforce positivity of the values and errors.
+
+#### Height and earning example
+
+We illustrate logarithmic regression by considering modeling predicting earnings from height.
+
+#### Direct interpretation of small coefficients on the log scale
+
 ```{r sect44}
 ## Log transformation
-## make sure to download the data first and specify your path
-heights <- read.dta ("data/heights.dta")
-suppressMessages(attach.all (heights))
-
-## recode sex variable
-male <- 2 - sex
-
-## (for simplicity) remove cases with missing data
-
-ok <- !is.na (earn+height+sex) & earn>0
-heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
-n <- nrow (heights.clean)
-suppressMessages(attach.all (heights.clean))
-height.jitter.add <- runif (n, -.2, .2)
-
+rm(male)
+suppressMessages(attach.all(heights.clean))
 
 log.earn <- log(earn)
 earn.logmodel.1 <- lm(log.earn ~ height)
 display(earn.logmodel.1)
+ ```
  
+The estimated coefficient $\beta_1 = 0.06$ implies a 1-inch difference in heights corresponds to 6% increase in earnings, since $exp(0.06) \approx 1.06$. But for larger effects this approximation is poor.
+ 
+ ```{r sect44b}
 ## Figure 4.3
-
 sim.logmodel.1 <- sim (earn.logmodel.1)
 beta.hat <- coef (earn.logmodel.1)
 
@@ -178,14 +253,12 @@ axis (2, c(0,100000,200000), c("0","100000","200000"), mgp=c(4,1.1,0))
 for (i in 1:20)
   curve (exp(sim.logmodel.1@coef[i,1] + sim.logmodel.1@coef[i,2]*x), lwd=.5, col="gray", add=TRUE)
 curve (exp(beta.hat[1] + beta.hat[2]*x), add=TRUE, col="red")
+```
 
-## Log-base-10 transformation
+6% increase seems like a lot? But what if it is just the fact that men are taller on average?
 
-log10.earn <- log10(earn)
-earn.log10model <- lm(log10.earn ~ height)
-display(earn.log10model)
-
-## Log scale regression model
+#### Log scale regression model
+```{r sect44c}
 
 earn.logmodel.2 <- lm(log.earn ~ height + male)
 display(earn.logmodel.2)
@@ -196,28 +269,36 @@ earn.logmodel.3 <- lm(log.earn ~ height + male + height:male)
 display(earn.logmodel.3)
 
 ## Linear transformations
-
 z.height <- (height - mean(height))/sd(height)
 earn.logmodel.4 <- lm(log.earn ~ z.height + male + z.height:male)
 display(earn.logmodel.4)
+```
 
-## Log-log model
+#### Log-log model
 
+```{r sect44d}
 log.height <- log(height)
 earn.logmodel.5 <- lm(log.earn ~ log.height + male)
 display(earn.logmodel.5)
 ```
 
+Now for each 1% difference in heights, we predict a 1.41% increase in earnings.
+
 ### 4.5 Other transformations
 
-```{r sect45}
-kidiq <- read.dta("data/kidiq.dta")
-suppressMessages(attach(kidiq))
+#### Square root
 
-## Fit the model
-fit <- lm (kid_score ~ as.factor(mom_work))
-display(fit)
-```
+Square root can be considered, but lacks the clean interpretation the other methods. But it is useful when the log is too severe.
+
+#### Idiosyncratic transformations
+
+Sometimes it is useful to develop tailored transformations for specific problems. For example, how to handle logarithmic transformations of variables that include 0?
+
+#### Using continuous rather than discrete
+
+I prefer to usually leave continuous values as continuous rather than binning into categories. It is more natural, can be more statistically powerful in testing coefficients, and retains the underlying information.
+
+That being said, it sometimes interesting to create categories. For example, bin US ages into generations. This may better reflect cultural differences than an average prediction for 1 year increase in age.
 
 ### 4.6 Building regression models for prediction
 
@@ -471,21 +552,8 @@ In a regression setting, we can use simulation to capture both predictive uncert
 We return to the `heights.dta` data and illustrate predictive uncertainty by considering the earnings of 68-inch-tall US male.
 
 ```{r sect72, include = FALSE}
-## make sure to download the data first and specify your path
-## read import the data
-heights <- read.dta ("data/heights.dta")
-suppressMessages(attach.all (heights))
-
-## recode sex variable
-male <- 2 - sex
-
-## (for simplicity) remove cases with missing data
-
-ok <- !is.na (earn+height+sex) & earn>0
-heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
-n <- nrow (heights.clean)
+rm(male, height)
 suppressMessages(attach.all (heights.clean))
-height.jitter.add <- runif (n, -.2, .2)
 
 ## Model of log earnings with interactions
 

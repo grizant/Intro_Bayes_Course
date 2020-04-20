@@ -385,16 +385,10 @@ summary {
 
 <pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
-library(ggplot2)
-library(arm)</code></pre>
-<pre><code>## Loading required package: MASS</code></pre>
-<pre><code>## Loading required package: Matrix</code></pre>
-<pre><code>## Loading required package: lme4</code></pre>
-<pre><code>## 
-## arm (Version 1.10-1, built: 2018-4-12)</code></pre>
-<pre><code>## Working directory is /Users/alfred/OneDrive - University of Nevada, Reno/Teaching/STAT_446_646/git_public/meeting_agendas</code></pre>
-<pre class="r"><code>library(R2OpenBUGS)
-library(foreign)</code></pre>
+suppressMessages(library(ggplot2))
+suppressMessages(library(arm))
+suppressMessages(library(R2OpenBUGS))
+suppressMessages(library(foreign))</code></pre>
 <div id="start-of-class-work-simulation" class="section level2">
 <h2>Start of class work: Simulation</h2>
 <p>Design a simulation to answer the question: <em>how many girls in 400 births</em>? Assume the probability that a baby is a girl or boy is 48.8% and 51.2%, respectively. Suppose that 400 babies are born in a hosiptal in a given year. How many will be girs?</p>

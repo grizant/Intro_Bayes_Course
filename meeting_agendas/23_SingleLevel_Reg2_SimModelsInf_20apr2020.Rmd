@@ -8,10 +8,10 @@ output: html_document
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
-library(ggplot2)
-library(arm)
-library(R2OpenBUGS)
-library(foreign)
+suppressMessages(library(ggplot2))
+suppressMessages(library(arm))
+suppressMessages(library(R2OpenBUGS))
+suppressMessages(library(foreign))
 ```
 
 ## Start of class work: Simulation

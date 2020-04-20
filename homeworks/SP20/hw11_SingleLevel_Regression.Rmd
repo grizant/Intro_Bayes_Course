@@ -34,7 +34,7 @@ The `child.iq` data contains a subset of the children and mother data discussed 
 foreign::read.dta("data/child.iq.dta")
 ```
 
-a) Fit a regression of child test scores on mother's age, display the data and fitted model, check assumptions, and interpret the slop coefficient. When do you recommend mothers should give birth? What are you assuming in making thees recommendations?
+a) Fit a regression of child test scores on mother's age, display the data and fitted model, check assumptions, and interpret the slope coefficient. When do you recommend mothers should give birth? What are you assuming in making thees recommendations?
 
 b) Repeat this for a regression that further includes mother's education, interpreting both slope coefficients in this model. Have your conclusions about the timing of birth changed?
 

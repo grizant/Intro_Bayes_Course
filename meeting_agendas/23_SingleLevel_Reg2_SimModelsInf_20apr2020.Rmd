@@ -46,7 +46,7 @@ I recommend you install the Applied Regression Modeling R package: `arm`. It has
 
 ## A note about the coding practices for the examples
 
-The examples below frequently attach objects to the `R` global environment and to the `R2BUGS` search path. This works okay in isolation, but can be dangerous when objects have the same name and other scoping issues. I recommend to keep data in a data structure (`data.frame`, `matrix`, etc). And reference that object (instead of extracting vectors to use separate). It keeps things tidy and is safer. Also `R2BUGS`interactively requests confirmation for `attach.all` which is a pain when knitting your `rmarkdown`. Also many values are *hardcoded* instead of done in a dynamic way. Moreover, it is more natural in `R` to write functions for repeated tasks and avoid loops (and use the `apply` family of functions). Please keep that in mind as you reuse the code in your assignments and projects (and future work).
+The examples below frequently attach objects to the `R` global environment and to the `R2BUGS` search path. This works okay in isolation, but can be dangerous when objects have the same name and other scoping issues. I recommend to keep data in a data structure (`data.frame`, `matrix`, etc). And reference that object (instead of extracting vectors to use separate). It keeps things tidy and is safer. Also `R2BUGS`interactively requests confirmation for `attach.all` which is a pain when knitting your `rmarkdown` (not sure if RStudio handles this automatically, but you can try this from the command line `R -e "rmarkdown::render('23_SingleLevel_Reg2_SimModelsInf_20apr2020.Rmd')"` to run noninteratively). Also many values are *hardcoded* instead of done in a dynamic way. Moreover, it is more natural in `R` to write functions for repeated tasks and avoid loops (and use the `apply` family of functions). Please keep that in mind as you reuse the code in your assignments and projects (and future work).
 
 ## Regression diagnostics
 
@@ -313,70 +313,15 @@ That being said, it sometimes interesting to create categories. For example, bin
    * If the predictor **is** significance, but does **not** have the expected sign. There is something strange going on. Consider lurking variables and any other explanations. Possibly find/measure confounders and include them in the model.
    * If the predictor is significance, but has the expected sign, include the term.
 
-
-#### Example: Predicting yield of mesquite bushes
-
-```{r sect46}
-mesquite <- read.table("data/mesquite.dat",header=TRUE)
-suppressMessages(attach(mesquite))
-
-## Data are at http://www.stat.columbia.edu/~gelman/arm/examples/mesquite
-
-## Rename variables
-weight <- LeafWt
-canopy.height <- CanHt
-total.height <- TotHt
-density <- Dens
-group <- ifelse (Group == "MCD", 0, 1)
-diam1 <- Diam1
-diam2 <- Diam2
-
-## First model
-fit.1 <- lm (weight ~ diam1 + diam2 + canopy.height + total.height + density + group)
-display(fit.1)
-
-## Data summary
-summary(mesquite)
-IQR(diam1)
-IQR(diam2)
-IQR(canopy.height)
-IQR(total.height)
-IQR(density)
-IQR(group)
-
-## Other models
-
-## Log model
-fit.2 <- lm (log(weight) ~ log(diam1) + log(diam2) + log(canopy.height) + log(total.height) + 
-                 log(density) + group)
-display(fit.2)
-
-## Volume model
-canopy.volume <- diam1*diam2*canopy.height
-
-fit.3 <- lm (log(weight) ~ log(canopy.volume))
-display(fit.3)
-
-## Volume, area & shape model
-canopy.area <- diam1*diam2
-canopy.shape <- diam1/diam2
-
-fit.4 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + log(canopy.shape) + 
-                 log(total.height) + log(density) + group)
-display(fit.4)
-
-## Last two models
-fit.5 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + group)
-display(fit.5)
-
-fit.6 <- lm (log(weight) ~ log(canopy.volume) + log(canopy.area) + log(canopy.shape) + 
-                 log(total.height) + group)
-display(fit.6)
-```
-
 ### 4.7 Fitting a series of regressions
 
-```{r sect47}
+It is common to fit a regression model repeatedly, either on different data or to subsets of the data.
+
+#### Predicting US political party identification
+
+We will illustrate this idea by fitting a series of cross-sectional regressions to learn trends over time for US party identification. The National Election Survey asks how strongly a person identifying with a political party (1 = strong Democrat, 2 = Democrat, 3 = weak Dem, 4 = independent, ..., 7 = strong Republican). We'll treat this as a continuous variable.
+
+```{r sect47, fig.cap = "Estimated coefficients (and 50% intervals) for regression of party identification on political ideology, self-reported race, and others, as fit separately to poll data form 1976 to 2000. The plots are on different scales, with input variables ordered roughly in declining order of the magnitude of their estimated coefficients."}
 brdata <- read.dta("data/nes5200_processed_voters_realideo.dta",convert.factors=F)
 ## Data are at http://www.stat.columbia.edu/~gelman/arm/examples/nes
 
@@ -438,7 +383,7 @@ for (k in 1:9){
 
 ## Ch. 7 Simulation of probability models and statistical inferences
 
-Let's complicate the model. Let's further assume there is a 1/125 chance that a birth results in fraternal twins and of which there is an approximate 49.5% chance of the twin being a girl, and a 1/300 chance of identical twins, which have an approximate 49.5% chance of being girls. We simulate 400 births as follows:
+Let's complicate the model from the beginning of class. Let's further assume there is a 1/125 chance that a birth results in fraternal twins and of which there is an approximate 49.5% chance of the twin being a girl, and a 1/300 chance of identical twins, which have an approximate 49.5% chance of being girls. We simulate 400 births as follows:
 
 ```{r ch7twins}
 

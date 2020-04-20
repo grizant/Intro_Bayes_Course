@@ -1,5 +1,5 @@
 ---
-title: "Homework 1: Single-level Regression"
+title: "Homework 11: Single-level Regression"
 author: "AG Schissler"
 date: "04/24/2020"
 output: html_document
@@ -17,14 +17,57 @@ URLs for the data sets for your HW:
 http://www.stat.columbia.edu/~gelman/arm/examples/
 http://www.stat.columbia.edu/~gelman/arm/software/
 
-
-
 ## Question 1: Monte Carlo experiment regression with independent random variables
 
-## Question 2: Inverse probability sampling
+In this exercise you will simulate two variable so that are statisically independent of each to see what happenns when we run a regrresion of one of the other.
 
-## Question 3: Acceptance-rejection sampling
+a) First generate 1000 data points from a normal distribution with mean 0 and standard deviation 1, call the resultant vector `var1`. Generate another variable `var2` in the same way. Run a regression of one variable on the other. Is the slope coefficient statistically significant?
 
-## Question 4: Importance sampling
+b) Now run a simulation repeating the process 100 times. This can be using a loop or any other method you like. From each simulation, save the z-score (the estimated coefficient of `var1`divided by its standard error). If the absolute value of the z-score exceeds 2, the estimate is statistically significance. How many of these 100 z-scores are statistically significant?
 
-## Question 5: Metropolis-Hastings MCMC for a single parameter
+## Question 2: Children's IQ from Maternal Data
+
+The `child.iq` data contains a subset of the children and mother data discussed earlier in the chapter. You have access to children's test scores at age 3, mother's educating, and the mother's age at the time she gave birth for a sample of 400 children. The data are a Stata file which you can read into R by saving on your machine and pointing to its location:
+
+```{r readQ2, eval=F}
+## remove eval=FALSE to import the data
+foreign::read.dta("data/child.iq.dta")
+```
+
+a) Fit a regression of child test scores on mother's age, display the data and fitted model, check assumptions, and interpret the slop coefficient. When do you recommend mothers should give birth? What are you assuming in making thees recommendations?
+
+b) Repeat this for a regression that further includes mother's education, interpreting both slope coefficients in this model. Have your conclusions about the timing of birth changed?
+
+c) Now create an indicator variable reflecting whether the mother has completed high school or not. Consider interactions between the high school completion and mother's age in family. Also, create a plot that shows the separate regression liens for each high school completion status group.
+
+d) Finally, fit a regression of child test scores on mother's age and education level for the first 200 children and use this model to predict test scores for the next 200. Graphically display comparisons of the predicted and actual scores for the final 200 children.
+
+## Question 3: `earnings` data
+
+The `heights.dta` Stata dataset contains information from the Work, Family, and Well-Being Survey (Ross, 1990). Pull out the data on earnings, sex, height, and weight.
+
+a) In R, check the dataset and clean any unusually coded data.
+
+b) Fit a linear regression model predicting earnings from height. What transformation should you perform in order to interpret the intercept from this model as average earnings for people with average height?
+
+c) Fit some regression models with the goal of predicting earnings from some combination of sex, height, and weight. Be sure to try various transformations and interactions that make sense. Choose your preferred model and justify.
+
+d) Interpret all coefficients from your preferred model.
+
+## Question 4: Special-purpose transformations.
+
+For a study of congressional elections, you would like a measure of the relative amount of money raised by each of the two major-party candidates in each district. Suppose that you know the amount of money raised by each candidate; label these dollar values $D_i$ and $R_i$. You would like to combine these into a single variable that can be included as an input variable into a model predicting vote share for the Democrats.
+
+a) Discuss the advantages and disadvantages of the following measures:
+
+* The simple difference, $D_i - R_i$.
+* The ratio, $D_i / R_i$
+* The difference of the logarithmic scale, $log D_i - log R_i$
+* The relative proportion, $D_i / \left( D_i + R_i \right)$.
+
+b) Propose a idiosyncratic transformation (as in the example) and discuss the advantages and disadvantages of using it as a regression input.
+
+## Question 5: Interpreting log-log models
+
+An economist runs a regression examining the relations between the average price of cigarettes, $P$, and the quantity purchases, $Q$, across a large sample of counties in the US, assuming the following functional form, $log Q = \alpha + \beta \, log P$. Suppose the estimate for $\beta$ is 0.3. Interpret this coefficient.
+

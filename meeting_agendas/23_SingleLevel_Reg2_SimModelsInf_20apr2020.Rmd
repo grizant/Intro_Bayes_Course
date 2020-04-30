@@ -22,7 +22,15 @@ Now extend your simulation to get a sense of the *distribution* of what could ha
 
 ```{r twins}
 ## YOUR CODE HERE
+n.girls <- rbinom (1, 400, .488)
+print (n.girls)
 
+n.sims <- 1000
+n.girls <- rep (NA, n.sims)
+for (s in 1:n.sims){
+    n.girls[s] <- rbinom (1, 400, .488)
+}
+hist (n.girls, main="")
 ```
 
 ## Today's lesson is derived from Gelman and Hill Ch. 4, 7
@@ -75,20 +83,21 @@ It is not always appropriate to fit a classical (single-level) linear regression
 
 ### 4.1 Linear transformations
 
-Linear transformations **do not affect** the fit of a classical regression model, and they do not affect predictions: the changes in the inputs and the coefficients cancel in forming the predicted value $X \beta$. However, well-chosen linear transformations can improve interoperability of coefficients and make a fitted model easier to understand. And they may improve the **accuracy** of your estimation which increases statistical power when testing coefficients.
+Linear transformations **do not affect** the fit of a classical regression model, and they do not affect predictions: the changes in the inputs and the coefficients cancel in forming the predicted value $X \beta$. However, well-chosen linear transformations can improve interpretations of coefficients and make a fitted model easier to understand. And they may improve the **accuracy** of your estimation which increases statistical power when testing coefficients.
 
 #### Untransformed (raw) data
 
 ```{r sect41}
 ## make sure to download the data first and specify your path
 heights <- read.dta ("data/heights.dta")
-suppressMessages(attach.all (heights))
+suppressMessages( attach.all (heights))
+
+## str(heights)
 
 ## recode sex variable
 male <- 2 - sex
 
 ## (for simplicity) remove cases with missing data
-
 ok <- !is.na (earn+height+sex) & earn>0
 heights.clean <- as.data.frame (cbind (earn, height, male)[ok,])
 n <- nrow (heights.clean)

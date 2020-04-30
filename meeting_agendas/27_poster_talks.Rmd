@@ -1,0 +1,46 @@
+---
+title: "STAT 646 Virtual Poster Session"
+author: "AG Schissler"
+date: "5/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Start-of-class work:
+
+- I'll start this virtual poster session with some introductory comments and guidance to everyone.  
+- Then we'll begin the project discussion and evaluations in group-specific *breakout rooms*.  
+- Please use the rubrics to provide feedback to the groups. Be kind and constructive.
+
+## Project leaders
+
+### Austin Boone
+
+Predicting NBA Player Scores Using Bayesian Statistics
+
+### Bo Liu
+
+Robust Bayesian regression for Benchmark-Dose modeling
+
+### Benjamin Agyare and Conner Dayton
+
+Using Bayesian statistics with limited data points to answer Is the US Electoral College fair? 
+
+### Jacob Ellis
+
+Using socioeconomic variables to predict Reno crime patterns via Bayesian modeling
+
+### Samantha Faulstich
+
+Imputing undectected mRNA expression in single-cell RNA-sequencing
+
+### Tyler Ewing and Richard Foote
+
+Comparison of Existing scRNA-seq Imputation Methods
+
+## Closing: 3-2-1
+
+Please vote for your favorite projects!

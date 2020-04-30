@@ -1,0 +1,58 @@
+---
+title: "Homework 12: Multilevel Regression"
+author: "AG Schissler"
+date: "05/01/2020"
+output: html_document
+---
+
+Please respond to the questions below. I encourage you to collaborate with your classmates, but you must submit your own work. This assignment is due on the date listed above. **If you use `R`, please run `set.seed(04272020)` at the top your script**. This will make the simulations reproducible. If using `knitr` (`.Rmd` file), place the following at the top of the script:
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
+set.seed(04272020)
+```
+
+URLs for the data sets for your HW:
+
+http://www.stat.columbia.edu/~gelman/arm/examples/
+http://www.stat.columbia.edu/~gelman/arm/software/
+
+## Q1: Fitting the wrong model
+
+Suppose you have 100 data points that arose from the following model: $y = 3 + 0.1x_1 +0.5x_2$ + error, with errors having a $t$ distribution with mean 0, scale 5, and 4 degrees of freedom. We shall explore the implications of fitting a standard linear regression model to these data.
+
+a) Simulate data from this model. For simplicity, suppose the values of $x_1$ are simply the integers from 1 to 100, and that the values of $x_2$ are random and equally likely to be 0 or 1. Fit a linear regression (with normal errors) to these data and see if the 68% confidence intervals for the regression coefficients (for each, the estimates $\pm 1$ standard error) cover the true values.
+
+b) Put the above step in a loop (or `replicate()` or `apply`) and repeat 1000 times. Calculate the confidence coverage for the 68% intervals for each of the three coefficients in the model.
+
+c) **BONUS 3 points** Repeat this simulation, but instead fit the model using $t$ errors.
+
+## Q2. Modeling CD4 counts for children with HIV
+
+The file `cd4.csv` contains CD4 (immune markers) for a set of young children with HIV who were measured several times over a period of two years. The dataset also includes the ages of children at each measurement. `newpid` provide the IDs for children.
+
+```{r importCD4}
+cd4 <- read.csv('cd4.csv')
+## outcome variable is CD4PCT
+```
+
+a) Graph the outcome variable `CD4PCT` (CD4 percentage, on the square root scale) for each child as a function of time (`VDATE`). Hint carefully covert the dates to integer time points.
+
+b) Each child's data has a time course that can be summarized by a linear fit. Estimate these lines and plot them for all children.
+
+c) Set up a model for the children's slopes and intercepts as a function of treatment and age at baseline. Estimate this model using the two-step procedure --- first estimate the intercept and slope separately for each child, then fit the between-child models using the point estimates from the first step.
+
+## Q3: Continuing with the analysis of CD4 data.
+
+a) Write a model predicting CD4 percentage as a function of time with varying intercepts across children. Fit using `lmer()` and interpret the coefficients for time.
+
+b) Extend the model in a) to include child-level predictors (that is, group-level predictors) for treatment and age at baseline. Fit using `lmer()` and interpret the coefficients for time, treatment, and age at baseline.
+
+c) Investigate the change in partial pooling from a) to b) both graphically and numerically.
+
+## Q4: Predictions for CD4 data.
+
+a) Use the model fit from Q4b to generate simulation of predicted CD4 percentages for each child in the dataset at a hypothetical next time point.
+
+b) Use the same model fit to generate simulations of CD4 percentages at each of the time periods for a new child who was 4 years old at baseline.
+

@@ -12,35 +12,38 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Start-of-class work:
 
 - I'll start this virtual poster session with some introductory comments and guidance to everyone.  
-- Then we'll begin the project discussion and evaluations in group-specific *breakout rooms*.  
-- Please use the rubrics to provide feedback to the groups. Be kind and constructive.
+- Then we'll begin the project discussion and evaluations in *breakout rooms*.  
+- Please critically discuss the project with the poster presenters. 
+- Make sure you spend time at each poster.
+- Please be polite and actually engage/learn.
 
-## Project leaders
+## Project titles and teams
 
-### Austin Boone
+### Predicting NBA Player Scores Using Bayesian Statistics
 
-Predicting NBA Player Scores Using Bayesian Statistics
+*Austin Boone*
 
-### Bo Liu
+### Robust Bayesian Prior Methodology for Risk Assessment
 
-Robust Bayesian regression for Benchmark-Dose modeling
+*Bo Liu and Jessica Logan*
 
-### Benjamin Agyare and Conner Dayton
+### Bayesian Multilevel Modeling to Detect Partisan Lean
 
-Using Bayesian statistics with limited data points to answer Is the US Electoral College fair? 
+*Benjamin Agyare, Jaucelyn Canfield, and Conner Dayton*
 
-### Jacob Ellis
+### How Economic Prosperity Impacts Crime Rate in Las Vegas
 
-Using socioeconomic variables to predict Reno crime patterns via Bayesian modeling
+*Jacob Ellis*
 
-### Samantha Faulstich
+### Evaluating Fire Emissions Inventories for Modeling Smoke Transport in the Sierra Nevada Mountains Using Bayesian Statistics
 
-Imputing undectected mRNA expression in single-cell RNA-sequencing
+*Samantha Faulstich*
 
-### Tyler Ewing and Richard Foote
+### Comparison of Existing scRNA-seq Imputation Methods
 
-Comparison of Existing scRNA-seq Imputation Methods
+*Tyler Ewing and Richard Foote*
 
 ## Closing: 3-2-1
 
-Please vote for your favorite projects!
+Non-project students: Please vote for your favorite projects using the Zoom poll after you have visited everyone to receive your 10 bonus points.
+

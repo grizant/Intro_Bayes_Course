@@ -15,6 +15,22 @@ suppressMessages(library(arm))
 suppressMessages(library(rstanarm))
 suppressMessages(library(lme4)) ## for lmer
 suppressMessages(library(foreign))
+suppressMessages(library(bayesplot))
+theme_set(bayesplot::theme_default())
+stopifnot(require(knitr))
+opts_chunk$set(
+  comment=NA, 
+  message = FALSE, 
+  warning = FALSE, 
+  ## eval = params$EVAL,
+  eval = TRUE,
+  dev = "png",
+  dpi = 150,
+  fig.asp = 0.718,
+  fig.width = 5,
+  out.width = "80%",
+  fig.align = "center"
+)
 ```
 
 ## Today's lesson is derived from Gelman and Hill Ch. 11, 12
@@ -67,7 +83,7 @@ It is useful to think about multilevel modeling as a compromise between complete
 
 ### 12.2 Partial pooling with no predictors
 
-```{r sect12point2, eval = FALSE}
+```{r sect12point2}
 
 ## Using the better maintained rstanarm repo
 # loads packages, creates ROOT, SEED, and DATA_ENV
@@ -98,7 +114,6 @@ radon$pred_unpooled <- predict( lm.unpooled )
 ## display (lm.unpooled)
 
 display8 <- c (36, 1, 35, 21, 14, 71, 61, 70)  # counties to be displayed
-
 radon8 <- radon[ radon$county %in% display8, ]
 
 p <- ggplot( data = radon8, aes( x = x, y = y) ) 
@@ -171,7 +186,7 @@ p + geom_line( aes(y = pred_paritalPooled), linetype = 1, color = 'red' )
 
 ### 12.6 Group-level predictors
 
-```{r sect12point6}
+```{r sect12point6, eval = TRUE}
 
 ## Read the data
 # Data are at http://www.stat.columbia.edu/~gelman/arm/examples/radon
@@ -211,7 +226,7 @@ u <- log (uranium)
 ## Varying-intercept model w/ group-level predictors
 u.full <- u[county]
 M2 <- lmer (y ~ x + u.full + (1 | county))
-head(display (M2))
+## head(display (M2))
 
 ## coef (M2)
 ## fixef (M2)
@@ -243,7 +258,8 @@ for (j in display8){
 # Plot of ests & se's vs. county uranium (Figure 12.6)
 a.se.M2 <- se.coef(M2)$county
 
-par (mar=c(5,5,4,2)+.1)
+## par (mar=c(5,5,4,2)+.1)
+par (mfrow=c(1,1))
 plot (u, t(a.hat.M2), cex.lab=1.2, cex.axis=1.1,
       xlab="county-level uranium measure", ylab="est. regression intercept", pch=20,
       ylim=c(0.5,2.0), yaxt="n", xaxt="n", mgp=c(3.5,1.2,0))
@@ -254,9 +270,36 @@ for (j in 1:J){
   lines (rep(u[j],2), a.hat.M2[j,] + c(-1,1)*a.se.M2[j,], lwd=.5, col="gray10")
 }
 
-### 12.8 Predictions for new observations
+### 12.8 Predictions for new observations  
 
 ```{r sect12point8}
+srrs2 <- read.table ("srrs2.dat", header=T, sep=",")
+mn <- srrs2$state=="MN"
+radon <- srrs2$activity[mn]
+log.radon <- log (ifelse (radon==0, .1, radon))
+floor <- srrs2$floor[mn]       # 0 for basement, 1 for first floor
+n <- length(radon)
+y <- log.radon
+x <- floor
+
+# get county index variable
+county.name <- as.vector(srrs2$county[mn])
+uniq <- unique(county.name)
+J <- length(uniq)
+county <- rep (NA, J)
+for (i in 1:J){
+  county[county.name==uniq[i]] <- i
+}
+
+## Get the county-level predictor
+srrs2.fips <- srrs2$stfips*1000 + srrs2$cntyfips
+cty <- read.table ("cty.dat", header=T, sep=",")
+usa.fips <- 1000*cty[,"stfips"] + cty[,"ctfips"]
+usa.rows <- match (unique(srrs2.fips[mn]), usa.fips)
+uranium <- cty[usa.rows,"Uppm"]
+u <- log (uranium)
+u.full <- u[county]
+
 ## Prediction for a new observation in a new group (new house in county 26
 ## with x=1)
 M2 <- lmer (y ~ x + u.full + (1 | county))

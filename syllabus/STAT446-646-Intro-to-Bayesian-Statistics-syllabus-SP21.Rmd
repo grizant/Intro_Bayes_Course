@@ -1,0 +1,303 @@
+---
+title: "STAT 446/646: Introduction to Bayesian Statistics"
+semester: "Spring 2021"
+instructor: 'Alfred "Grant" Schissler'
+left_col:
+  - field: "Email"
+    value: "aschissler@unr.edu"
+  - field: "Office Phone"
+    value: "(775) 784-4661"
+  - field: "Office Location"
+    value: "DMS 224"
+  - field: "Office Hours"
+    value: "TBD"
+  
+right_col:
+  - field: "Web"
+    value: "<a href='https://www.grantschissler.com'>www.grantschissler.com</a>"
+  - field: "Class Location"
+    value: "Online (Zoom)"
+  - field: "Class Hours"
+    value: "Tue 3:00pm to 4:15pm"
+output: 
+  html_document:
+    css: style.css
+    template: template.html
+    self_contained: true
+    toc: true
+    toc_depth: 1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## https://slides.yihui.org/2019-rstudio-conf-pagedown.html#1
+## rmarkdown::draft(file = 'STAT699-FA20-syllabus.Rmd', template = 'html-paged', package = 'pagedown', edit = FALSE)
+## xaringan::inf_mr('STAT699-FA20-syllabus.Rmd')
+## wordcountaddin::word_count('STAT699-FA20-syllabus.Rmd')
+
+mon <- as.Date("2020-08-24")
+# fri <- as.Date("2016-01-08")
+
+advdate <- function(obj, adv) {
+ tmon <- obj + 7*(adv-1)
+ tfri <- obj + 4 + 7*(adv-1)
+ tmon <- format(tmon, format="%m/%d")
+ tfri <- format(tfri, format="%m/%d")
+ zadv <- sprintf("%02d", adv)
+ tmp <- paste("Week ",zadv,sep='',", ", tmon," - ",tfri)
+ return(tmp)
+}
+```
+
+## Course Description
+This course is an Independent Study. It is not part the instructor's scheduled teaching and so the instructor time commitment must be limited. Here are the respective responsibilities and roles:
+
+*Instructor's role*
+
+- Help explain and guide student understanding and skill development.
+- Organize the course structure and assignments.
+- Lead weekly class discussions.
+- Give brief informal feedback on student work.
+
+*Student's role*
+
+- Complete the readings before the week's discussion meeting.
+- Watch the recorded lectures before the week's discussion meeting.
+- Submit practice exercises via `rmarkdown` reports in Canvas.
+- Participate in discussion meetings.
+- Prepare and report on a research project (optional).
+
+## Catalog Description
+Individual study of topics in probability and statistics conducted under the direction of a faculty member. Limited to 6 credits except under special circumstances.
+
+## Course Pre-requisites
+Instructor approval.
+
+# Student Learning Outcomes
+This offers focuses on
+
+* Students will be able to demonstrate understanding of the concepts that underlie Bayesian inference and design statistical models.
+* Students will be able to conduct Bayesian inference computationally and interpret the results.
+* Students will be able to perform a Bayesian analysis using professional statistical packages.
+
+# Textbooks & Course Materials
+
+<b style="background: khaki; font-weight: bold;">McElreath, Richard. _Statistical rethinking: A Bayesian course with examples in R and Stan._ CRC press, 2020.</b>
+
+[Textbook homepage](https://xcelab.net/rm/statistical-rethinking/)
+
+**MAKE SURE TO GET THE 2nd EDITION**.
+
+*Supplemental texts*
+
+- *R for data science: import, tidy, transform, visualize, and model data.*
+Wickham, Hadley, and Garrett Grolemund.
+"O'Reilly Media, Inc.", 2016.
+
+- *Hierarchical modeling and analysis for spatial data.*
+Banerjee, Sudipto, Bradley P. Carlin, and Alan E. Gelfand. 
+CRC press, 2014. 
+
+*Recorded lectures given by R. McElreath*.
+[YouTube playlist](https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI)
+
+# Assignments
+
+## Practice exercises
+
+"Practice" exercises will be assigned approximately weekly. Students will submit an html document and with its `rmarkdown` source in Canvas. You are encouraged to discuss assignments between each other and with instructor. However, the assignment must be completed and submitted individually. We may divide the practice between the students to discuss solutions for all the problems.
+
+## Midterms
+No Midterm.
+
+## Final exam
+No final exam.
+
+## Exam policy
+N/A.
+
+## Makeup, Late Policy
+No make-up or late assignments.
+Two dropped assignments and participation grades.
+
+## Projects
+An optional project may be conducted by students to receive instructor guidance and feedback. It is not required, but hopefully would be helpful and motivating for some students.
+
+## Participation
+Participation is the most important part of this course as it required independent study. I'll drop two participation grades, including missed classes (counts as 0 regardless of the reason).
+
+I'll assign points for each class meeting based on the following rubric:
+- (1/3 of total points) attend and participate in discussions
+- (1/3 of total points)  watch videos ahead of time
+- (1/3 of total points) read ahead of time
+
+# Grading
+
+We'll use a simple weighted scheme for grading.
+
+```{r gradeWeights, echo=F, results='asis'}
+gradeDat <- data.frame( Weight = c( '60%', '40%', '00%'),
+                       Drop = c( 2, 2, 0),
+                       row.names = c( 'Practice Rmd', 'Participation', 'Project' ) )
+knitr::kable( gradeDat, caption = 'Grading scheme' )
+```
+
+# Additional statements
+
+## Diversity Statement
+
+The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus, or need information related to immigration concerns, please contact the University’s Equal Opportunity & Title IX Office at (775) 784-1547. Resources and interim measures are available to assist you. For more information, please visit [http:www.unr.edu/equal-opportunity-title-ix](http:www.unr.edu/equal-opportunity-title-ix).
+
+## Disability Statement
+Any student with a disability needing academic adjustments or accommodations is requested to speak with the [http:www.unr.edu/drc](Disability Resource Center) as soon as possible to arrange for appropriate accommodations.
+
+## Academic Conduct
+No laptops, cell phones, mp3 players, or other electronics are to be used for personal reasons in class. If you are being disruptive during class you will be asked to leave. Disruptions in this context include inadequate participation. You must come to class on time and stay until the end of lecture. Tardy students will not be admitted to class. Please visit [http:www.unr.edu/student-conduct](http:www.unr.edu/student-conduct) for our official student code of conduct.
+
+## Academic Success Services
+Your student fees cover usage of the University Math Center, University Tutoring Center, and University Writing Center. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student.
+
+## University Recording Policy
+Surreptitious or covert videotaping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may have been given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.
+
+## Academic Dishonesty
+Cheating, plagiarism, or otherwise obtaining grades under false pretenses constitutes academic dishonesty according to the code of this university. Academic dishonesty will not be tolerated and penalties can include canceling a student’s enrollment without a grade or giving an F for the assignment or for the entire course. See the University Academic Standards policy: [UAM 6,502](https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards).
+
+# Tentative course schedule
+
+Students please study the materials the assigned class session.
+Class readings and assignments are subject to change, contingent on mitigating circumstances and the progress we make as a class.
+
+<div class="week">`r advdate(mon, 1)`: Organizational meeting </div>
+
+We'll discuss the structure of the course and expectations for students/instructor.
+
+<div class="week">`r advdate(mon, 2)`: Introduction to Statistical Rethinking, Ch. 1-3</div>
+
+The introductory content that should be familiar to the students, but with a new perspective.
+
+*Readings*.
+Please read the Preface, Ch. 1, Ch. 2, and Ch. 3 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 01 and Lecture 02 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 2 and Ch. 3 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 3)`: Geocentric models Ch. 4; Wiggly Orbits Ch. 4.</div>
+
+*Readings*.
+Please read the Ch. 4 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 03 and Lecture 04 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 4 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 4)`: The Many Variables & Spurious Waffles Ch. 5; The Haunted DAG & Causal Terror Ch. 6</div>
+
+*Readings*.
+Please read Ch. 5 and Ch. 6 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 05 and Lecture 06 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 5,6 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 5)`: Back-door Paths Ch. 7; Ulysses' Compass Ch. 7</div>
+
+*Readings*.
+Please read Ch. 7 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 07 and Lecture 08 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 7 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 6)`: Conditional Manatees Ch. 8; Markov Chain Monte Carlo Ch. 9</div>
+
+*Readings*.
+Please read Ch. 8,9 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 09 and Lecture 10 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 8,9 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 7)`: Big Entropy and the GLM Ch. 10; God Spiked the Integers Ch. 11</div>
+
+*Readings*.
+Please read Ch. 10,11 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 11 and Lecture 12 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 11 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 8)`: Monsters & Mixtures Ch. 12; Order Categories Ch. 12</div>
+
+*Readings*.
+Please read Ch. 12 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 13 and Lecture 14 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 12 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 9)`: Models with Memory Ch. 13;  Multilevel Models 2 Ch. 13</div>
+
+*Readings*.
+Please read Ch. 13 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 15 and Lecture 16 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 13 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 10)`: Adventures in Covariance Ch. 14;  Further Adventures Ch. 14</div>
+
+*Readings*.
+Please read Ch. 14 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 17 and Lecture 18 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 14 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 11)`: Gaussian Processes Ch. 14; Missing Data & Other Opportunities Ch. 15</div>
+
+*Readings*.
+Please read Ch. 14, 15 in our textbook in advance of the discussion.
+
+*Video*.
+Please watch Lecture 19 and Lecture 20 in advance of the discussion.
+
+*Practice*.
+Please complete Ch. 15 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 12)`: Generalized Linear Madness Ch. 16; Horoscopes</div>
+
+*Readings*.
+Please read Ch. 16,17 in our textbook in advance of the discussion.
+
+*Video*.
+None unless I record or find a lecture.
+
+*Practice*.
+Please complete Ch. 16 practice exercises and submit in Canvas by the end of the week.
+
+<div class="week">`r advdate(mon, 13)`: Catch-up / student presentations**</div>
+<div class="week">`r advdate(mon, 14)`: Catch-up / student presentations**</div>
+<div class="week">`r advdate(mon, 15)`: Catch-up / student presentations**</div>
+<div class="week">`r advdate(mon, 16)`: Catch-up / student presentations**</div>
+<div class="week">`r advdate(mon, 17)`: NO FINAL MEETING**</div>
+

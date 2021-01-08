@@ -385,7 +385,10 @@ summary {
 
 <p>Please respond to the questions below. I encourage you to collaborate with your classmates, but you must submit your own work. This assignment is due on the date listed above. <strong>If you use <code>R</code>, please run <code>set.seed(04272020)</code> at the top your script</strong>. This will make the simulations reproducible. If using <code>knitr</code> (<code>.Rmd</code> file), place the following at the top of the script:</p>
 <pre class="r"><code>knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
-set.seed(04272020)</code></pre>
+set.seed(04272020)
+suppressMessages(library(ggplot2))
+suppressMessages(library(lme4))
+suppressMessages(library(arm))</code></pre>
 <p>URLs for the data sets for your HW:</p>
 <p><a href="http://www.stat.columbia.edu/~gelman/arm/examples/" class="uri">http://www.stat.columbia.edu/~gelman/arm/examples/</a> <a href="http://www.stat.columbia.edu/~gelman/arm/software/" class="uri">http://www.stat.columbia.edu/~gelman/arm/software/</a></p>
 <div id="q1-fitting-the-wrong-model" class="section level2">
@@ -402,18 +405,29 @@ set.seed(04272020)</code></pre>
 <p>The file <code>cd4.csv</code> contains CD4 (immune markers) for a set of young children with HIV who were measured several times over a period of two years. The dataset also includes the ages of children at each measurement. <code>newpid</code> provide the IDs for children.</p>
 <pre class="r"><code>cd4 &lt;- read.csv(&#39;cd4.csv&#39;)
 ## outcome variable is CD4PCT</code></pre>
+<pre class="r"><code>## just consider the &quot;control&quot; patients (treatmnt==1) and with initial age between 1 and 5 years
+## treament group
+cd4 &lt;- subset(cd4, cd4$treatmnt == 1)
+## inclusion for age range
+cd4 &lt;- subset(cd4, (baseage&gt;1 &amp; baseage&lt;5))
+## remove missing y
+cd4 &lt;- subset(cd4, !is.na(CD4PCT))
+## summary(cd4)
+cd4$y &lt;- sqrt(cd4$CD4PCT) ## meets additivity assumption better
+cd4$time &lt;- cd4$visage - cd4$baseage
+## set up new patient id numbers from 1 to J &quot;groups&quot;
+cd4$pid &lt;- factor( as.numeric( factor(cd4$newpid) ) )</code></pre>
 <ol style="list-style-type: lower-alpha">
-<li><p>Graph the outcome variable <code>CD4PCT</code> (CD4 percentage, on the square root scale) for each child as a function of time (<code>VDATE</code>). Hint carefully covert the dates to integer time points.</p></li>
-<li><p>Each child’s data has a time course that can be summarized by a linear fit. Estimate these lines and plot them for all children.</p></li>
-<li><p>Set up a model for the children’s slopes and intercepts as a function of treatment and age at baseline. Estimate this model using the two-step procedure — first estimate the intercept and slope separately for each child, then fit the between-child models using the point estimates from the first step.</p></li>
+<li><p>Graph the outcome variable <code>y</code> (CD4 percentage, on the square root scale) for each child as a function of <code>time</code>). Since there are over 80 children, panels may be too many plots. Try a “spaghetti plot” instead. See this <a href="https://stats.idre.ucla.edu/r/faq/how-can-i-visualize-longitudinal-data-in-ggplot2/">post</a> for guidance.</p></li>
+<li><p>Each child’s data has a time course that can be summarized by a linear fit. Estimate these lines and plot them for all children. See this <a href="https://stackoverflow.com/questions/31903606/ggplot2-plotting-regression-lines-with-different-intercepts-but-with-same-slope">post</a> with plotting the fits.</p></li>
 </ol>
 </div>
 <div id="q3-continuing-with-the-analysis-of-cd4-data." class="section level2">
 <h2>Q3: Continuing with the analysis of CD4 data.</h2>
 <ol style="list-style-type: lower-alpha">
 <li><p>Write a model predicting CD4 percentage as a function of time with varying intercepts across children. Fit using <code>lmer()</code> and interpret the coefficients for time.</p></li>
-<li><p>Extend the model in a) to include child-level predictors (that is, group-level predictors) for treatment and age at baseline. Fit using <code>lmer()</code> and interpret the coefficients for time, treatment, and age at baseline.</p></li>
-<li><p>Investigate the change in partial pooling from a) to b) both graphically and numerically.</p></li>
+<li><p>Extend the model in a) to include child-level predictors (that is, group-level predictors) for time and age at baseline. Fit using <code>lmer()</code> and interpret the coefficients for time, and age at baseline.</p></li>
+<li><p><strong>BONUS 5 pts</strong>: Investigate the change in partial pooling from a) to b) both graphically and numerically.</p></li>
 </ol>
 </div>
 <div id="q4-predictions-for-cd4-data." class="section level2">

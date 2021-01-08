@@ -10,6 +10,9 @@ Please respond to the questions below. I encourage you to collaborate with your 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, cache.comments=TRUE)
 set.seed(04272020)
+suppressMessages(library(ggplot2))
+suppressMessages(library(lme4))
+suppressMessages(library(arm))
 ```
 
 URLs for the data sets for your HW:
@@ -36,19 +39,33 @@ cd4 <- read.csv('cd4.csv')
 ## outcome variable is CD4PCT
 ```
 
-a) Graph the outcome variable `CD4PCT` (CD4 percentage, on the square root scale) for each child as a function of time (`VDATE`). Hint carefully covert the dates to integer time points.
 
-b) Each child's data has a time course that can be summarized by a linear fit. Estimate these lines and plot them for all children.
+```{r cleanCD4}
+## just consider the "control" patients (treatmnt==1) and with initial age between 1 and 5 years
+## treament group
+cd4 <- subset(cd4, cd4$treatmnt == 1)
+## inclusion for age range
+cd4 <- subset(cd4, (baseage>1 & baseage<5))
+## remove missing y
+cd4 <- subset(cd4, !is.na(CD4PCT))
+## summary(cd4)
+cd4$y <- sqrt(cd4$CD4PCT) ## meets additivity assumption better
+cd4$time <- cd4$visage - cd4$baseage
+## set up new patient id numbers from 1 to J "groups"
+cd4$pid <- factor( as.numeric( factor(cd4$newpid) ) )
+```
 
-c) Set up a model for the children's slopes and intercepts as a function of treatment and age at baseline. Estimate this model using the two-step procedure --- first estimate the intercept and slope separately for each child, then fit the between-child models using the point estimates from the first step.
+a) Graph the outcome variable `y` (CD4 percentage, on the square root scale) for each child as a function of `time`). Since there are over 80 children, panels may be too many plots. Try a "spaghetti plot" instead. See this [post](https://stats.idre.ucla.edu/r/faq/how-can-i-visualize-longitudinal-data-in-ggplot2/) for guidance.
+
+b) Each child's data has a time course that can be summarized by a linear fit. Estimate these lines and plot them for all children. See this [post](https://stackoverflow.com/questions/31903606/ggplot2-plotting-regression-lines-with-different-intercepts-but-with-same-slope) with plotting the fits.
 
 ## Q3: Continuing with the analysis of CD4 data.
 
 a) Write a model predicting CD4 percentage as a function of time with varying intercepts across children. Fit using `lmer()` and interpret the coefficients for time.
 
-b) Extend the model in a) to include child-level predictors (that is, group-level predictors) for treatment and age at baseline. Fit using `lmer()` and interpret the coefficients for time, treatment, and age at baseline.
+b) Extend the model in a) to include child-level predictors (that is, group-level predictors) for time and age at baseline. Fit using `lmer()` and interpret the coefficients for time, and age at baseline.
 
-c) Investigate the change in partial pooling from a) to b) both graphically and numerically.
+c) **BONUS 5 pts**: Investigate the change in partial pooling from a) to b) both graphically and numerically.
 
 ## Q4: Predictions for CD4 data.
 

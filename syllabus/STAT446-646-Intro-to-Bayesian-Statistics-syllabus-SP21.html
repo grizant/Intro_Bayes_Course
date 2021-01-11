@@ -308,7 +308,7 @@ border-top: 1px solid #cccccc;
 <body>
 <header id="title-block-header">
 <h1 class="title">STAT 446/646: Introduction to Bayesian Statistics</h1>
-<p class="instructor">Alfred “Grant” Schissler</p>
+<p class="instructor">Alfred “Grant” Schissler, Ph.D.</p>
 <div class="row">
   <div class="column">
     <ul class="nobullet">
@@ -322,7 +322,7 @@ border-top: 1px solid #cccccc;
     <ul class="nobullet">
             <li><b>Web:</b> <a href="https://www.grantschissler.com">www.grantschissler.com</a></li>
             <li><b>Class Location:</b> Online (Zoom)</li>
-            <li><b>Class Hours:</b> Tue 3:00pm to 4:15pm</li>
+            <li><b>Class Hours:</b> MoWe 1:00pm to 2:15pm</li>
           </ul>
   </div>
 </div>
@@ -341,51 +341,57 @@ border-top: 1px solid #cccccc;
 </nav>
 <div id="course-description" class="section level2">
 <h2>Course Description</h2>
-<p>This course is an Independent Study. It is not part the instructor’s scheduled teaching and so the instructor time commitment must be limited. Here are the respective responsibilities and roles:</p>
+<p>This course introduces Bayesian statistics to a technical audience. Early on, we focus on the logic behind Bayesian statistics, including the mathematical formalization of updating beliefs under uncertainty. Then we describe Bayesian methods for well-known probability models and compare these methods to classical (frequentist) alternatives. Topics include Bayes’ Theorem, prior specification, Bayesian inference for discrete and continuous univariate random variables, and linear regression. We’ll implement methods analytically and using software such as Minitab, R, and Stan.</p>
+<p>The latter portions of the course focus on implementing more advanced Bayesian methods through modern computational techniques to sample posterior distributions including Markov Chain Monte Carlo (MCMC) and Hamiltonian Monte Carlo (HMC). The aim will be to provide the concepts and technical skills to conduct a realistic Bayesian data analysis.</p>
 <p><em>Instructor’s role</em></p>
 <ul>
 <li>Help explain and guide student understanding and skill development.</li>
 <li>Organize the course structure and assignments.</li>
 <li>Lead weekly class discussions.</li>
-<li>Give brief informal feedback on student work.</li>
+<li>Evaluate student work and provide feedback.</li>
 </ul>
 <p><em>Student’s role</em></p>
 <ul>
 <li>Complete the readings before the week’s discussion meeting.</li>
-<li>Watch the recorded lectures before the week’s discussion meeting.</li>
-<li>Submit practice exercises via <code>rmarkdown</code> reports in Canvas.</li>
-<li>Participate in discussion meetings.</li>
-<li>Prepare and report on a research project (optional).</li>
+<li>Submit completed assignments on time.</li>
+<li>Participate in discussions.</li>
+<li>Prepare for and complete course exams.</li>
+<li>Conduct and report on a research project (646).</li>
 </ul>
 </div>
 <div id="catalog-description" class="section level2">
 <h2>Catalog Description</h2>
-<p>Individual study of topics in probability and statistics conducted under the direction of a faculty member. Limited to 6 credits except under special circumstances.</p>
+<p>Statistical inference using Bayes’ Theorem. Topics include posterior analysis for continuous and discrete random variables, prior specification, Bayesian regression, multivariate inference, and posterior sampling through Markov Chain Monte Carlo.</p>
 </div>
 <div id="course-pre-requisites" class="section level2">
 <h2>Course Pre-requisites</h2>
-<p>Instructor approval.</p>
+<p>STAT 352 or STAT 467/667 or with instructor approval. STAT 445/645 is a suggested preparation.</p>
 </div>
 <div id="student-learning-outcomes" class="section level1">
 <h1>Student Learning Outcomes</h1>
-<p>This offers focuses on</p>
+<p>Upon successful completion of the course, students will be able to</p>
 <ul>
-<li>Students will be able to demonstrate understanding of the concepts that underlie Bayesian inference and design statistical models.</li>
-<li>Students will be able to conduct Bayesian inference computationally and interpret the results.</li>
-<li>Students will be able to perform a Bayesian analysis using professional statistical packages.</li>
+<li>demonstrate understanding of the concepts that underlie Bayesian inference and compare the results to frequentist alternatives.</li>
+<li>conduct Bayesian inference analytically and interpret the results.</li>
+<li>perfom Bayesian analyses using professional statistical packages (<code>R</code> and <code>Stan</code>).</li>
+</ul>
+<p>In addition to the above 400-level outcomes, graduate students will be able to</p>
+<ul>
+<li>synthesize course concepts to apply Bayesian modeling techniques to real-world data.</li>
 </ul>
 </div>
 <div id="textbooks-course-materials" class="section level1">
 <h1>Textbooks &amp; Course Materials</h1>
-<p><b style="background: khaki; font-weight: bold;">McElreath, Richard. <em>Statistical rethinking: A Bayesian course with examples in R and Stan.</em> CRC press, 2020.</b></p>
-<p><a href="https://xcelab.net/rm/statistical-rethinking/">Textbook homepage</a></p>
-<p><strong>MAKE SURE TO GET THE 2nd EDITION</strong>.</p>
+<p><em>Introduction to Bayesian Statistics</em>, 3rd edition, by William M. BOLSTAD and James M. CURRAN.</p>
+<p><a href="https://www.wiley.com/en-us/Introduction+to+Bayesian+Statistics%2C+3rd+Edition-p-9781118091562">Textbook website</a></p>
+<p><strong>MAKE SURE TO GET THE 3rd EDITION</strong></p>
 <p><em>Supplemental texts</em></p>
-<ul>
-<li><p><em>R for data science: import, tidy, transform, visualize, and model data.</em> Wickham, Hadley, and Garrett Grolemund. “O’Reilly Media, Inc.”, 2016.</p></li>
-<li><p><em>Hierarchical modeling and analysis for spatial data.</em> Banerjee, Sudipto, Bradley P. Carlin, and Alan E. Gelfand. CRC press, 2014.</p></li>
-</ul>
-<p><em>Recorded lectures given by R. McElreath</em>. <a href="https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI">YouTube playlist</a></p>
+<p>Modern best practices for coding and reporting <code>R</code> analyses:<br />
+<em>R for data science: import, tidy, transform, visualize, and model data</em>, Hadley WICKHAM and Garrett GROLEMUND. <a href="https://r4ds.had.co.nz/">Online textbook</a></p>
+<p>More Bayesian intuition and applied problems:<br />
+<em>Statistical Rethinking</em>, 2nd edition, Richard MCELREATH <a href="https://xcelab.net/rm/statistical-rethinking/">Textbook website</a></p>
+<p>Standard Bayesian reference textbook:<br />
+<em>Bayesian Data Analysis</em>, 3rd edition by Andrew GELMAN et al. <a href="http://www.stat.columbia.edu/~gelman/book/">Textbook website</a></p>
 </div>
 <div id="assignments" class="section level1">
 <h1>Assignments</h1>

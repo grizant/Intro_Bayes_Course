@@ -1,7 +1,7 @@
 ---
 title: "STAT 446/646: Introduction to Bayesian Statistics"
 semester: "Spring 2021"
-instructor: 'Alfred "Grant" Schissler'
+instructor: 'Alfred "Grant" Schissler, Ph.D.'
 left_col:
   - field: "Email"
     value: "aschissler@unr.edu"
@@ -18,7 +18,7 @@ right_col:
   - field: "Class Location"
     value: "Online (Zoom)"
   - field: "Class Hours"
-    value: "Tue 3:00pm to 4:15pm"
+    value: "MoWe 1:00pm to 2:15pm"
 output: 
   html_document:
     css: style.css
@@ -50,56 +50,67 @@ advdate <- function(obj, adv) {
 ```
 
 ## Course Description
-This course is an Independent Study. It is not part the instructor's scheduled teaching and so the instructor time commitment must be limited. Here are the respective responsibilities and roles:
+
+This course introduces Bayesian statistics to a technical audience. Early on, we focus on the logic behind Bayesian statistics, including the mathematical formalization of updating beliefs under uncertainty. Then we describe Bayesian methods for well-known probability models and compare these methods to classical (frequentist) alternatives. Topics include Bayes' Theorem, prior specification, Bayesian inference for discrete and continuous univariate random variables, and linear regression. We'll implement methods analytically and using software such as Minitab, R, and Stan.
+
+The latter portions of the course focus on implementing more advanced Bayesian methods through modern computational techniques to sample posterior distributions including Markov Chain Monte Carlo (MCMC) and Hamiltonian Monte Carlo (HMC). The aim will be to provide the concepts and technical skills to conduct a realistic Bayesian data analysis. 
 
 *Instructor's role*
 
 - Help explain and guide student understanding and skill development.
 - Organize the course structure and assignments.
 - Lead weekly class discussions.
-- Give brief informal feedback on student work.
+- Evaluate student work and provide feedback.
 
 *Student's role*
 
 - Complete the readings before the week's discussion meeting.
-- Watch the recorded lectures before the week's discussion meeting.
-- Submit practice exercises via `rmarkdown` reports in Canvas.
-- Participate in discussion meetings.
-- Prepare and report on a research project (optional).
+- Submit completed assignments on time.
+- Participate in discussions. 
+- Prepare for and complete course exams.
+- Conduct and report on a research project (646).
 
 ## Catalog Description
-Individual study of topics in probability and statistics conducted under the direction of a faculty member. Limited to 6 credits except under special circumstances.
+
+Statistical inference using Bayes' Theorem. Topics include posterior analysis for continuous and discrete random variables, prior specification, Bayesian regression, multivariate inference, and posterior sampling through Markov Chain Monte Carlo.
 
 ## Course Pre-requisites
-Instructor approval.
+
+STAT 352 or STAT 467/667 or with instructor approval. STAT 445/645 is a suggested preparation.
 
 # Student Learning Outcomes
-This offers focuses on
 
-* Students will be able to demonstrate understanding of the concepts that underlie Bayesian inference and design statistical models.
-* Students will be able to conduct Bayesian inference computationally and interpret the results.
-* Students will be able to perform a Bayesian analysis using professional statistical packages.
+Upon successful completion of the course, students will be able to 
+
+* demonstrate understanding of the concepts that underlie Bayesian inference and compare the results to frequentist alternatives.
+* conduct Bayesian inference analytically and interpret the results.
+* perfom Bayesian analyses using professional statistical packages (`R` and `Stan`).
+
+In addition to the above 400-level outcomes, graduate students will be able to 
+
+* synthesize course concepts to apply Bayesian modeling techniques to real-world data.
 
 # Textbooks & Course Materials
 
-<b style="background: khaki; font-weight: bold;">McElreath, Richard. _Statistical rethinking: A Bayesian course with examples in R and Stan._ CRC press, 2020.</b>
+*Introduction to Bayesian Statistics*, 3rd edition, by William M. BOLSTAD and James M. CURRAN.
 
-[Textbook homepage](https://xcelab.net/rm/statistical-rethinking/)
+[Textbook website](https://www.wiley.com/en-us/Introduction+to+Bayesian+Statistics%2C+3rd+Edition-p-9781118091562)
 
-**MAKE SURE TO GET THE 2nd EDITION**.
+**MAKE SURE TO GET THE 3rd EDITION**
 
 *Supplemental texts*
 
-- *R for data science: import, tidy, transform, visualize, and model data.*
-Wickham, Hadley, and Garrett Grolemund.
-"O'Reilly Media, Inc.", 2016.
+Modern best practices for coding and reporting `R` analyses:  
+*R for data science: import, tidy, transform, visualize, and model data*, Hadley WICKHAM and Garrett GROLEMUND.
+[Online textbook](https://r4ds.had.co.nz/)
 
-- *Hierarchical modeling and analysis for spatial data.*
-Banerjee, Sudipto, Bradley P. Carlin, and Alan E. Gelfand. 
-CRC press, 2014. 
+More Bayesian intuition and applied problems:  
+*Statistical Rethinking*, 2nd edition, Richard MCELREATH
+[Textbook website](https://xcelab.net/rm/statistical-rethinking/)
 
-*Recorded lectures given by R. McElreath*.
-[YouTube playlist](https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI)
+Standard Bayesian reference textbook:  
+*Bayesian Data Analysis*, 3rd edition by Andrew GELMAN et al.
+[Textbook website](http://www.stat.columbia.edu/~gelman/book/)
 
 # Assignments
 

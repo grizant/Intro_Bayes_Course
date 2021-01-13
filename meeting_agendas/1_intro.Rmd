@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Introduction to Bayesian Statistics (STAT 446/646)"
 author: "AG Schissler"
-date: "01/22/2020"
+date: "25 Jan 2021 (*updated: `r Sys.Date()`)*"
 output: html_document
 ---
 
@@ -15,6 +15,8 @@ library(tidyverse)
 ## I. Start-of-class work (5 min)
 
 ### Think-pair-share
+
+This only works if you get to multilevel modeling
 
 Think: Please explore/think about Figure 1. E.g., What US counties/regions experience the highest rates of kidney cancers in the late 1980s?  
 Pair: Discuss with your neighbor(s)  
@@ -49,6 +51,8 @@ Undergraduate and graduate students in math, engineering, computer science, or o
  
 #### Activity
 
+Modify for Zoom
+
 Please introduce yourself to your neighbor(s):
 
 1) Name (what you liked to be called)
@@ -58,16 +62,12 @@ Please introduce yourself to your neighbor(s):
 
 Let's go around the room and everyone please introduce your partner(s).
 
-### Grader: Emily
-
-Emily excelled last year taking this course. She will help to evaluate your work. 
-
 ### Instructor: A. Grant Schissler, PhD
 
-- background: 6 years of high schools teaching, 5 years at higher Ed teaching
+- background: 6 years of high schools teaching, 6 years at higher Ed teaching
 - education: BS in Applied Math, MS in Applied Stat, PhD in Statistics
 - research interests: Developing stats methods for personalized medicine, statistical computing, Bayesian modeling, clustering, high dimensional data, large scale hypothesis testing, simulation, multivariate analysis, limited data 
-- other interests: hiking, tennis, running, ukulele, games
+- other interests: dogs, hiking, tennis, running, ukulele, games
 
 ### Reciprocal interview
 
@@ -111,7 +111,7 @@ Assume good will among everyone here. **Ask Questions** and **Work Together** --
 
 #### Not happy? Talk with me
 
-- All, that being said, if I'm ever not meeting your learning goals or other issue, just talk with me.
+- All that being said, if I'm ever not meeting your learning goals or other issue, just talk with me.
 - It saddens me to see evaluations at the end that indicate problems I could have helped had I known.
 - It doesn't help you or me to keep issues to yourself.
 
@@ -216,11 +216,15 @@ sp
 - Secure file sharing
 - Another way to message the instructor
 
-#### DataCamp for online modules
+#### Mastering `R` and `RStudio`
 
-[datacamp.com](https://www.datacamp.com/home)
+https://education.rstudio.com/learn/beginner/
 
-Only three modules assigned, but DataCamp has a wealth of tutorials to supplement any gaps in your preparation or to accelerate your learning.
+https://education.rstudio.com/learn/intermediate/
+
+https://education.rstudio.com/learn/expert/
+
+Show rmd source
 
 #### Term project
 

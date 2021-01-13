@@ -29,15 +29,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-## https://slides.yihui.org/2019-rstudio-conf-pagedown.html#1
-## rmarkdown::draft(file = 'STAT699-FA20-syllabus.Rmd', template = 'html-paged', package = 'pagedown', edit = FALSE)
-## xaringan::inf_mr('STAT699-FA20-syllabus.Rmd')
-## wordcountaddin::word_count('STAT699-FA20-syllabus.Rmd')
-
-mon <- as.Date("2020-08-24")
+library(tidyverse)
+mon <- as.Date("2021-01-25")
 # fri <- as.Date("2016-01-08")
-
 advdate <- function(obj, adv) {
  tmon <- obj + 7*(adv-1)
  tfri <- obj + 4 + 7*(adv-1)
@@ -74,11 +68,11 @@ The latter portions of the course focus on implementing more advanced Bayesian m
 
 Statistical inference using Bayes' Theorem. Topics include posterior analysis for continuous and discrete random variables, prior specification, Bayesian regression, multivariate inference, and posterior sampling through Markov Chain Monte Carlo.
 
-## Course Pre-requisites
+## Course Prerequisites
 
 STAT 352 or STAT 467/667 or with instructor approval. STAT 445/645 is a suggested preparation.
 
-# Student Learning Outcomes
+## Student Learning Outcomes
 
 Upon successful completion of the course, students will be able to 
 
@@ -90,7 +84,7 @@ In addition to the above 400-level outcomes, graduate students will be able to
 
 * synthesize course concepts to apply Bayesian modeling techniques to real-world data.
 
-# Textbooks & Course Materials
+## Textbooks & Course Materials
 
 *Introduction to Bayesian Statistics*, 3rd edition, by William M. BOLSTAD and James M. CURRAN.
 
@@ -111,6 +105,21 @@ More Bayesian intuition and applied problems:
 Standard Bayesian reference textbook:  
 *Bayesian Data Analysis*, 3rd edition by Andrew GELMAN et al.
 [Textbook website](http://www.stat.columbia.edu/~gelman/book/)
+
+*Mastering `R` and `RStudio`*
+
+https://education.rstudio.com/learn/beginner/
+
+https://education.rstudio.com/learn/intermediate/
+
+https://education.rstudio.com/learn/expert/
+
+
+# Attendance
+
+Students are expected to attend class.
+If important circumstances prevent this, it is the student's responsibility to find out what was covered in class, what was assigned for reading or homework, and what special announcements (if any) were made.
+"Excessive absence" in this class will be construed to be absence from more than 10 percent of the scheduled class sessions, whether excused or unexcused.
 
 # Assignments
 
@@ -176,12 +185,18 @@ Cheating, plagiarism, or otherwise obtaining grades under false pretenses consti
 
 # Tentative course schedule
 
-Students please study the materials the assigned class session.
+Students please study the materials before the assigned class session.
 Class readings and assignments are subject to change, contingent on mitigating circumstances and the progress we make as a class.
 
-<div class="week">`r advdate(mon, 1)`: Organizational meeting </div>
+<div class="week">`r advdate(mon, 1)`: Organization & Intro to Bayes </div>
 
-We'll discuss the structure of the course and expectations for students/instructor.
+Readings: None.
+Practice: Please complete Ch. 4 practice exercises and submit in Canvas by the end of the week.
+Exams: None.
+Notes: None.
+
+*Monday topic*: Welcome to 4/646! We'll discuss the structure of the course and expectations for students/instructor.
+*Wednesday topic*:
 
 <div class="week">`r advdate(mon, 2)`: Introduction to Statistical Rethinking, Ch. 1-3</div>
 

@@ -123,44 +123,51 @@ If important circumstances prevent this, it is the student's responsibility to f
 
 # Assignments
 
-## Practice exercises
+## Problem sets
 
-"Practice" exercises will be assigned approximately weekly. Students will submit an html document and with its `rmarkdown` source in Canvas. You are encouraged to discuss assignments between each other and with instructor. However, the assignment must be completed and submitted individually. We may divide the practice between the students to discuss solutions for all the problems.
+Problem sets will be assigned each week, due on Fridays. You are encouraged to discuss assignments between each other and with instructor. However, the assignment must be completed and submitted individually. 
 
 ## Midterms
-No Midterm.
+There will be three online-based midterm examinations. The first due Friday, 26 Feb 2021, the second due Friday, 19 Mar 2021, and the third Friday, 9 April 2021.
 
 ## Final exam
-No final exam.
+There will be a take-home final exam, due Friday, 7 May 2021. 
 
 ## Exam policy
-N/A.
+
+Exams will be released roughly a week to before the due date. You must complete the exams without help. See Canvas for more details on take-home examination procedures.
 
 ## Makeup, Late Policy
-No make-up or late assignments.
-Two dropped assignments and participation grades.
 
-## Projects
-An optional project may be conducted by students to receive instructor guidance and feedback. It is not required, but hopefully would be helpful and motivating for some students.
+* Problem sets solutions and completed exams are due on Fridays.
+* Late assignments/exams will be given a 20% penalty per business day received late. (i.e., Saturday -0%, Sunday -0%, Monday -20% , Tuesday -40%, ..., Friday -100%).
+* Exceptions will be made when a student misses work due to a documented (doctor's note) illness or an extraordinary situation (up to the discretion of the instructor). 
+* There will be no early or make-up exams. 
+* If you need to miss an exam due to participation in a religious holiday or an official university activities (including athletics and other sanctioned activities), you must make arrangements with the instructor at least two weeks prior to the exam in question. 
 
-## Participation
-Participation is the most important part of this course as it required independent study. I'll drop two participation grades, including missed classes (counts as 0 regardless of the reason).
-
-I'll assign points for each class meeting based on the following rubric:
-- (1/3 of total points) attend and participate in discussions
-- (1/3 of total points)  watch videos ahead of time
-- (1/3 of total points) read ahead of time
+**I'll drop (trim) your 2 lowest grades in the "Problem Set" category to protect against 1-2 outlying points having too much weight (e.g., a 0).**
 
 # Grading
 
-We'll use a simple weighted scheme for grading.
+The course has a weighted grading scheme. There are three categories of assignments. Table 1 shows the percentages for each category and the number of assignments (n).
 
-```{r gradeWeights, echo=F, results='asis'}
-gradeDat <- data.frame( Weight = c( '60%', '40%', '00%'),
-                       Drop = c( 2, 2, 0),
-                       row.names = c( 'Practice Rmd', 'Participation', 'Project' ) )
-knitr::kable( gradeDat, caption = 'Grading scheme' )
-```
+| Assignment | n  | %  |
+|------------|----|----|
+| Problem set  | 14 | 55 |
+| Midterm    | 3  | 30 |
+| Final Exam | 1  | 15 |
+
+Table 2 displays the letter grade conversion for the total score from Table 1.
+
+| Letter grade | % Range      |
+|--------------|--------------|
+| A            | 89.9 - up    |
+| B            | 79.9 - 89.8  |
+| C            | 69.9 - 79.8  |
+| D            | 59.9 - 69.8  |
+| F            | below - 59.8 |
+
+The instructor reserves the right to deviate from the above thresholds, including assigning $+$ or $-$.
 
 # Additional statements
 
@@ -190,140 +197,151 @@ Class readings and assignments are subject to change, contingent on mitigating c
 
 <div class="week">`r advdate(mon, 1)`: Organization & Intro to Bayes </div>
 
-Readings: None.
-Practice: Please complete Ch. 4 practice exercises and submit in Canvas by the end of the week.
-Exams: None.
-Notes: None.
+- Readings: Bolstad Ch. 1 - 3.
+- Practice: Please complete Problem Set 1 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-*Monday topic*: Welcome to 4/646! We'll discuss the structure of the course and expectations for students/instructor.
-*Wednesday topic*:
+*Monday topic*: Welcome to 4/646! We'll discuss the structure of the course and expectations for students/instructor.  
+*Wednesday topic*: Ch.1-3 Statistics and Data Science review.
 
-<div class="week">`r advdate(mon, 2)`: Introduction to Statistical Rethinking, Ch. 1-3</div>
+<div class="week">`r advdate(mon, 2)`: Ch. 4 Plausible reasoning/Probability/Bayes' Rule </div>
 
-The introductory content that should be familiar to the students, but with a new perspective.
+- Readings: Bolstad Ch. 4.
+- Practice: Please complete Problem Set 2 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-*Readings*.
-Please read the Preface, Ch. 1, Ch. 2, and Ch. 3 in our textbook in advance of the discussion.
+*Monday topic*: Ch. 4 Deductive logic vs plausible reasoning. Bayes rule.   
+*Wednesday topic*: Ch. 4 Bayes rule , Bayes factor, odds
 
-*Video*.
-Please watch Lecture 01 and Lecture 02 in advance of the discussion.
+<div class="week">`r advdate(mon, 3)`: Ch. 5 Discrete random variables </div>
 
-*Practice*.
-Please complete Ch. 2 and Ch. 3 practice exercises and submit in Canvas by the end of the week.
+- Readings: Bolstad Ch. 5.
+- Practice: Please complete Problem Set 3 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-<div class="week">`r advdate(mon, 3)`: Geocentric models Ch. 4; Wiggly Orbits Ch. 4.</div>
+*Monday topic*: Ch. 5 Discrete random variables  
+*Wednesday topic*: Ch. 5 Discrete random variables
 
-*Readings*.
-Please read the Ch. 4 in our textbook in advance of the discussion.
+<div class="week">`r advdate(mon, 4)`: Ch. 6 Bayesian inference for discrete RVs </div>
 
-*Video*.
-Please watch Lecture 03 and Lecture 04 in advance of the discussion.
+- Readings: Bolstad Ch. 6.
+- Practice: Please complete Problem Set 4 and submit in Canvas by the end of the week.
+- Exams: Midterm 1 released.
+- Notes: None.
 
-*Practice*.
-Please complete Ch. 4 practice exercises and submit in Canvas by the end of the week.
+*Monday topic*: President's Day. No class.  
+*Wednesday topic*: Ch. 6 Bayesian inference for discrete RVs
 
-<div class="week">`r advdate(mon, 4)`: The Many Variables & Spurious Waffles Ch. 5; The Haunted DAG & Causal Terror Ch. 6</div>
+<div class="week">`r advdate(mon, 5)`: Ch. 7-8 Continuous RVs and Bayesian inference for binomial proportion </div>
 
-*Readings*.
-Please read Ch. 5 and Ch. 6 in our textbook in advance of the discussion.
+- Readings: Bolstad Ch. 7-8.
+- Practice: Please complete Problem Set 5 and submit in Canvas by the end of the week.
+- Exams: Midterm 1 due Friday 26 Feb 2021.
+- Notes: None.
 
-*Video*.
-Please watch Lecture 05 and Lecture 06 in advance of the discussion.
+*Monday topic*: Ch. 7 Continuous RVs  
+*Wednesday topic*: Ch. 8 Bayes inference for binomial proportion $\pi$
 
-*Practice*.
-Please complete Ch. 5,6 practice exercises and submit in Canvas by the end of the week.
+<div class="week">`r advdate(mon, 6)`:  Ch. 9 Comparing Bayes/Frequentist for $\pi$ </div>
 
-<div class="week">`r advdate(mon, 5)`: Back-door Paths Ch. 7; Ulysses' Compass Ch. 7</div>
+- Readings: Bolstad Ch. 9
+- Practice: Please complete Problem Set 6 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: Drop Day is 3 Mar 2021.
 
-*Readings*.
-Please read Ch. 7 in our textbook in advance of the discussion.
+*Monday topic*: Ch. 9 Comparing Bayes/Frequentist for estimating $\pi$   
+*Wednesday topic*: Ch. 9 Comparing Bayes/Frequentist for testing $\pi$
 
-*Video*.
-Please watch Lecture 07 and Lecture 08 in advance of the discussion.
+<div class="week">`r advdate(mon, 7)`:  Ch. 10 Bayesian inference for Poisson mean  </div>
 
-*Practice*.
-Please complete Ch. 7 practice exercises and submit in Canvas by the end of the week.
+- Readings: Bolstad Ch. 10
+- Practice: Please complete Problem Set 7 and submit in Canvas by the end of the week.
+- Exams: Midterm 2 released.
+- Notes: None.
 
-<div class="week">`r advdate(mon, 6)`: Conditional Manatees Ch. 8; Markov Chain Monte Carlo Ch. 9</div>
+*Monday topic*: Ch. 10 Bayes inference for Poisson mean.  
+*Wednesday topic*: Reading Day. No class.
 
-*Readings*.
-Please read Ch. 8,9 in our textbook in advance of the discussion.
+<div class="week">`r advdate(mon, 8)`:  Ch. 11-12 Bayesian inference for normal mean $\mu$  </div>
 
-*Video*.
-Please watch Lecture 09 and Lecture 10 in advance of the discussion.
+- Readings: Bolstad Ch. 11-12
+- Practice: Please complete Problem Set 8 and submit in Canvas by the end of the week.
+- Exams: Midterm 2 due Friday 12 March 2021.
+- Notes: None.
 
-*Practice*.
-Please complete Ch. 8,9 practice exercises and submit in Canvas by the end of the week.
+*Monday topic*: Ch. 11 Bayes inference for normal mean $\mu$  
+*Wednesday topic*: Ch. 12 Comparing Bayes/Frequentist inference for $\mu
 
-<div class="week">`r advdate(mon, 7)`: Big Entropy and the GLM Ch. 10; God Spiked the Integers Ch. 11</div>
+<div class="week">`r advdate(mon, 9)`:  Ch. 13 Bayesian inference for difference between normal means  </div>
 
-*Readings*.
-Please read Ch. 10,11 in our textbook in advance of the discussion.
+- Readings: Bolstad Ch. 13
+- Practice: Please complete Problem Set 9 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-*Video*.
-Please watch Lecture 11 and Lecture 12 in advance of the discussion.
+*Monday topic*: Ch. 13 Bayes inference for diff in normal mean  
+*Wednesday topic*: No Instruction Day. No class.
 
-*Practice*.
-Please complete Ch. 11 practice exercises and submit in Canvas by the end of the week.
+<div class="week">`r advdate(mon, 10)`:  Ch. 14 Bayesian inference for simple linear regression  </div>
 
-<div class="week">`r advdate(mon, 8)`: Monsters & Mixtures Ch. 12; Order Categories Ch. 12</div>
+- Readings: Bolstad Ch. 14
+- Practice: Please complete Problem Set 10 and submit in Canvas by the end of the week.
+- Exams: Midterm 3 released.
+- Notes: None.
 
-*Readings*.
-Please read Ch. 12 in our textbook in advance of the discussion.
+*Monday topic*: Ch. 14 Bayesian inference for simple linear regression  
+*Wednesday topic*: Ch. 14 Bayesian inference for simple linear regression
 
-*Video*.
-Please watch Lecture 13 and Lecture 14 in advance of the discussion.
+<div class="week">`r advdate(mon, 11)`:  Ch. 15-16 Bayesian inference for standard deviation, Robust methods  </div>
 
-*Practice*.
-Please complete Ch. 12 practice exercises and submit in Canvas by the end of the week.
+- Readings: Bolstad Ch. 15-16
+- Practice: Please complete Problem Set 11 and submit in Canvas by the end of the week.
+- Exams: Midterm 3 due Friday 9 Apr 2021.
+- Notes: None.
 
-<div class="week">`r advdate(mon, 9)`: Models with Memory Ch. 13;  Multilevel Models 2 Ch. 13</div>
+*Monday topic*: Ch. 15 Bayes for $\sigma$  
+*Wednesday topic*: Ch. 16 Robust Bayes via mixture modeling
 
-*Readings*.
-Please read Ch. 13 in our textbook in advance of the discussion.
+<div class="week">`r advdate(mon, 12)`:  Ch. 17 Bayesian inference unknown mean/variance </div>
 
-*Video*.
-Please watch Lecture 15 and Lecture 16 in advance of the discussion.
+- Readings: Bolstad Ch. 17.
+- Practice: Please complete Problem Set 12 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-*Practice*.
-Please complete Ch. 13 practice exercises and submit in Canvas by the end of the week.
+*Monday topic*: Ch. 17 Bayesian inference unknown mean/variance  
+*Wednesday topic*: Ch. 17 Bayesian inference unknown mean/variance
 
-<div class="week">`r advdate(mon, 10)`: Adventures in Covariance Ch. 14;  Further Adventures Ch. 14</div>
+<div class="week">`r advdate(mon, 13)`:  Ch. 18 Bayesian inference multivariate normal mean vector </div>
 
-*Readings*.
-Please read Ch. 14 in our textbook in advance of the discussion.
+- Readings: Bolstad Ch. 18.
+- Practice: Please complete Problem Set 13 and submit in Canvas by the end of the week.
+- Exams: None.
+- Notes: None.
 
-*Video*.
-Please watch Lecture 17 and Lecture 18 in advance of the discussion.
+*Monday topic*: Ch. 18 Bayesian inference multivariate normal mean vector  
+*Wednesday topic*: Reading Day. No class.
 
-*Practice*.
-Please complete Ch. 14 practice exercises and submit in Canvas by the end of the week.
+<div class="week">`r advdate(mon, 14)`:  Ch. 19 Bayesian inference multiple linear regression </div>
 
-<div class="week">`r advdate(mon, 11)`: Gaussian Processes Ch. 14; Missing Data & Other Opportunities Ch. 15</div>
+- Readings: Bolstad Ch. 19.
+- Practice: Please complete Problem Set 14 and submit in Canvas by the end of the week.
+- Exams: Final exam released.
+- Notes: Matrix (linear) algebra required.
 
-*Readings*.
-Please read Ch. 14, 15 in our textbook in advance of the discussion.
+*Monday topic*: Ch. 19 Bayesian inference multiple linear regression  
+*Wednesday topic*: Ch. 19 Bayesian inference multiple linear regression
 
-*Video*.
-Please watch Lecture 19 and Lecture 20 in advance of the discussion.
+<div class="week">`r advdate(mon, 14)`:  Ch. 20 Introduction to Computational Bayes </div>
 
-*Practice*.
-Please complete Ch. 15 practice exercises and submit in Canvas by the end of the week.
+- Readings: Bolstad Ch. 20.
+- Practice: None.
+- Exams: Final exam due Friday 7 May 2021.
+- Notes: Matrix (linear) algebra required.
 
-<div class="week">`r advdate(mon, 12)`: Generalized Linear Madness Ch. 16; Horoscopes</div>
-
-*Readings*.
-Please read Ch. 16,17 in our textbook in advance of the discussion.
-
-*Video*.
-None unless I record or find a lecture.
-
-*Practice*.
-Please complete Ch. 16 practice exercises and submit in Canvas by the end of the week.
-
-<div class="week">`r advdate(mon, 13)`: Catch-up / student presentations**</div>
-<div class="week">`r advdate(mon, 14)`: Catch-up / student presentations**</div>
-<div class="week">`r advdate(mon, 15)`: Catch-up / student presentations**</div>
-<div class="week">`r advdate(mon, 16)`: Catch-up / student presentations**</div>
-<div class="week">`r advdate(mon, 17)`: NO FINAL MEETING**</div>
+*Monday topic*: Ch. 20 Computational Bayes including Markov Chain Monte Carlo (MCMC).  
+*Wednesday topic*: Prep Day. No class.
 

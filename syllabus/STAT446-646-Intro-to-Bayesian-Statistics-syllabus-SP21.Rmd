@@ -82,7 +82,7 @@ In addition to the above 400-level outcomes, graduate students will be able to
 
 * synthesize course concepts in an application of Bayesian modeling to real-world data.
 
-## Textbooks & Course Materials
+## Required textbook
 
 *Introduction to Bayesian Statistics*, 3rd edition, by William M. BOLSTAD and James M. CURRAN.
 
@@ -90,7 +90,7 @@ In addition to the above 400-level outcomes, graduate students will be able to
 
 **MAKE SURE TO GET THE 3rd EDITION**
 
-*Supplemental texts*
+## Supplemental texts / resources
 
 Modern best practices for coding and reporting `R` analyses:  
 *R for data science: import, tidy, transform, visualize, and model data*, Hadley WICKHAM and Garrett GROLEMUND.

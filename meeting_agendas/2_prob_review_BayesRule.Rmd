@@ -1,0 +1,199 @@
+---
+title: "Probability review and Bayes' Theorem Ch.1-3"
+author: "AG Schissler"
+date: "27 Jan 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r LoadLib, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results = "hide"}
+library(tidyverse)
+## library(rstanarm)
+## options(mc.cores = parallel::detectCores() - 1)
+set.seed(02162021)
+## xaringan::inf_mr('ctrin_talk2021.rmd')
+## system( 'cp ~/bib/CP3.bib ../.' )
+```
+
+# i. Start-of-class work
+
+
+
+## Discuss the following random experiment:
+
+I have prepared three sets of cards for each student. Each set has three cards: One with both sides pink, one with both sides blue, and one with a blue and pink side.
+
+If I select a card at random and reveal a blue side, what is the probability that the other side is also blue?
+
+## What's the color on the other side of the card?
+
+Class demonstration.
+
+## 1. Administration items
+
+### Discuss learning outcomes omitted in meeting 1
+
+Let's revisit [1_intro.html](~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/meeting_agendas/1_intro.html) to discuss learning outcomes and assessment.
+
+### Completing HW
+
+Let's discuss HW 1 expectations and evalutation.
+
+## 2. Probability review
+
+Please define and notate (when appropriate) without referring to the text or Internet. You may discuss with those around you.
+
+1. Random experiment
+2. Outcome
+3. Sample space. What are two ways to denote it?
+4. Event
+5. Union of two events. What symbol is used?
+6. Intersection of two events. What symbol is used?
+7. Complement of an event. What symbol is used?
+
+### Discuss deductive logic and plausible reasoning
+
+from Bolstad & Curran Ch.4, Section 4.1, p.59:
+
+> Probability formalizes plausible reasoning, extending logic to account for uncertainty. Deductive reasoning is the most typically presented way to prove statements. It works by flowing from the general to particular. It does a poor job of dealing with uncertainty! 
+
+> Induction, on the other hand, flows from the particular to the general. (Do you recall proving something by assuming a base case and prove the next case must hold the statement in general?) Induction is a process that can include plausible reasoning (not just absolute). 
+
+> _Statistical inference_ is an inductive process for making inferences about a population parameter, by quantifying how plausible parametre values are given the observed data or other information.
+
+### Desired properties of plausibility measures (p.61)
+
+<Board>
+
+Logicians have proved that any set of plausibilities that have the desired properties must operate using the rules of probability! So probability is *the way* to reason formally with uncertanity.
+
+*Bayesian statistics uses the rules of probability to revise our belief given the data*.
+
+### Axioms of probability
+
+(from Bolstad & Curran Ch.4, Section 4.3, p.64)
+
+1. $P(A) \geq 0$ for any event $A$. (probabilities are nonnegative)
+2. $P(U) = 1$. (we are certain that something will happen)
+3. If $A$ and $B$ are _mutually exclusive_ events, then $P(A \cup B) = P(A) + P(B)$. (probability is _additive_ over disjoint events).
+
+### Joint probability
+
+#### Motivating example: Four boys? What are the chances?
+
+Suppose there are four children in a family. Which of the following sequences is most likely?
+
+a. `bbbb`
+b. `bgbg`
+c. `gggg`
+
+<Draw probablity tree on the board>
+
+Now let's discuss a realistic and (perhaps) surprising twist to the calculation:
+
+```{r, babies}
+## our code here
+prob_female <- 0.487
+prob_male <- 1 - prob_female
+## probability four male births
+prob_male^4
+1/16
+## bgbg
+(prob_female)^2 * (prob_male)^2
+
+```
+
+### Joint probability for independent events
+
+If event $A$ and event $B$ are independent, then $P(A \cap B) = P(A) \times P(B)$. This is called the _multiplication rule_ for independent events. If this property does not hold then the events are called _dependent_.
+
+### Mutually exclusive events versus independent events
+
+Often learners confuse the notions of mutually exclusive (disjoint) events and independent events. Here we mean independent in the sense that one event occurring does not change the chances of another event occurring. In other words, The events behave _independently_.   
+
+On the other hand, disjoint events **cannot** occur at the same time. So disjoint events (with nonzero probability) are by definition, _dependent_.
+
+Let's work through a quick proof that disjoint events are dependent:
+
+- Suppose that two events, $A,B$, have nonzero probability. I.e., $P(A) > 0$ and $P(B) > 0$. (if either event has zero probability then the events are trivially independent).
+- Further suppose that $A$ and $B$ are mutually exclusive. I.e., $A \cap B = \emptyset$.
+
+Now let's check the independence condition:
+
+If $A,B$ are independent then  
+$0=P(\emptyset)=P(A \cap B)=P(A) \times P(B)$. This implies that either $P(A)=0$ or $P(B)=0$, contradicting our first supposition. So $A,B$ cannot be independent. Therefore, $A,B$ are dependent events.
+
+### Marginal probability
+
+When dealing with two events (the joint setting), the probability of one event, $A$, is called its _marginal probability_. Marginal probability is really important and we'll discuss its calculation throughout the course. For a Universe with only two events, the marginal probability is found by summing its disjoint parts.
+
+First find a partition in terms of the other event $B$:  
+$A = (A \cap B) \cup (A \cap \tilde{B})$.
+
+Then use Axiom 3:  
+$P(A) = P(A \cap B) + P(A \cap \tilde{B})$.
+
+## 3. Conditional probability and Bayes' Theorem
+
+(from Bolstad & Curran Ch.4, Section 4.5, p.67)
+
+$P(B | A) = \frac{P(A \cap B)}{P(A)}$
+
+### Reduced Universe idea
+
+Let's discuss Figure 4.7 in Bolstad p.67.
+
+### Multiplication rule
+
+A simple restatement of the conditional probability:
+
+$P(A \cap B) =  P(B | A) \times P(A)$
+
+But this is powerful! Now we can compute the joint probability by multiplying the conditional probability by the marginal probability.
+
+### Conditional probability for independent events
+
+Intuitively, independence means that one event occurring or not occurring does **not** affect the chances of the other event occurring. I.e., $P(B|A) = P(B)$. From the independence condition we see this is the case:
+
+$P(B | A) \times P(A) = P(A \cap B) =  P(B) \times P(A)$. This implies that $P(B) = P(B|A)$.
+
+### Lie detector demonstration
+
+<Gelman/Nolan Section 8.5.2, p.127>
+
+## Bayes' Theorem
+
+(from Bolstad & Curran Ch.4, Section 4.6, p.68)
+
+$P(B_i | A) = \frac{P(A \cap B_i)}{P(A)}= \frac{P(A | B_i) \times P(B_i)}{\sum_{j=1}^n P(A|B_j) \times P(B_j)}$. 
+
+### Bolstad Example 4.1
+
+Let's discuss Figures 4.8, 4.9, p.70
+
+### Bayes' Theorem: The Key to Bayesian Statistics
+
+Now let's see how we use Bayes' Theorem to revise our beliefs on the basis of evidence. 
+
+- The $B_i$ represent a finite set of unobservable events which partition the universe. The we assign our **prior** probability to each of these events. This is our belief before seeing any evidence/data.
+- Then **likelihood** is the conditional probability that the data/evidence $A$ occurred given each of our unobservable events $B_i$. The likelihood is a function defined on events $B_i$ and is the **weight** given to each $B_i$ given $A$.
+- Then $P(B_i | A)$ is the **posterior** probability that event $B_i$ occurs, given $A$. 
+
+**Therefore, Bayes' Theorem combines our prior beliefs with the evidence to update our belief about uncertain events!**
+
+### The Bayesian universe, p.71
+
+Let's discuss Figures 4.10, 4.11, p.72-73 in the context of the Bayesian universe.
+
+### Multiplying by a constant
+
+Easy to see that multiplying either the likelihood or prior by a constant results in the same **posterior** (constants cancel in the ratio). So only the **relative** weights of each on each possibility in the likelihood/prior matter.
+
+## ii. Closing
+
+Please answer the following questions and be prepared to share with the group.
+
+- What if anything surprised you today?
+- What did you learn from that experience?

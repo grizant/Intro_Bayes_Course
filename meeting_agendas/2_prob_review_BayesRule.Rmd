@@ -17,33 +17,35 @@ set.seed(02162021)
 ## system( 'cp ~/bib/CP3.bib ../.' )
 ```
 
-# i. Start-of-class work
+# Start-of-class work
 
+## Motivating example: Four boys? What are the chances?
 
+Suppose there are four children in a family. Which of the following sequences is most likely?
 
-## Discuss the following random experiment:
+a. `bbbb`
+b. `bgbg`
+c. `gggg`
 
-I have prepared three sets of cards for each student. Each set has three cards: One with both sides pink, one with both sides blue, and one with a blue and pink side.
+<Draw probablity tree on the ipad>
 
-If I select a card at random and reveal a blue side, what is the probability that the other side is also blue?
+# 1. Administration items
 
-## What's the color on the other side of the card?
-
-Class demonstration.
-
-## 1. Administration items
-
-### Discuss learning outcomes omitted in meeting 1
+## learning outcomes omitted in meeting 1
 
 Let's revisit [1_intro.html](~/OneDrive - University of Nevada, Reno/Teaching/Bayes_course/git_public/meeting_agendas/1_intro.html) to discuss learning outcomes and assessment.
 
-### Completing HW
+## Completing HW 1
 
-Let's discuss HW 1 expectations and evalutation.
+Let's discuss HW 1 expectations and evalutation:
 
-## 2. Probability review
+https://unr.canvaslms.com/courses/65495/assignments/739522
 
-Please define and notate (when appropriate) without referring to the text or Internet. You may discuss with those around you.
+# 2. Probability review
+
+## Probability terms
+
+Please define and notate (when appropriate) without referring to the text or Internet. 
 
 1. Random experiment
 2. Outcome
@@ -53,7 +55,7 @@ Please define and notate (when appropriate) without referring to the text or Int
 6. Intersection of two events. What symbol is used?
 7. Complement of an event. What symbol is used?
 
-### Discuss deductive logic and plausible reasoning
+## Discuss deductive logic and plausible reasoning
 
 from Bolstad & Curran Ch.4, Section 4.1, p.59:
 
@@ -63,15 +65,13 @@ from Bolstad & Curran Ch.4, Section 4.1, p.59:
 
 > _Statistical inference_ is an inductive process for making inferences about a population parameter, by quantifying how plausible parametre values are given the observed data or other information.
 
-### Desired properties of plausibility measures (p.61)
-
-<Board>
+## Desired properties of plausibility measures (p.61)
 
 Logicians have proved that any set of plausibilities that have the desired properties must operate using the rules of probability! So probability is *the way* to reason formally with uncertanity.
 
 *Bayesian statistics uses the rules of probability to revise our belief given the data*.
 
-### Axioms of probability
+## Axioms of probability
 
 (from Bolstad & Curran Ch.4, Section 4.3, p.64)
 
@@ -79,43 +79,31 @@ Logicians have proved that any set of plausibilities that have the desired prope
 2. $P(U) = 1$. (we are certain that something will happen)
 3. If $A$ and $B$ are _mutually exclusive_ events, then $P(A \cup B) = P(A) + P(B)$. (probability is _additive_ over disjoint events).
 
-### Joint probability
+## Joint probability example revisited 
 
-#### Motivating example: Four boys? What are the chances?
-
-Suppose there are four children in a family. Which of the following sequences is most likely?
-
-a. `bbbb`
-b. `bgbg`
-c. `gggg`
-
-<Draw probablity tree on the board>
-
-Now let's discuss a realistic and (perhaps) surprising twist to the calculation:
+## Now let's discuss a realistic and (perhaps) surprising twist to the birth calculation:
 
 ```{r, babies}
-## our code here
-prob_female <- 0.487
+prob_female <- 0.487 ## actual rate of female human babies
 prob_male <- 1 - prob_female
 ## probability four male births
 prob_male^4
-1/16
+1/16 ## compare to crude estimate.
 ## bgbg
 (prob_female)^2 * (prob_male)^2
-
 ```
 
-### Joint probability for independent events
+## Joint probability for independent events
 
 If event $A$ and event $B$ are independent, then $P(A \cap B) = P(A) \times P(B)$. This is called the _multiplication rule_ for independent events. If this property does not hold then the events are called _dependent_.
 
-### Mutually exclusive events versus independent events
+## Mutually exclusive events versus independent events
 
 Often learners confuse the notions of mutually exclusive (disjoint) events and independent events. Here we mean independent in the sense that one event occurring does not change the chances of another event occurring. In other words, The events behave _independently_.   
 
 On the other hand, disjoint events **cannot** occur at the same time. So disjoint events (with nonzero probability) are by definition, _dependent_.
 
-Let's work through a quick proof that disjoint events are dependent:
+## Let's work through a quick proof that disjoint events are dependent:
 
 - Suppose that two events, $A,B$, have nonzero probability. I.e., $P(A) > 0$ and $P(B) > 0$. (if either event has zero probability then the events are trivially independent).
 - Further suppose that $A$ and $B$ are mutually exclusive. I.e., $A \cap B = \emptyset$.
@@ -125,7 +113,7 @@ Now let's check the independence condition:
 If $A,B$ are independent then  
 $0=P(\emptyset)=P(A \cap B)=P(A) \times P(B)$. This implies that either $P(A)=0$ or $P(B)=0$, contradicting our first supposition. So $A,B$ cannot be independent. Therefore, $A,B$ are dependent events.
 
-### Marginal probability
+## Marginal probability
 
 When dealing with two events (the joint setting), the probability of one event, $A$, is called its _marginal probability_. Marginal probability is really important and we'll discuss its calculation throughout the course. For a Universe with only two events, the marginal probability is found by summing its disjoint parts.
 
@@ -135,45 +123,57 @@ $A = (A \cap B) \cup (A \cap \tilde{B})$.
 Then use Axiom 3:  
 $P(A) = P(A \cap B) + P(A \cap \tilde{B})$.
 
-## 3. Conditional probability and Bayes' Theorem
+# 3. Conditional probability and Bayes' Theorem
+
+## Conditional probability and Bayes' Theorem
 
 (from Bolstad & Curran Ch.4, Section 4.5, p.67)
 
 $P(B | A) = \frac{P(A \cap B)}{P(A)}$
 
-### Reduced Universe idea
+## Reduced Universe idea
 
 Let's discuss Figure 4.7 in Bolstad p.67.
 
-### Multiplication rule
+## Multiplication rule
 
-A simple restatement of the conditional probability:
+A restatement of the conditional probability:
 
 $P(A \cap B) =  P(B | A) \times P(A)$
 
 But this is powerful! Now we can compute the joint probability by multiplying the conditional probability by the marginal probability.
 
-### Conditional probability for independent events
+## Conditional probability for independent events
 
 Intuitively, independence means that one event occurring or not occurring does **not** affect the chances of the other event occurring. I.e., $P(B|A) = P(B)$. From the independence condition we see this is the case:
 
 $P(B | A) \times P(A) = P(A \cap B) =  P(B) \times P(A)$. This implies that $P(B) = P(B|A)$.
 
-### Lie detector demonstration
+<!-- 
+## Lie detector demonstration
 
 <Gelman/Nolan Section 8.5.2, p.127>
+ -->
+
+# Bayes' Theorem
 
 ## Bayes' Theorem
 
-(from Bolstad & Curran Ch.4, Section 4.6, p.68)
+For two events $A,B$ we can restate conditional probability in a powerful new form called Bayes' Theorem or Bayes' rule:
+
+$P( B | A) = \frac{P( A \cap B) }{P(A)} = \frac{ P(A|B) \times P(B) }{P(A)}$.
+
+For a finite collection of events we can also state Bayes' rule as:
 
 $P(B_i | A) = \frac{P(A \cap B_i)}{P(A)}= \frac{P(A | B_i) \times P(B_i)}{\sum_{j=1}^n P(A|B_j) \times P(B_j)}$. 
 
-### Bolstad Example 4.1
+(from Bolstad & Curran Ch.4, Section 4.6, p.68).
+
+## Bolstad Example 4.1
 
 Let's discuss Figures 4.8, 4.9, p.70
 
-### Bayes' Theorem: The Key to Bayesian Statistics
+## Bayes' Theorem: The Key to Bayesian Statistics
 
 Now let's see how we use Bayes' Theorem to revise our beliefs on the basis of evidence. 
 
@@ -183,17 +183,15 @@ Now let's see how we use Bayes' Theorem to revise our beliefs on the basis of ev
 
 **Therefore, Bayes' Theorem combines our prior beliefs with the evidence to update our belief about uncertain events!**
 
-### The Bayesian universe, p.71
+## The Bayesian universe, p.71
 
 Let's discuss Figures 4.10, 4.11, p.72-73 in the context of the Bayesian universe.
 
-### Multiplying by a constant
+## Multiplying by a constant
 
 Easy to see that multiplying either the likelihood or prior by a constant results in the same **posterior** (constants cancel in the ratio). So only the **relative** weights of each on each possibility in the likelihood/prior matter.
 
-## ii. Closing
+# Closing
 
-Please answer the following questions and be prepared to share with the group.
-
-- What if anything surprised you today?
-- What did you learn from that experience?
+- Q & A for the first HW?
+- Questions/comments about anything we discussed?

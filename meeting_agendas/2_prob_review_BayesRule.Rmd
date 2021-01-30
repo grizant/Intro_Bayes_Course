@@ -77,8 +77,7 @@ Logicians have proved that any set of plausibilities that have the desired prope
 
 1. $P(A) \geq 0$ for any event $A$. (probabilities are nonnegative)
 2. $P(U) = 1$. (we are certain that something will happen)
-3. If $A$ and $B$ are _mutually exclusive_ events, then $P(A \cup B) = P(A) + P(B)$. (probability is _additive_ over disjoint events).
-
+3. If $A$ and $B$ are _mutually exclusive_ events, then $P(A \cup B) = P(A) + P(B)$. (probability is _additive_ over disjoint events).e
 ## Joint probability example revisited 
 
 ## Now let's discuss a realistic and (perhaps) surprising twist to the birth calculation:

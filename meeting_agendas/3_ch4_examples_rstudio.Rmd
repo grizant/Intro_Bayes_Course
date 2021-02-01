@@ -1,0 +1,63 @@
+---
+title: "Probability Ch. 4"
+author: "AG Schissler"
+date: "1 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r LoadLib, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results = "hide"}
+library(tidyverse)
+## xaringan::inf_mr('3_ch4_examples.rmd')
+```
+
+# 1. Homework preparation
+
+## Document production in rstudio
+
+- HW due date moved to this Friday.
+- Let me demonstrate producing html documents using rstudio.
+- please try and see if you can render
+
+## Discussion regarding ch.1-3
+
+- let's run some code from ch.3
+- any questions?
+- interesting things?
+- big ideas?
+
+# 2. Ch. 4 discussion
+
+## Bayes' rule vocabulary
+
+- The $B_i$ represent a finite set of unobservable events which partition the universe. The we assign our **prior** probability to each of these events. This is our belief before seeing any evidence/data.  
+- Then **likelihood** is the conditional probability that the data/evidence $A$ occurred given each of our unobservable events $B_i$. The likelihood is a function defined on events $B_i$ and is the **weight** given to each $B_i$ given $A$.  
+- Then $P(B_i | A)$ is the **posterior** probability that event $B_i$ occurs, given $A$.   
+
+$P( B | A) = \frac{P( A \cap B) }{P(A)} = \frac{ P(A|B) \times P(B) }{P(A)}$.
+
+**Therefore, Bayes' Theorem combines our prior beliefs with the evidence to update our belief about uncertain events!**
+
+## Ch. 4 summary
+
+- Bolstad's main points provide a nice summary.
+- Let's discuss using the etext.
+
+# 3. Ch. 4 problem set preparation and examples
+
+## Axioms of prob 4.3 and other prob rules
+
+
+- derivation of $P(\emptyset) = 0$.  
+- derivation of complement rule.  
+- derivation of addition rule .  
+
+## Example. Exercise 4.2
+
+On ipad.
+
+# 4. Closing
+
+- Students, please summarize to create associations and emphasize the key points

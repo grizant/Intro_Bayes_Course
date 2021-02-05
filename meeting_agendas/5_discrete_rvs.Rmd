@@ -1,0 +1,213 @@
+---
+title: "Discrete random variables Ch. 5"
+author: "AG Schissler"
+date: "8 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+## library(bolstad)
+## xaringan::inf_mr('5_discrete_rvs.rmd')
+```
+
+<bring to class: dice>
+
+# i. Start-of-class work: Die rolling
+
+<!-- 
+Let's dig into an activity based on "Thought Experiment 1" (Section 5.1, p.84). Please roll your 10-sided 10 times and tabulate your results. Join with a partner or two and sketch a relative frequency histogram (example on p.85) of your combined results.
+
+your comment -->
+
+## Monte Carlo study: Long-run relative frequency converges to probability of each discrete value
+
+- Activity based on "Thought Experiment 1" (Section 5.1, p.84)
+
+```{r diceSim}
+num_rolls <- c(1e1, 1e2, 1e3, 1e4, 1e5, 1e6)
+num_faces <- 10
+
+## loop not efficient, but easy to explain
+
+sim_data <- NULL
+set.seed(11)
+for (tmp_rolls in num_rolls){
+    sim_faces <- sample(x = num_faces, size = tmp_rolls, replace = TRUE)
+    sim_prop <- table(sim_faces) / tmp_rolls
+    tmp_data <- data.frame(face = 1:10, prop = 0, num_rolls = tmp_rolls)
+    ## careful inserting data if none occurred
+    tmp_data$prop[tmp_data$face %in% names(sim_prop)] <- sim_prop
+    sim_data <- rbind(sim_data, tmp_data)
+}
+```
+
+## Long-run frequency convergences to belief
+
+```{r diceSimPlot}
+## faceted plot, like Figure 5.1, p. 85
+p0 <- ggplot(data = sim_data, aes(x = factor(face), y = prop))
+p0 + geom_hline(yintercept = 0.1) + geom_bar(stat = "identity") + facet_wrap(~ num_rolls, nrow = 2) 
+```
+
+## More on the Bayesian Universe vertical and horizontal direction
+
+- This was a bit rough on the fly, let's clear up any confusion.
+- Take for example Table 6.13 on p.118.
+- This beta-binomial discussion will also motivate today's lesson.
+
+# Discrete random variables 5.1, 5.2
+
+## 1. Probability distribution of a discrete rv
+
+- A random variable describes the outcome of a random experiment in terms of a number.
+- If the only possible outcomes of the experiment are distinct numbers separated from each other, we say the random variable is *discrete*. See Section 5.1 for more details.
+
+### Expected value
+
+Brief discussion: expected value as a weighted average.
+
+### Variance
+
+Discuss the impact of squaring deviations.
+
+### Mean and variance of a linear transformation
+
+Discuss derivations on p.89.
+
+# 2. Three important discrete rvs (Sections 5.3 - 5.5)
+
+Brief discussion of characterization/motivation of some common discrete rvs.
+
+## Binomial distribution
+
+Exercise HW 2 5.3
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+## An R demonstration for 5.3. 
+
+```{r tabFiveThree}
+y <- 0:5; f_y <- dbinom( x = y, size = 5, prob = 0.6 )
+res <- cbind( f_y, y*f_y, y^2*f_y )
+res <- rbind( res, colSums( res ) )
+colnames(res) <-  c("y", "f(y)", "y^2 x f(y)" )
+knitr::kable( res )
+```
+
+## 5.3 con'd
+
+```{r fiveThree}
+## expected value
+(mu <- unname(res[ nrow(res) , 2 ]))
+5*0.6 # EX = np
+## variance
+unname( res[ nrow(res) , 3 ]  ) - mu^2
+3*0.4 # VarX = np(1-p)
+```
+
+## Hypergeometric
+
+- brief discussion
+
+## Poisson
+
+Exercise 5.8
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.8:
+
+```{r, fiveEight}
+## our code here
+```
+
+## An R demonstration for Exercise 5.7:
+
+```{r, fiveSeven}
+dpois(x = 2, lambda = 2)
+```
+
+# 3. Joint random variables (5.6)
+
+Let's discuss notation and the tabular representation for discrete rvs (Table 5.3, p.97).
+
+## Expected value of a sum of two random variables
+
+$E[X + Y] = E[X] + E[Y]$ for any two rvs.
+
+## Variance of a sum of two random variables
+
+- Let's discuss the variance of a sum and a decomposition. p.98.
+- Introduce the notion of covariance.
+
+## Special case: variance of a sum of indep. rvs
+
+Whole group discussion.
+
+## Mean/var of a difference of indep rvs
+
+Simulation code:
+
+```{r}
+set.seed(22)
+n <- 1e6
+x <- rbinom(n = n, size = 10, prob = 0.2)
+## mean of 2, 10*(.2)*(.8) = 1.6
+y <- rpois(n = n, lambda = 2)
+```
+
+## Results for means
+
+```{r}
+## estimate quantities
+mean(x + y)
+mean(x) + mean(y)
+mean(x - y)
+mean(x) - mean(y)
+```
+
+## Taking the difference doesn't reduce variation
+
+```{r}
+var(x + y) 
+var(x) + var(y)
+var(x - y) 
+var(x) + var(y)
+```
+
+## Example 5.2
+
+Let's discuss example 5.2.
+
+# 4. Conditional probability for joint rvs.
+
+Reduced universe idea again (Tables 5.4 and 5.5).
+
+## Continue example 5.2
+
+Whole class discussion with doc cam.
+
+## Conditional probability through the multiplication rule
+
+Recall that $f(y_j | x_i) = \frac{f(x_i, y_j)}{f(x_i)}$.  
+
+which implies that $f(x_i, y_j) = f(x_i) \times f(y_j | x_i)$.
+
+Remember that $X$ is an unobservable parameter while $Y$ is an observable rv (data) whose probability distribution depends on the parameter in Bayesian statistics. We'll develop Bayes' theorem using this rule for discrete rvs in Chapter 6.
+
+# Closing
+
+Please answer the following questions and be prepared to share with the group.
+
+- What are the two most important properties of random variables we focused on computing?
+- What was the main point from the Monte Carlo experiment?
+- What was the muddiest point of today's meeting?

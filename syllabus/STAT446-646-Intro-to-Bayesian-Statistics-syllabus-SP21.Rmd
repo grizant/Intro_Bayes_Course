@@ -156,7 +156,7 @@ The course has a weighted grading scheme. There are three categories of assignme
 
 | Assignment | n  | %  |
 |------------|----|----|
-| Problem set  | 14 | 55 |
+| Problem set  | 13 | 55 |
 | Midterm    | 3  | 30 |
 | Final Exam | 1  | 15 |
 Table: Table 1. 446 grading scheme.
@@ -246,7 +246,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 1)`: Organization & Intro to Bayes </div>
 
 - Readings: Bolstad Ch. 1 - 3.
-- Practice: Please complete Problem Set 1 and submit in Canvas by the end of the week.
+- Practice: ~~Please complete Problem Set 1 and submit in Canvas by the end of the week.~~ Please read Ch. 1-4 and get rstudio working.
 - Exams: None.
 - Notes: None.
 
@@ -256,7 +256,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 2)`: Ch. 4 Plausible reasoning/Probability/Bayes' Rule </div>
 
 - Readings: Bolstad Ch. 4.
-- Practice: Please complete Problem Set 2 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 1 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: None.
 
@@ -266,7 +266,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 3)`: Ch. 5 Discrete random variables </div>
 
 - Readings: Bolstad Ch. 5.
-- Practice: Please complete Problem Set 3 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 2 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: None.
 
@@ -276,7 +276,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 4)`: Ch. 6 Bayesian inference for discrete RVs </div>
 
 - Readings: Bolstad Ch. 6.
-- Practice: Please complete Problem Set 4 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 3 and submit in Canvas by the end of the week.
 - Exams: Midterm 1 released.
 - Notes: None.
 
@@ -286,7 +286,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 5)`: Ch. 7-8 Continuous RVs and Bayesian inference for binomial proportion $\pi$ </div>
 
 - Readings: Bolstad Ch. 7-8.
-- Practice: Please complete Problem Set 5 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 4 and submit in Canvas by the end of the week.
 - Exams: Midterm 1 due Friday 26 Feb 2021.
 - Notes: None.
 
@@ -296,7 +296,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 6)`:  Ch. 9 Comparing Bayes/Frequentist for $\pi$ </div>
 
 - Readings: Bolstad Ch. 9
-- Practice: Please complete Problem Set 6 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 5 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: Drop Day is 3 Mar 2021.
 
@@ -306,7 +306,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 7)`:  Ch. 10 Bayesian inference for Poisson mean  </div>
 
 - Readings: Bolstad Ch. 10
-- Practice: Please complete Problem Set 7 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 6 and submit in Canvas by the end of the week.
 - Exams: Midterm 2 released.
 - Notes: None.
 
@@ -316,7 +316,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 8)`:  Ch. 11-12 Bayesian inference for normal mean $\mu$  </div>
 
 - Readings: Bolstad Ch. 11-12
-- Practice: Please complete Problem Set 8 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 7 and submit in Canvas by the end of the week.
 - Exams: Midterm 2 due Friday 12 March 2021.
 - Notes: None.
 
@@ -326,7 +326,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 9)`:  Ch. 13 Bayesian inference for difference between normal means  </div>
 
 - Readings: Bolstad Ch. 13
-- Practice: Please complete Problem Set 9 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 8 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: None.
 
@@ -336,7 +336,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 10)`:  Ch. 14 Bayesian inference for simple linear regression  </div>
 
 - Readings: Bolstad Ch. 14
-- Practice: Please complete Problem Set 10 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 9 and submit in Canvas by the end of the week.
 - Exams: Midterm 3 released.
 - Notes: None.
 
@@ -346,7 +346,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 11)`:  Ch. 15-16 Bayesian inference for standard deviation, Robust methods  </div>
 
 - Readings: Bolstad Ch. 15-16
-- Practice: Please complete Problem Set 11 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 10 and submit in Canvas by the end of the week.
 - Exams: Midterm 3 due Friday 9 Apr 2021.
 - Notes: None.
 
@@ -356,7 +356,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 12)`:  Ch. 17 Bayesian inference unknown mean/variance </div>
 
 - Readings: Bolstad Ch. 17.
-- Practice: Please complete Problem Set 12 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 11 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: None.
 
@@ -366,7 +366,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 13)`:  Ch. 18 Bayesian inference multivariate normal mean vector </div>
 
 - Readings: Bolstad Ch. 18.
-- Practice: Please complete Problem Set 13 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 12 and submit in Canvas by the end of the week.
 - Exams: None.
 - Notes: None.
 
@@ -376,7 +376,7 @@ Class readings and assignments are subject to change, contingent on mitigating c
 <div class="week">`r advdate(mon, 14)`:  Ch. 19 Bayesian inference multiple linear regression </div>
 
 - Readings: Bolstad Ch. 19.
-- Practice: Please complete Problem Set 14 and submit in Canvas by the end of the week.
+- Practice: Please complete Problem Set 13 and submit in Canvas by the end of the week.
 - Exams: Final exam released.
 - Notes: Matrix (linear) algebra required.
 

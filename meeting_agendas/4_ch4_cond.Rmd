@@ -1,0 +1,72 @@
+---
+title: "Probability Ch. 4, con'd"
+author: "AG Schissler"
+date: "3 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r LoadLib, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results = "hide"}
+library(tidyverse)
+library(printr)
+## library(bolstad)
+## xaringan::inf_mr('4_ch4_part3.rmd')
+```
+
+# 1. Admin
+
+## First HW due Friday 5
+
+- Any questions about procedures?
+
+## Refresh ourselves on the schedule
+
+- let's look at the syllabus quickly.
+
+# 2. Ch. 4 discussion con'd
+
+## Bayes' rule vocabulary
+
+- The $B_i$ represent a finite set of unobservable events which partition the universe. The we assign our **prior** probability to each of these events. This is our belief before seeing any evidence/data.  
+- Then **likelihood** is the conditional probability that the data/evidence $A$ occurred given each of our unobservable events $B_i$. The likelihood is a function defined on events $B_i$ and is the **weight** given to each $B_i$ given $A$.  
+- Then $P(B_i | A)$ is the **posterior** probability that event $B_i$ occurs, given $A$.   
+
+$P( B | A) = \frac{P( A \cap B) }{P(A)} = \frac{ P(A|B) \times P(B) }{P(A)}$.
+
+**Therefore, Bayes' Theorem combines our prior beliefs with the evidence to update our belief about uncertain events!**
+
+## Assigning probabilities
+
+- lets discuss these slippery notions on p. 74-75
+
+# 3. Examples
+
+## Problem discussion Exercise 4.9
+
+- work this out on ipad, important ideas here.
+
+## Problem discussion Exercise 4.11
+
+- brief hint to get started
+
+## Any other problems you started and have questions?
+
+# 4. Bayes factors and odds
+
+## odds
+
+- p.75
+
+## Bayes factor
+
+- p.75-76
+
+## Beat the dealer
+
+- interesting early use of MC studies.
+
+# 4. Closing
+
+- Students, please summarize to create associations and emphasize the key points

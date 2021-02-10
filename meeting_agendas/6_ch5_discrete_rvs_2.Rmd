@@ -1,0 +1,141 @@
+---
+title: "Discrete random variables Ch. 5 Day 2"
+author: "AG Schissler"
+date: "10 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+## library(bolstad)
+## xaringan::inf_mr('6_ch5_discrete_rvs_2.rmd')
+```
+
+# i. Admin & Startup
+
+## schedule review / Problem Set 1 due Friday
+
+- Let's review the schedule and place today's learning in context.  
+- Please complete Problem Set 2 (ch.5), due Friday. 
+- We may have time to discuss today.
+
+## Today's plan
+
+- We'll begin with a brief discussion of the difference between `d`, `p`, `q` for prob functions in `R`
+- Then we'll finish univariate discrete rvs.
+- And joint discrete rvs.
+- Last we'll conclude with HW Q & A and hints.
+
+*Please contribute questions and comments*
+
+# 1. `d`, `p`, `q` for prob functions in `R`
+
+## R help and parameterization caution
+
+```{r help}
+?dbinom
+```
+
+# 2. Univariate discrete rvs continued
+
+## Poisson
+
+- p. 94 - 96
+
+Exercise 5.8
+
+1. Work the exercises independently
+2. Pair and discuss
+3. Share with class
+
+An R demonstration for 5.8:
+
+```{r, fiveEight}
+## our code here
+```
+
+## An R demonstration for Exercise 5.7:
+
+```{r, fiveSeven}
+dpois(x = 2, lambda = 2)
+```
+
+# 3. Joint random variables (5.6)
+
+Let's discuss notation and the tabular representation for discrete rvs (Table 5.3, p.97).
+
+## Expected value of a sum of two random variables
+
+$E[X + Y] = E[X] + E[Y]$ for any two rvs.
+
+## Variance of a sum of two random variables
+
+- Let's discuss the variance of a sum and a decomposition. p.98.
+- Introduce the notion of covariance.
+
+## Special case: variance of a sum of indep. rvs
+
+Whole group discussion.
+
+## Mean/var of a difference of indep rvs
+
+Simulation code:
+
+```{r}
+set.seed(22)
+n <- 1e6
+x <- rbinom(n = n, size = 10, prob = 0.2)
+## mean of 2, 10*(.2)*(.8) = 1.6
+y <- rpois(n = n, lambda = 2)
+```
+
+## Results for means
+
+```{r}
+## estimate quantities
+mean(x + y)
+mean(x) + mean(y)
+mean(x - y)
+mean(x) - mean(y)
+```
+
+## Taking the difference doesn't reduce variation
+
+```{r}
+var(x + y) 
+var(x) + var(y)
+var(x - y) 
+var(x) + var(y)
+```
+
+## Example 5.2
+
+Let's discuss example 5.2.
+
+# 4. Conditional probability for joint rvs.
+
+Reduced universe idea again (Tables 5.4 and 5.5).
+
+## Continue example 5.2
+
+Whole class discussion with doc cam.
+
+## Conditional probability through the multiplication rule
+
+Recall that $f(y_j | x_i) = \frac{f(x_i, y_j)}{f(x_i)}$.  
+
+which implies that $f(x_i, y_j) = f(x_i) \times f(y_j | x_i)$.
+
+Remember that $X$ is an unobservable parameter while $Y$ is an observable rv (data) whose probability distribution depends on the parameter in Bayesian statistics. We'll develop Bayes' theorem using this rule for discrete rvs in Chapter 6.
+
+# Closing
+
+- Homework Q & A
+
+
+
+

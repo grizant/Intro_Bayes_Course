@@ -1,0 +1,135 @@
+---
+title: "Bayesian Inference for Discrete Random Variables Ch. 6"
+author: "AG Schissler"
+date: "17 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+## library(bolstad)
+## xaringan::inf_mr('6_ch5_discrete_rvs_2.rmd')
+```
+
+# i. Admin & Startup
+
+## schedule review 
+
+- Let's review the schedule and place today's learning in context.  
+
+## Action items
+
+- Continue reading.
+- Problem Set 3 (ch.6) was originally due Friday, but let's push it to next Friday.
+- Start early as you will have a midterm due and another hw due.
+
+## Today's plan
+
+- Discuss Ch. 6 (only 1 class meeting today
+- Discuss HW problems and have discussion.
+
+*Please contribute questions and comments*
+
+# 1. Ch. 7 Bayesian inference for discrete rvs
+
+## Bayesian inference for discrete using a table
+
+Discuss the introductory section in Ch.6. Show Table 6.1, 6.2, 6.3.
+
+## Discuss notational change:
+
+$f(x_i, y_j) = g(x_i) \times f(y_j | x_i)$.
+
+Why $g(\cdot)$ and $f(\cdot)$?
+
+## Bayes` theorem (again):
+
+$f(x_i | y_j) = \frac{g(x_i) \times f(y_j | x_i)}{\sum_{i=1}^n g(x_i) \times f(y_j | x_i)}$.
+
+Let's label and discuss the parts of the above formula.
+
+## Activity break: Example 6.1
+
+Review Example 6.1, p. 112 - 114. Discuss the steps for Bayes' Theorem using a table with your near peers. Then a volunteer will explain to the class.
+
+# II. Using the `Bolstad` R package
+
+## Demonstration: one at time or all at once?
+
+Imagine we observe 8 independent trials of a random experiment and each has one of two possible outcomes (success = 1 and failure = 0). We'd like to infer what the (unobservable) probability of success is, given the data. Suppose we observe the sequence:
+
+11011101
+
+## `Bolstad` R package
+
+Let's use the `Bolstad` R package to do this --- first one observation at a time, then sequentially.
+
+First let's install and load the package:
+
+```{r}
+## install.packages("Bolstad")
+library(Bolstad)
+
+## help(package = "Bolstad")
+
+## Ch.6, Exercise C1
+## for help
+## ?binodp
+```
+
+## One observation at a time
+
+Now let's revise our belief about the probability of success, $\pi$, by computing Bayes' rule one observation at a time.
+
+```{r}
+## the observed values
+observed_seq <- c(1,1,0,1,1,1,0,1)
+## uniform discrete prior, using a grid of 10 values
+my_pi <- seq(0, 1, length.out = 10)
+my_pi.prior <- rep( 1 / length(my_pi), length(my_pi) )
+```
+
+## Sequentially updating
+
+```{r, echo=F, results='hide', fig.height=5.5}
+par(mfrow = c(2,4))
+## tmp_obs <- 1
+for (tmp_obs in observed_seq) {
+    ## compute Bayes rule
+    tmp_result <- binodp(x = tmp_obs, n = 1, pi = my_pi, pi.prior = my_pi.prior, suppressOutput = TRUE)
+    ## update beliefs
+    ## i.e., the posterior becomes the prior
+    my_pi.prior <- tmp_result$posterior
+}
+```
+
+## Now let's compute this all at once:
+
+```{r}
+par(mfrow = c(1,1))
+binodp(x = 6, n = 8)
+```
+
+Does our inference about $\pi$ change?
+
+## Two equivalent ways of using Bayes' Theorem
+
+Discuss Table 6.7 - 6.10 and notational challenges.
+
+## Using Bayes' rule for binomial and Poisson rvs with discrete prior
+
+Discuss example 6.2 and 6.3, briefly.
+
+# III. Ch. 6 HW
+
+## Homework Q & A
+
+- read and discuss prompts
+
+
+
+

@@ -99,6 +99,13 @@ res <- cbind( f_y, y*f_y, y^2*f_y )
 res <- rbind( res, colSums( res ) )
 colnames(res) <-  c("y", "f(y)", "y^2 x f(y)" )
 knitr::kable( res )
+
+y <- 0:4; f_y <- dbinom( x = y, size = 4, prob = 0.3 )
+res <- cbind( f_y, y*f_y, y^2*f_y )
+res <- rbind( res, colSums( res ) )
+colnames(res) <-  c("y", "f(y)", "y^2 x f(y)" )
+knitr::kable( res )
+res[6,3] - res[6,2]^2
 ```
 
 ## 5.3 con'd

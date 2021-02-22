@@ -1,0 +1,93 @@
+---
+title: "Continuous Random Variables, Ch. 7"
+author: "AG Schissler"
+date: "22 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+## library(bolstad)
+## xaringan::inf_mr('8_ch7_cont_rvs.rmd')
+```
+
+# i. Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapters 7 and 8.
+- Midterm One and Problem Set 4 due Friday.
+- Glad to review your work early so you have more feedback before the exam. Just message me if so.
+- Problem Set 4, Ch. 7 is now due Friday, 5 Mar 2021.
+
+## Today's plan
+
+- Discuss Ch. 7
+- Work HW problems and have discussion.
+
+*Please contribute questions and comments*
+
+# I. Continuous rvs
+
+## Discuss and prepare to share your thoughts on
+
+1. Why do we call P(X = x) a probability *density* function for a continuous random variable?
+2. Why is P(X = x) = 0 for any continuous random variable X?
+3. What does $\Gamma(\cdot)$ denote?
+
+## Continuous random variables overview
+
+When our random variable can take on any value in a interval, we need to redefine the probability function and use more sophisticated mathematical notions:
+
+## Probability density function (pdf)
+
+Let's walk through Bolstad's "Thought Experiment 4" to motivate the concept of a pdf.
+
+## The mean, variance of a cont. rvs.
+
+$E[Y]= \int_{-\infty}^\infty y f(y) dy$  
+
+$Var[Y] = \int_{-\infty}^\infty (y - \mu)^2 f(y) dy$.
+
+Bolstad motivates these quantities as the limit of the sample mean as $n \rightarrow \infty$ and motivate using a "histogram" construction.
+
+## II. Selected cont rvs and jointly distributed cont. rvs
+
+- Uniform (standard)
+- Beta
+- Gamma
+- Normal
+
+Recall the CLT (Central Limit Theorem):
+
+For $n \geq 25$, 
+
+$$\frac{\bar{y} - \mu}{\sigma / \sqrt{n}} \approx normal(0,1)$$  
+
+for **any** continuous random variable, $Y$. What this means is the sums of indendepent rvs become normally distributed. This powerful fact is why the normal distribution is so useful and common.
+
+## Joint cont rvs
+
+Let's inspect/discuss Figures 7.10 and 7.11
+
+# III. Problem Set 4, Ch.7, #1,3-5,8,9,12
+
+Learning outcome 3: Students will model parameters and data using discrete and continuous random variables.
+
+## Think and share
+
+- If you give done with your assigned problem, please work the other exercises and help each other.
+- Share your solution
+
+# Closing 
+
+1. What worked for you in today's lesson?
+2. What didn't?

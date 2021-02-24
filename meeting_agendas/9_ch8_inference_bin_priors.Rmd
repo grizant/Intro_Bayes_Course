@@ -1,0 +1,343 @@
+---
+title: "Bayesian Inference for Binomial Proportion (Ch.8)"
+author: "AG Schissler"
+date: "24 Feb 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('9_ch8_inference_bin_priors.Rmd')
+```
+
+# i. Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapters 7 and 8.
+- Midterm One and Problem Set 4 due Friday.
+- Glad to review your work early so you have more feedback before the exam. Just message me if so.
+- Problem Set 4, Ch. 7 is now due Friday, 5 Mar 2021.
+
+## Today's plan
+
+- Discuss Ch. 8 with extended examples
+- Preview Ch. 8 HW.
+
+*Please contribute questions and comments*
+
+<!-- 
+
+# How much of the Earth is covered by water?
+
+Without any research, discuss/share out how much of the Earth is covered by water. How sure are you of your guess? How could we formalize this? 
+
+### Class demonstration: Globe tossing
+
+Let's collect data on the proportion of water covering the globe through a ball-tossing experiment. 
+
+your comment -->
+
+# I. Bayesian inference for a binomial proportion
+
+## Overview
+
+This chapter focuses on the inferring the posterior distribution of the proportion $\pi$ (probability) of success in a binomial model. By that we mean the data model (conditional probability function) is specified as $f(y|\pi)=\binom{n}{y}\pi^y(1-\pi)^{n-y}$ for $y=1,\ldots,n$. Viewed a different way, this also means the likelihood function is specified as $f(y|\pi)=\binom{n}{y}\pi^y(1-\pi)^{n-y}$ for $\pi \in [0,1]$. To infer the posterior distribution $\pi$, $g(\pi | y)$, we use Bayes' rule:
+
+$$
+g(\pi | y) = \frac{g(\pi) \times f(y|\pi)}{\int_0^1 g(\pi) \times f(y|\pi) d\pi}.
+$$
+
+---
+
+Note that since the denominator is the marginal of $y$ and so is not a function of $\pi$, we see that
+
+$$
+g(\pi | y) \propto g(\pi) \times f(y|\pi). 
+$$
+
+So in practice we often compute the above product then find the normalizing constant $k$ through integration (often numeric if there is no closed form).
+
+From the equation above, we see that since we have already specified $f(y|\pi)$ and the task now requires the specification of the prior probability function, $g(\pi)$. This is a fundamental task in Bayesian inference and we'll address this issue in detail today.
+
+# II. Priors for $\pi$
+
+## Set priors before seeing data
+
+First, look at the support of $\pi$. What are sensible values the random variable can take on? Also, from a pure standpoint, it's critical that $g(\pi)$ is determining before looking at the data! Note there is a class of approximate Bayesian inference called Empirical Bayes if you are interested in ways to use data to specify the prior.
+
+## Using a Uniform prior
+
+Using a flat prior (uniform) is common method in inferring $\pi$. Some call this an "objective" or vague or non-informative prior. But note that this actually saying quite a lot! It says all sensible values of $\pi$ are equally likely before seeing the data. Do you really believe that 0 or something close to it is equally likely as any other value for your problem?
+
+For a uniform prior we have $g(\pi) = 1$ with $\pi \in [0,1]$. Clearly then we see that 
+
+$$
+f(\pi|y) \propto \binom{n}{y}\pi^y(1-\pi)^{n-y}, \pi \in [0,1].
+$$
+
+Stare at this for a moment. It contains the **kernel** of a beta density! So, with a uniform prior, the posterior $g(\pi|y) \sim beta(a = y + 1, b = n - y + 1)$. And your inference is essentially complete!
+
+## More generally, using a beta prior
+
+Recall that if $\pi$ is standard uniform then $\pi \sim beta(a = 1, b = 1)$. In order to better reflect a variety of prior beliefs, you could use any memeber of the beta family by specified $a,b$. Let's look at Figure 8.1 and discuss.
+
+Following the arguments on page 151 when you have beta prior density (with arbitrary parameters $a,b$) and a binomial model, we have
+
+$$
+g(\pi|y) \propto \pi^{a + y - 1} (1-\pi)^{b + n - y - 1}, \pi \in [0,1].
+$$
+
+Therefore our posterior is also a beta! But now the parameters have been **updated** to $(a^{\prime}, b^{\prime})$, with
+
+$$
+a^{\prime} = a + y\\
+b^{\prime} = b + n - y
+$$
+
+## Important concept: Conjugacy!
+
+This brings up an important general concept called **conjugacy**. When you specify a prior of a certain form and once combined with the likelihood the posterior have the same form it is called the conjugate family. In this case the *beta* distribution is the conjugate family for the binomial observation distribution. 
+
+When you use a conjugate family, you are updating the parameters after seeing the data. This is a big advantage to computation and interpretation. It is not always appropriate though and must be justified as a choice.
+
+## Jeffrey's prior for the binomial
+
+Jeffrey's priors are a way of constructing priors that are invariant under continuous transformations. Since we can parameterize probability densities in multiple ways, this is an appealing feature --- that we get the same inference under whatever formulation of the density. But often Jeffrey's prior is quite *informative*. For the binomial data model, Jeffrey's prior is
+
+$$
+\pi \sim beta(0.5, 0.5).
+$$
+
+# III. Choosing your prior
+
+## Evaluation of your prior
+
+When selecting a prior, graph, compute moments (mean and standard deviation), and the *equivalent sample size* before combining with the data to make sure that you have properly specified your beliefs.
+
+## Graph your prior
+
+An easy way to graph your beta prior using the `Bolstad` package. For example let's graph and discuss Jeffrey's prior:
+
+```{r}
+Bolstad::binobp(x = 0, n = 0, a = 0.5, b = 0.5)
+```
+
+## Compute moments
+
+$$
+E(\pi) = \frac{a}{a + b}\\
+Var(\pi) = \frac{ab}{(a+b)^2 \times (a + b + 1)} 
+$$
+
+## Find the equivalent sample size
+
+Following the arguments on page 155, the equivalent sample size of beta prior is $n_{eq} = a + b + 1$.
+
+## Think-pair-share
+
+My prior belief is that $\pi$ has mean of 0.25 with standard deviation of 0.1. What $beta$ density reflects that belief? What is my equivalent sample size?
+
+## Choosing a conjugate prior by matching moments from expert knowledege
+
+Formal prior elicitation is hugely important when working with domain experts. Often the researcher has some concept of the mean and variance, but not the entire beta shape. When you specify the two moments you can then solve for $a,b$ using standard systems of equations techniques (two unknowns, two equations).
+
+## Constructing a General Continuous Prior
+
+There are cases where the prior belief is best specified not be a $beta$ but by some arbitrary shape. One can construct a general continuous prior by linear interpolation.
+
+For example, let's construct "Chris's prior" in Example 8.1 using the `Bolstad` package:
+
+```{r}
+## for help
+## ?Bolstad::binogcp
+pi = seq(0, 1, by = 0.001)
+pi.prior = rep(0, length(pi))
+priorFun = Bolstad::createPrior(x = c(0, 0.1, 0.3, 0.5), wt = c(0, 2, 2, 0))
+pi.prior = priorFun(pi)
+```
+
+---
+
+```{r}
+Bolstad::binogcp(0, 0, "user", pi = pi, pi.prior = pi.prior)
+```
+
+## Effect of prior
+
+An important notion is that of a "community of priors" (see *Bayesian Approaches to Randomized Trials* by Speigelhalter et al. 1994 for an excellent discussion). Often it is best to specify a broad range of priors to explore different scenarios. But in light of a lot of data, the posterior is often nearly the same! 
+
+In Example 8.1:
+
+---
+
+```{r ex81a, message=F}
+## Anna's prior
+Bolstad::binobp(x = 26, n = 100, a = 4.8, b = 19.2, quiet=T)
+```
+
+---
+
+```{r ex81b, message=F}
+## Bart's prior
+Bolstad::binobp(x = 26, n = 100, a = 1, b = 1, quiet=T)
+```
+
+---
+
+```{r ex81c, message=F}
+## Chris's prior
+Bolstad::binogcp(x = 26, n = 100, "user", pi = pi, pi.prior = pi.prior, quiet=T)
+```
+
+
+<!-- 
+## Analyze data informing on the  proportion of the earth covered by water
+
+Class demonstration: 
+Let's analyze data on the proportion of water covering the globe through a ball tossing experiment. 
+your comment -->
+
+```{r, include=F, eval=F}
+### our data goes here
+y = 16
+n = 24
+
+Bolstad::binobp(x = 0, n = 0, a = 57.09, b = 21.66)
+Bolstad::binobp(x = y, n = n, a = 57.09, b = 21.66)
+Bolstad::binobp(x = y, n = n, a = 0.5, b = 0.5)
+## G's GCP
+pi = seq(0, 1, by = 0.001)
+pi.prior = rep(0, length(pi))
+priorFun = Bolstad::createPrior(x = c(0, 0.67,0.68,0.74, 0.75, 1), wt = c(0, 0, 1, 1, 0, 0))
+pi.prior = priorFun(pi)
+priorFit <- Bolstad::binogcp(0, 0, "user", pi = pi, pi.prior = pi.prior)
+mean(priorFit)
+fit <- Bolstad::binogcp(7, 10, "user", pi = pi, pi.prior = pi.prior)
+fit <- Bolstad::binogcp(23, 40, "user", pi = pi, pi.prior = pi.prior)
+str(fit)
+mean(fit)
+quantile(fit, probs = c(0.025, 0.975))
+diff(quantile(fit, probs = c(0.25, 0.75)))
+```
+
+# IV. Summarizing the posterior distribution
+
+## Measures of location
+
+*Posterior mode*. The value that maximizes the posterior is a sensible point estimator. Careful though as some posteriors have multiple modes or a mode near the boundary of the parameter space (does not reflect the entire distribution). For a beta posterior with updated parameters $(a^{\prime}, b^{\prime})$, the mode is 
+
+$$
+\frac{a^{\prime} - 1 }{a^{\prime} + b^{\prime} - 2}.
+$$
+
+---
+
+*Posterior median*. This is value that have 50\% of the posterior distribution above and below it. It is the solution to
+
+$$
+\int_0^{\hat{\pi}_{median}} g(\pi|y)d\pi = 0.5.
+$$
+
+---
+
+*Posterior mean*. The expected value:
+
+$$
+m^{\prime} = \int_0^1 \pi g(\pi|y)d\pi.
+$$
+
+For a beta posterior, we have $m^{\prime} = \frac{a^{\prime}}{a^{\prime} + b^{\prime}}$.
+
+## Measures of spread
+
+*Posterior variance*:
+
+$$
+Var[\pi|y] = \int_0^1 (\pi - m^{\prime})^2 g(\pi|y)d\pi.
+$$
+
+For a beta posterior, we have 
+
+$$
+Var[\pi|y] = \frac{a^{\prime} \times b^{\prime}}{(a^{\prime} + b^{\prime})^2 \times (a^{\prime} + b^{\prime} + 1)}.
+$$
+
+---
+
+*Posterior standard deviation*. Square root of the posterior variance. It is on the scale of units (not squared units) and can be compared to th size of the mean.
+
+---
+
+*Interquantile range*. $IQR = Q_3 - Q_1$ is robust to heavy tails and outliers.
+
+## Back to example 8.1
+
+```{r}
+### IQR for Bart:
+fit <- quantile(Bolstad::binobp(x = 26, n = 100, plot = F, quiet=T))
+quantile(fit, probs = c(0.25, 0.75))
+unname(diff(quantile(fit, probs = c(0.25, 0.75))))
+```
+
+# V. Estimating the proportion
+
+## Posterior Mean
+
+Any of the measures of location above can be used as a point estimator, $\hat{\pi}$, of $\pi$. One way to justify a choice of $\hat{\pi}$ is by analyzing the  
+
+PMSE = Posterior Mean Squared **Error** which is defined as
+
+$$
+PMSE[\hat{\pi}] = \int_0^1 (\pi - \hat{\pi})^2 g(\pi|y)d\pi.
+$$
+
+By adding and substracting the posterior mean, $m^{\prime}$ inside the squared term, we can decompose this integral into two components the **variance** and the squared **bias**.
+
+$$
+PMSE[\hat{\pi}] = Var[\pi|y] + (m^{\prime} - \hat{\pi})^2.
+$$
+
+Often estimators are evaluated by this so-called variance-bias tradeoff. Clearly, PMSE is minimized at $\hat{\pi} = m^{\prime}$. 
+
+# VI. Bayesian credible intervals
+
+## Uncertainty in estimation
+
+Of course, **a statistician is never satistified by a mere point estimator**! We have the entire distribution, but we may desire an probability interval around our point estimator. In the Bayesian universe, we call this a credible interval (analogous to a confidence interval but MUCH easier to interpret). There are multiple ways to form these intervals
+
+1. A highest posterior density interval. The shortest interval (or union of intervals) with the desired probability
+
+2. A percentile-based interval (equal tails).
+
+3. Normal approximation (appropriate when $a^{\prime}, b^{\prime} \geq 10$).
+
+Let's look this post to [https://stats.stackexchange.com/questions/148439/what-is-a-highest-density-region-hdr](https://stats.stackexchange.com/questions/148439/what-is-a-highest-density-region-hdr)
+
+## Back to Chris's general continuous prior
+
+```{r}
+pi = seq(0, 1, by = 0.001)
+pi.prior = rep(0, length(pi))
+priorFun = Bolstad::createPrior(x = c(0, 0.1, 0.3, 0.5), wt = c(0, 2, 2, 0))
+pi.prior = priorFun(pi)
+results <- Bolstad::binogcp(26, 100, "user", pi = pi, pi.prior = pi.prior, quiet=T, plot=F)
+alpha <- 0.05
+qtls <- quantile(results, probs = c(alpha/2, 1-(alpha/2)))
+cat(paste("Approximate 95% credible interval : ["
+        , round(qtls[1], 4), " ", round(qtls[2], 4), "]\n", sep = ""))
+```
+
+# Closing
+
+- Explain in your own words what it means to summarize a posterior distribution. 
+- Why is this considered *conducting statistical inferences*?

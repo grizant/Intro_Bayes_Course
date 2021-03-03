@@ -1,0 +1,199 @@
+---
+title: "Comparing Inferences for Proportion (Ch.9) and Bayesian Inference for the Poisson mean (Ch.10)"
+author: "AG Schissler"
+date: "3 Mar 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('11_ch9_compare_binom_ch10_poisson.Rmd')
+```
+
+# Hands-on Monte Carlo data collection
+
+We will conduct simulation to approximate the sampling distribution of Frequentist and Bayesian estimator of $\pi$.
+
+Each person will receive a value in $\pi_i \in \{0.1, 0.2, \ldots, 0.9\}$.
+
+1. Please design an experiment in `R` to perform random binomial experiments with modeling parameters $Y_i \sim bin(\pi = \pi_i, n = 10)$.
+2. Be ready to provide a simulated $Y_i$ when asked.
+
+# Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapter 9, 10.
+- Will get your grades up to date before drop day.
+- Problem Set 4, Ch. 7 is due Friday, 5 Mar 2021.
+- Problem Set 5, Ch. 8 is due Friday, 12 Mar 2021.
+- Problem Set 6, Ch. 9, 10 is due Friday, 19 Mar 2021.
+- Midterm 2 (canvas quiz format) is due Friday, 19 Mar 2021.
+
+## Any questions over problem set 4, Ch. 7?
+
+- 7.1
+- 7.3
+- 7.5
+- 7.8
+- 7.9
+- 7.12
+
+## Today's plan
+
+- Prime by reading HW 6, ch. 9, 10 exercise prompts.
+- Finish discussion of Ch. 9: Figure 9.2 ; Examples 9.1-9.3
+- Begin discussion Ch. 10 time permitting
+
+*Please contribute questions and comments*
+
+# I. Problem Set 6, Ch. 9, 10
+
+- Ch.9 #1-3,C1
+- Ch.10 #2, C1,C3-C6 
+
+# III. Ch. 9 discussion
+
+## MSE of Frequentist vs Bayes estimator of $\pi$
+
+Please share some remarks about Figure 9.2.
+
+## Example 9.1
+
+## Example 9.2
+
+## Example 9.3
+
+# II. Analysis of "Hands-on" Monte Carlo
+
+##  Similar to Ch. 9, C1
+
+```{r}
+n = 1e2
+success <- c(2, 4, 5, 8)
+set.seed(44)
+data <- sample( 0:9, size = n, replace = T)
+sum(data %in% success) / n
+```
+
+---
+
+Let's return to the data collected at the start of class.
+
+1. Compute the frequentist estimator $\hat{\pi}_f$ for each person's data.
+2. Compute the Bayes' estimator $\hat{\pi}_B$ for each person's data.
+3. Calculate the mean of each estimator (across people in your group).
+4. Using step 3, calculate the bias of each estimator (across people in your group).
+5. Calculate the variance of each estimator.
+
+--- 
+
+6. Calculate the mean squared error of these estimators two ways:
+
+First way:  
+
+$$
+MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
+$$
+
+Second way:  
+
+Find the mean of the squared difference of your estimator and the true value.
+
+Answer the following,
+
+Are the estimators unbiased?
+Which has smaller MSE for your $\pi$?
+
+# Ch. 10 Poisson inference notes and example
+
+## Ch. 10 Key concepts 1
+
+- Gamma is the conjugate family for Poisson observations, with density proportional to $\mu^{r-1} e^{-v\mu}; \mu \geq 0, r,v > 0$. Here $r$ is the *shape* parameter and $v$ is the *rate* parameter (1/rate is the *scale* parameterization).
+- If the prior is $gamma(r, v)$, then the posterior, $\mu|y$, is $gamma\left(r^\prime = \sum y + r, v^\prime = n + v \right)$.
+- The posterior mean, $E[\mu|y]$, is $\frac{r^\prime}{v^\prime}$.
+- The posterior mode is $\frac{r^\prime - 1}{v^\prime}$.
+- The posterior variance, $Var[\mu|y]$, is $\frac{r^\prime}{{v^\prime}^2}$.
+
+## Ch. 10 Key concepts 2
+
+The posterior median must be found numerically:
+
+```{r}
+r_prime <- 2
+v_prime <- 1
+## CAREFUL: v is the "rate" parameter in R
+## not the scale (1/v).
+## Let's read ?qgamma
+my_area <- 0.5
+q2 <- qgamma(p = my_area, shape = r_prime, rate = v_prime)
+cat(paste( "Median is", q2))
+```
+
+## Ch. 10 Key concepts 3
+
+- Equivalent sample size is $n_{eq}=v$.
+- Bias of the "best" Bayesian point estimator (the posterior mean, $\hat{\mu_B}$): $E[\hat{\mu_B}] - \mu = \frac{r - v\mu}{v + n}$.
+- Variance of the "best" Bayesian point estimator: $Var[\hat{\mu_B}] = \frac{n\mu}{(v + n)^2}$.
+- Positive uniform (improper) density is defined as $1, \mu \geq 0$. This can be viewed as the limit of a gamma with $r = 1, v \rightarrow 0$.
+- Jeffrey's prior (improper) density is $\mu^{-1/2}, \mu > 0$. This can be viewed as the limit of a gamma with $r = 1/2, v \rightarrow 0$.
+
+## Example: Bolstad Ch.10, 10.1
+
+```{r}
+## OUR CODE HERE
+```
+
+## You try: HW 7, Ch.10 Exercise 10.2
+
+## Example Ch. 10, C2 Using `R`
+
+```{r}
+y = c(3, 4, 3, 0, 1)
+## Jeffrey's prior
+r <- 0.5
+v <- 0
+(r_prime <- r + sum(y))
+(v_prime <- v + length(y))
+```
+
+---
+
+```{r}
+## mean
+r_prime / v_prime
+## median
+qgamma(p = 0.5, shape = r_prime, rate = v_prime)
+## 95% posterior credible interval
+alpha = 0.05
+(lower <- qgamma(p = alpha / 2, shape = r_prime, rate = v_prime))
+(upper <- qgamma(p = alpha / 2, shape = r_prime, rate = v_prime, lower.tail = FALSE))
+```
+
+## Example Ch. 10, C2 Using `Bolstad`
+
+```{r}
+my_posterior <- Bolstad::poisgamp(y = y, shape = 0.5, rate = 0, quiet=T)
+```
+
+---
+
+```{r}
+mean(my_posterior)
+quantile(my_posterior, probs = 0.5)
+round(quantile(my_posterior, probs = c(alpha / 2, 1 - ( alpha / 2 ) )), 2)
+```
+
+# Closing
+
+- What are the updating rules for conjugate-based Bayesian inference of the mean from a Poisson random variable?
+- Questions about anything?

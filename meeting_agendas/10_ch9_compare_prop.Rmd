@@ -1,0 +1,231 @@
+---
+title: "Comparing Bayesian and Frequentist Inferences for Proportion (Ch.9)"
+author: "AG Schissler"
+date: "1 Mar 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('9_ch8_inference_bin_priors.Rmd')
+```
+
+# i. Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapter 9.
+- Will get your grades up to date before drop day.
+- Problem Set 4, Ch. 7 is now due Friday, 5 Mar 2021.
+
+## Today's plan
+
+- Prime by reading Ch. 8 HW exercise prompts.
+- Finish discussion of Ch. 8, posterior summaries
+- Discuss Ch. 9
+
+*Please contribute questions and comments*
+
+# I. Ch. 8 HW discussion
+
+# II. Ch. 8, Summarizing the posterior distribution
+
+## Measures of location
+
+*Posterior mode*. The value that maximizes the posterior is a sensible point estimator. Careful though as some posteriors have multiple modes or a mode near the boundary of the parameter space (does not reflect the entire distribution). For a beta posterior with updated parameters $(a^{\prime}, b^{\prime})$, the mode is 
+
+$$
+\frac{a^{\prime} - 1 }{a^{\prime} + b^{\prime} - 2}.
+$$
+
+---
+
+*Posterior median*. This is value that have 50\% of the posterior distribution above and below it. It is the solution to
+
+$$
+\int_0^{\hat{\pi}_{median}} g(\pi|y)d\pi = 0.5.
+$$
+
+---
+
+*Posterior mean*. The expected value:
+
+$$
+m^{\prime} = \int_0^1 \pi g(\pi|y)d\pi.
+$$
+
+For a beta posterior, we have $m^{\prime} = \frac{a^{\prime}}{a^{\prime} + b^{\prime}}$.
+
+## Measures of spread
+
+*Posterior variance*:
+
+$$
+Var[\pi|y] = \int_0^1 (\pi - m^{\prime})^2 g(\pi|y)d\pi.
+$$
+
+For a beta posterior, we have 
+
+$$
+Var[\pi|y] = \frac{a^{\prime} \times b^{\prime}}{(a^{\prime} + b^{\prime})^2 \times (a^{\prime} + b^{\prime} + 1)}.
+$$
+
+---
+
+*Posterior standard deviation*. Square root of the posterior variance. It is on the scale of units (not squared units) and can be compared to th size of the mean.
+
+---
+
+*Interquantile range*. $IQR = Q_3 - Q_1$ is robust to heavy tails and outliers.
+
+## Back to example 8.1
+
+```{r}
+### IQR for Bart:
+fit <- quantile(Bolstad::binobp(x = 26, n = 100, plot = F, quiet=T))
+quantile(fit, probs = c(0.25, 0.75))
+unname(diff(quantile(fit, probs = c(0.25, 0.75))))
+```
+
+## Estimating the proportion
+
+## Posterior Mean
+
+Any of the measures of location above can be used as a point estimator, $\hat{\pi}$, of $\pi$. One way to justify a choice of $\hat{\pi}$ is by analyzing the  
+
+PMSE = Posterior Mean Squared **Error** which is defined as
+
+$$
+PMSE[\hat{\pi}] = \int_0^1 (\pi - \hat{\pi})^2 g(\pi|y)d\pi.
+$$
+
+By adding and substracting the posterior mean, $m^{\prime}$ inside the squared term, we can decompose this integral into two components the **variance** and the squared **bias**.
+
+$$
+PMSE[\hat{\pi}] = Var[\pi|y] + (m^{\prime} - \hat{\pi})^2.
+$$
+
+Often estimators are evaluated by this so-called variance-bias tradeoff. Clearly, PMSE is minimized at $\hat{\pi} = m^{\prime}$. 
+
+# Bayesian credible intervals
+
+## Uncertainty in estimation
+
+Of course, **a statistician is never satistified by a mere point estimator**! We have the entire distribution, but we may desire an probability interval around our point estimator. In the Bayesian universe, we call this a credible interval (analogous to a confidence interval but MUCH easier to interpret). There are multiple ways to form these intervals
+
+1. A highest posterior density interval. The shortest interval (or union of intervals) with the desired probability
+
+2. A percentile-based interval (equal tails).
+
+3. Normal approximation (appropriate when $a^{\prime}, b^{\prime} \geq 10$).
+
+Let's look this post to [https://stats.stackexchange.com/questions/148439/what-is-a-highest-density-region-hdr](https://stats.stackexchange.com/questions/148439/what-is-a-highest-density-region-hdr)
+
+## Back to Chris's general continuous prior
+
+```{r}
+pi = seq(0, 1, by = 0.001)
+pi.prior = rep(0, length(pi))
+priorFun = Bolstad::createPrior(x = c(0, 0.1, 0.3, 0.5), wt = c(0, 2, 2, 0))
+pi.prior = priorFun(pi)
+results <- Bolstad::binogcp(26, 100, "user", pi = pi, pi.prior = pi.prior, quiet=T, plot=F)
+alpha <- 0.05
+qtls <- quantile(results, probs = c(alpha/2, 1-(alpha/2)))
+cat(paste("Approximate 95% credible interval : ["
+        , round(qtls[1], 4), " ", round(qtls[2], 4), "]\n", sep = ""))
+```
+
+# III. Ch. 9 discussion
+
+## Think-pair-share:
+
+1. Think about Figure 9.1 that displays the sampling distributions of three estimators.
+
+- Which estimator do you prefer?
+- What characteristics are important?
+
+2. Pair up and share.
+3. A few share the whole class
+
+
+## Frequentist interpretation of probability and parameters  (Ch. 9 Bolstad)
+
+### Bayesian approach
+1) Compute or approximate the posterior distribution (*post-data*).
+2) Summarize the posterior as it relates to estimation or hypothesis testing.
+
+### Frequentist approach
+1) Compute or approximate the **sampling distribution** of a statistic summarizing your data under all possible samples (*pre-data*).
+2) Use the observed statistic and its sampling distribution to estimate or test hypotheses about the fixed, unknown parameters.
+
+## Sampling distribution of a statistic
+
+Frequentist (*pre-data*) compute the sampling distribution: $f(s | \theta)$.
+
+Let's discuss this notion based on your prior knowledge/training. Does this make sense as to what you have done in the past?
+
+In constrast, the Bayesian approach focuses on inferences based on the data that actually occurred:
+
+Bayesian (*post-data*): $g(\theta | data)$.
+
+# Ch. 9 Point estimation
+
+Frequentist point estimator for the binomial proportion is $\hat{\pi}_f= y / n$.
+
+## Frequentist criteria for evaluating estimators
+
+Let's discuss these three concepts and make sure notion/concepts are clear.
+
+1. Unbiasedness
+
+2. Minimum Variance Unbiased Estimators
+
+3. Mean squared error of an estimator
+
+## Comparing estimators for proportion
+
+Let's discuss Section 9.3, Figure 9.2 from the textbook.
+
+- Interval estimation
+- Confidence intervals
+- Comparing confidence and credible intervals
+- Hypothesis testing 
+- Testing a one-sided hypothesis
+- Frequentists tests of one-sided hypothesis
+- Bayesian tests of one-sided hypothesis
+
+## Aside: Numerical integration in R
+
+```{r}
+integrate(dbeta, 0, 0.15, 7, 75)
+integrate(dbeta, 0.15, 1, 7, 75)
+pbeta(0.15, 7, 75, lower.tail = FALSE)
+```
+
+## Testing a two-sided hypothesis
+
+### Frequentists tests of two-sided hypothesis
+
+### Bayesian tests of two-sided hypothesis
+
+## Detailed example: Exercise 9.4 (time permitting)
+
+Work on whiteboard and computer.
+
+## Closing: 3-2-1
+
+Please write down and share responses to the following prompts:
+
+- Which project interests you the most?
+- List 3 ways to evaluate an estimator.
+- 2 questions: Why is frequentist estimation procedure *pre-data*? And why is Bayesian *post-data*?
+- Why is it not as meaningful to produce a Bayesian 2-sided P-value?

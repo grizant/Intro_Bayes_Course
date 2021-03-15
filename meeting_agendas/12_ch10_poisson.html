@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Comparing Inferences for Proportion (Ch.9) and Bayesian Inference for the Poisson mean (Ch.10)</title>
+  <title>Bayesian Inference for the Poisson mean (Ch.10)</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Comparing Inferences for Proportion (Ch.9) and Bayesian Inference for the Poisson mean (Ch.10)',
+                title: 'Bayesian Inference for the Poisson mean (Ch.10)',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -3188,22 +3188,11 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">3 Mar 2021 (<em>updated: 2021-03-08)</em></p>
+            <p style="margin-top: 6px; margin-left: -2px;">8 Mar 2021 (<em>updated: 2021-03-08)</em></p>
           </hgroup>
   </slide>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Hands-on Monte Carlo data collection</h2></hgroup><article  class="smaller " id="hands-on-monte-carlo-data-collection">
-
-<p>We will conduct simulation to approximate the sampling distribution of Frequentist and Bayesian estimator of \(\pi\).</p>
-
-<p>Each person will receive a value in \(\pi_i \in \{0.1, 0.2, \ldots, 0.9\}\).</p>
-
-<ol>
-<li>Please design an experiment in <code>R</code> to perform random binomial experiments with modeling parameters \(Y_i \sim bin(\pi = \pi_i, n = 10)\).</li>
-<li>Be ready to provide a simulated \(Y_i\) when asked.</li>
-</ol>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Admin &amp; Startup</h2></hgroup><article  class="smaller " id="admin-startup">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Admin &amp; Startup</h2></hgroup><article  class="smaller " id="admin-startup">
 
 </article></slide><slide class=""><hgroup><h2>Schedule review</h2></hgroup><article  class="smaller " id="schedule-review">
 
@@ -3220,23 +3209,16 @@ slide:not(.current) .plotly.html-widget{
 <li>Midterm 2 (canvas quiz format) is due Friday, 19 Mar 2021.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Any questions over problem set 4, Ch. 7?</h2></hgroup><article  class="smaller " id="any-questions-over-problem-set-4-ch.-7">
+</article></slide><slide class=""><hgroup><h2>Any questions over problem set 5, Ch. 8?</h2></hgroup><article  class="smaller " id="any-questions-over-problem-set-5-ch.-8">
 
-<ul>
-<li>7.1</li>
-<li>7.3</li>
-<li>7.5</li>
-<li>7.8</li>
-<li>7.9</li>
-<li>7.12</li>
-</ul>
+<p>Problem Set 5, Ch. 8. #2,4,5, C1-C6.</p>
 
 </article></slide><slide class=""><hgroup><h2>Today’s plan</h2></hgroup><article  class="smaller " id="todays-plan">
 
 <ul>
 <li>Prime by reading HW 6, ch. 9, 10 exercise prompts.</li>
-<li>Finish discussion of Ch. 9: Figure 9.2 ; Examples 9.1-9.3</li>
-<li>Begin discussion Ch. 10 time permitting</li>
+<li>Discussion Ch. 10</li>
+<li>Summarize, Revisit HW or Q &amp; A</li>
 </ul>
 
 <p><em>Please contribute questions and comments</em></p>
@@ -3247,63 +3229,6 @@ slide:not(.current) .plotly.html-widget{
 <li>Ch.9 #1-3,C1</li>
 <li>Ch.10 #2, C1,C3-C6</li>
 </ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>III. Ch. 9 discussion</h2></hgroup><article  class="smaller " id="iii.-ch.-9-discussion">
-
-</article></slide><slide class=""><hgroup><h2>MSE of Frequentist vs Bayes estimator of \(\pi\)</h2></hgroup><article  class="smaller " id="mse-of-frequentist-vs-bayes-estimator-of-pi">
-
-<p>Please share some remarks about Figure 9.2.</p>
-
-</article></slide><slide class=""><hgroup><h2>Example 9.1</h2></hgroup><article  class="smaller " id="example-9.1">
-
-</article></slide><slide class=""><hgroup><h2>Example 9.2</h2></hgroup><article  class="smaller " id="example-9.2">
-
-</article></slide><slide class=""><hgroup><h2>Example 9.3</h2></hgroup><article  class="smaller " id="example-9.3">
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>II. Analysis of &ldquo;Hands-on&rdquo; Monte Carlo</h2></hgroup><article  class="smaller " id="ii.-analysis-of-hands-on-monte-carlo">
-
-</article></slide><slide class=""><hgroup><h2>Similar to Ch. 9, C1</h2></hgroup><article  class="smaller " id="similar-to-ch.-9-c1">
-
-<pre class = 'prettyprint lang-r'>myPi &lt;- seq(0.1, 0.9, length.out=6)
-n = 1e2
-success &lt;- c(2, 4, 5, 8)
-set.seed(44)
-data &lt;- sample( 0:9, size = n, replace = T)
-sum(data %in% success) / n</pre>
-
-<pre >## [1] 0.38</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
-
-<p>Let’s return to the data collected at the start of class.</p>
-
-<ol>
-<li>Compute the frequentist estimator \(\hat{\pi}_f\) for each person’s data.</li>
-<li>Compute the Bayes’ estimator \(\hat{\pi}_B\) for each person’s data.</li>
-<li>Calculate the mean of each estimator (across people in your group).</li>
-<li>Using step 3, calculate the bias of each estimator (across people in your group).</li>
-<li>Calculate the variance of each estimator.</li>
-</ol>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
-
-<ol>
-<li>Calculate the mean squared error of these estimators two ways:</li>
-</ol>
-
-<p>First way:</p>
-
-<p>\[
-MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
-\]</p>
-
-<p>Second way:</p>
-
-<p>Find the mean of the squared difference of your estimator and the true value.</p>
-
-<p>Answer the following,</p>
-
-<p>Are the estimators unbiased? Which has smaller MSE for your \(\pi\)?</p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Ch. 10 Poisson inference notes and example</h2></hgroup><article  class="smaller " id="ch.-10-poisson-inference-notes-and-example">
 
@@ -3403,6 +3328,15 @@ alpha = 0.05
 <pre class = 'prettyprint lang-r'>round(quantile(my_posterior, probs = c(alpha / 2, 1 - ( alpha / 2 ) )), 2)</pre>
 
 <pre >## [1] 1.17 3.81</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>III. Revisit Problem Set 6, Ch. 9, 10</h2></hgroup><article  class="smaller " id="iii.-revisit-problem-set-6-ch.-9-10">
+
+<p>New questions over:</p>
+
+<ul>
+<li>Ch.9 #1-3,C1</li>
+<li>Ch.10 #2, C1,C3-C6</li>
+</ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Closing</h2></hgroup><article  class="smaller " id="closing">
 

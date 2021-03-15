@@ -1,7 +1,7 @@
 ---
-title: "Comparing Inferences for Proportion (Ch.9) and Bayesian Inference for the Poisson mean (Ch.10)"
+title: "Bayesian Inference for the Poisson mean (Ch.10)"
 author: "AG Schissler"
-date: "3 Mar 2021 (*updated: `r Sys.Date()`)*"
+date: "8 Mar 2021 (*updated: `r Sys.Date()`)*"
 output:
   ioslides_presentation:
     widescreen: true
@@ -12,17 +12,8 @@ output:
 library(tidyverse)
 library(printr)
 library(Bolstad)
-## xaringan::inf_mr('11_ch9_compare_binom_ch10_poisson.Rmd')
+## xaringan::inf_mr('12_ch10_poisson.Rmd')
 ```
-
-# Hands-on Monte Carlo data collection
-
-We will conduct simulation to approximate the sampling distribution of Frequentist and Bayesian estimator of $\pi$.
-
-Each person will receive a value in $\pi_i \in \{0.1, 0.2, \ldots, 0.9\}$.
-
-1. Please design an experiment in `R` to perform random binomial experiments with modeling parameters $Y_i \sim bin(\pi = \pi_i, n = 10)$.
-2. Be ready to provide a simulated $Y_i$ when asked.
 
 # Admin & Startup
 
@@ -39,20 +30,15 @@ Let's review the schedule and place today's learning in context.
 - Problem Set 6, Ch. 9, 10 is due Friday, 19 Mar 2021.
 - Midterm 2 (canvas quiz format) is due Friday, 19 Mar 2021.
 
-## Any questions over problem set 4, Ch. 7?
+## Any questions over problem set 5, Ch. 8?
 
-- 7.1
-- 7.3
-- 7.5
-- 7.8
-- 7.9
-- 7.12
+Problem Set 5, Ch. 8. #2,4,5, C1-C6.
 
 ## Today's plan
 
 - Prime by reading HW 6, ch. 9, 10 exercise prompts.
-- Finish discussion of Ch. 9: Figure 9.2 ; Examples 9.1-9.3
-- Begin discussion Ch. 10 time permitting
+- Discussion Ch. 10
+- Summarize, Revisit HW or Q & A
 
 *Please contribute questions and comments*
 
@@ -60,60 +46,6 @@ Let's review the schedule and place today's learning in context.
 
 - Ch.9 #1-3,C1
 - Ch.10 #2, C1,C3-C6 
-
-# III. Ch. 9 discussion
-
-## MSE of Frequentist vs Bayes estimator of $\pi$
-
-Please share some remarks about Figure 9.2.
-
-## Example 9.1
-
-## Example 9.2
-
-## Example 9.3
-
-# II. Analysis of "Hands-on" Monte Carlo
-
-##  Similar to Ch. 9, C1
-
-```{r}
-myPi <- seq(0.1, 0.9, length.out=6)
-n = 1e2
-success <- c(2, 4, 5, 8)
-set.seed(44)
-data <- sample( 0:9, size = n, replace = T)
-sum(data %in% success) / n
-```
-
----
-
-Let's return to the data collected at the start of class.
-
-1. Compute the frequentist estimator $\hat{\pi}_f$ for each person's data.
-2. Compute the Bayes' estimator $\hat{\pi}_B$ for each person's data.
-3. Calculate the mean of each estimator (across people in your group).
-4. Using step 3, calculate the bias of each estimator (across people in your group).
-5. Calculate the variance of each estimator.
-
---- 
-
-6. Calculate the mean squared error of these estimators two ways:
-
-First way:  
-
-$$
-MSE[\hat{\pi}] = (bias(\hat{\pi}))^2 + Var[\hat{\pi}].
-$$
-
-Second way:  
-
-Find the mean of the squared difference of your estimator and the true value.
-
-Answer the following,
-
-Are the estimators unbiased?
-Which has smaller MSE for your $\pi$?
 
 # Ch. 10 Poisson inference notes and example
 
@@ -193,6 +125,13 @@ mean(my_posterior)
 quantile(my_posterior, probs = 0.5)
 round(quantile(my_posterior, probs = c(alpha / 2, 1 - ( alpha / 2 ) )), 2)
 ```
+
+# III. Revisit Problem Set 6, Ch. 9, 10
+
+New questions over:
+
+- Ch.9 #1-3,C1
+- Ch.10 #2, C1,C3-C6 
 
 # Closing
 

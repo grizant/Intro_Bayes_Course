@@ -1,0 +1,231 @@
+---
+title: "COMPARING BAYES VS FREQ NORMAL MEAN"
+subtitle: "Chapter 12"
+author: "AG Schissler"
+date: "17 Mar 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('14_ch12_CompareNormalMean.Rmd')
+```
+
+# Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapter 11, 12.
+- Grades are up to date. Please review and let me know if you have any questions.
+- Problem Set 6, Ch. 9, 10 is due Friday, 19 Mar 2021.
+- Midterm 2 (canvas quiz format) is due Friday, 19 Mar 2021, covers mainly Ch.7-10.
+
+## Any questions over problem set 6, Ch. 9,10?
+
+- Ch.9 #1-3,C1
+- Ch.10 #2, C1,C3-C6 
+
+## Today's plan
+
+- Prime by reading HW 7, ch. 11,12 exercise prompts.
+- Finish predictive posterior discussion.
+- Discuss Ch. 12.
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Problem Set 7, Ch. 11-13
+
+- Ch.11 #2,5, C5-C7, 
+- Ch.12 #4
+- Ch.13 #1,2,16
+
+# II. 11.5 Predictive Density for Next Observation
+
+- The predictive distribution of the next observation $y_{n+1}$ is normal$(m^\prime, (s^\prime)^2)$ where the mean $m^\prime = m_n$, the posterior mean, and, the observation variance plus the posterior variance. (The posterior variance  allows for the uncertainty in estimating $\mu$.) The predictive (posterior) distribution is found by marginalizing $\mu$ out of the joint distribution $f(y_{n+1}, \mu | y_1, \ldots, y_n)$.
+
+- Let's discuss the derivation of Equation 11.9. It is a beastly bit of algebra. Keep the goal in mind and be thankful you don't have to do this since someone already did.
+
+---
+
+```{r, section11point5}
+## posterior norm prior for normal mean
+update_normnp <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+## predictive distribution
+compute_normnp_predictive <- function(m, s2, n, y_bar, sigma2){
+    posterior_params <- update_normnp(m = m, s2 = s2, n = n, y_bar = y_bar, sigma2 = sigma2)
+    ## return as a list
+    list(m_nplus1 = posterior_params$m_prime, s_nplus1_2= sigma2 + posterior_params$s_prime2)
+}
+```
+
+## compare posterior to predictive for sleep data
+
+
+```{r, section11point2}
+sleep_times <- c(6.5, 6.5, 8, 6, 6, 6, 7, 7, 3, 7, 7, 8, 6, 9.25, 6, 7, 7, 7.5, 8, 6, 4)
+mean(sleep_times)
+sd(sleep_times)
+```
+
+---
+
+```{r}
+y_bar <- mean(sleep_times)
+n <- length(sleep_times)
+sigma2 <- 2
+s2 <- 2
+m <- 7
+update_normnp(m = 7, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1)
+compute_normnp_predictive(m = m, s2 = 1, n = n, y_bar = y_bar, sigma2 = 1 )
+```
+
+# III. Ch. 12
+
+Comparing Bayes/Frequentist Inferences for Normal Mean
+
+The discussion centers on efficiency (measured by Mean Squared Error and estimation precision using intervals) and Statistical Testing for Bayesian and Frequentist Inferences for mean.
+
+# 12.1
+
+Comparing Frequentist and Bayesian Point Estimators
+
+## Example 12.1
+
+Arnold, Beth, and Carol want to estimate the mean weight of "1 kg" packages of milk powder produced at a dairy company. The weight in individual packages is subject to random variation. They know that when the machine is adjusted properly, the weights are normally distributed with mean 1015 grams, and standard deviation 5 g. They are going to base their estimate on a sample of size 10. Arnold decides to use a normal prior with mean 1,000 g and standard deviation 10 g. Beth decides she will use a normal prior with mean 1,015 g and standard deviation 7.5 g. Carol decides she will use a "flat" prior. They calculate the bias, variance, and mean squared error of their estimators for various values of μ to see how well they perform.
+
+## Code for equations in Section 12.1
+
+```{r}
+## Bias of the Bayesian estimator, m_prime (the posterior mean)
+compute_bayes_bias <- function(mu, m, s2, sigma2, n) {( sigma2 / (n*s2 + sigma2) ) * (m - mu) }
+compute_bayes_var <- function(mu, m, s2, sigma2, n) {( n * s2 / (n*s2 + sigma2) )^2 * (sigma2 / n) }
+compute_bayes_mse <- function(mu, m, s2, sigma2, n) {
+    my_bias <- compute_bayes_bias(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_var <- compute_bayes_var(mu=mu, m=m, s2=s2, sigma2=sigma2, n=n)
+    my_mse <- my_bias^2 + my_var
+    return(my_mse)
+}
+
+## range of mu (a bit larger than Bolstad's "feasible region")
+mu_seq <- 990:1040
+## store evaluation data
+eval_data <- data.frame(mu = rep(mu_seq, times = 3), prior = rep(c("Arnold", "Beth", "Carol"), each = length(mu_seq)))
+## head(eval_data)
+## known quantities (CHANGE THESE DURING CLASS TO DEMONSTRATE)
+my_n <- 10
+my_sigma2 <- 5^2
+```
+
+
+## biases
+
+```{r, echo=F}
+arnold_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+beth_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_bias <- rep(0, length(mu_seq))
+eval_data$bias <- c(arnold_bias, beth_bias, carol_bias)
+ggplot(data = eval_data, aes(x = mu, y = bias, color = prior)) + geom_line(aes(linetype = prior))
+```
+
+## mse
+
+```{r, echo = F}
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
+## PLAY WITH ARNOLD'S TO DISCUSS WEAKLY INFORMATIVE PRIORS
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+beth_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
+carol_mse <- rep(my_sigma2 / my_n, length(mu_seq))
+eval_data$mse <- c(arnold_mse, beth_mse, carol_mse)
+ggplot(data = eval_data, aes(x = mu, y = mse, color = prior)) + geom_line(aes(linetype = prior))
+```
+
+## You try:
+
+Explore changing the sample size $n$ and population variance $\sigma^2$. How does it impact the evaluation above?
+
+# 12.2. 
+
+Comparing Confidence and Credible Intervals for Mean
+  
+## Example 12.2 (continued from Example 11.3, p. 222)
+
+Let's discuss.
+
+# 12.3 Testing a One-Sided Hypothesis about a Normal Mean
+  
+## Example 12.3 (continued from Example 11.3, p. 222)
+
+Arne, Barb, and Chuck read in a journal that the mean length of yearling rainbow trout in a typical stream habitat is 31 cm. They each decide to determine if the mean length of trout in the stream they are researching is greater than that by testing 
+
+$$
+H_0: \mu \leq 31 \: versus \: H_1: \mu > 31
+$$
+
+at the $\alpha$ = 5% level. For one-sided Bayesian hypothesis tests, they calculate the posterior probability of the null hypothesis. Arnie and Barb have normal posteriors, so they use Equation 12.4. Chuck has a nonnormal posterior that he calculated numerically.
+
+## Example 12.3
+
+```{r}
+compute_normalMean_normalPrior <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+
+(arnie_post <- compute_normalMean_normalPrior(m = 30, s2 = 4^2, n = 12, y_bar = 32, sigma2 = 2^2))
+```
+
+## Example 12.3 con'd
+
+```{r}
+## P( m_prime <= mu0)
+pnorm(q = 31, mean = arnie_post$m_prime, sd = arnie_post$s_prime)
+## pnorm(q = 31, mean = 32, sd = 2^2 / 12)
+```
+
+# 12.4 Testing a Two-Sided Hypothesis about a Normal Mean
+  
+## Extend Example 12.3 (continued from Example 11.3, p. 222)
+
+$$
+H_0: \mu = 31 \: versus \: H_1: \mu \neq 31
+$$
+
+Let's extend the last the example to test a two-sided hypothesis. 
+
+---
+
+```{r}
+Bolstad::normnp(x = rep(32, 12), m.x = 30, s.x = 4, sigma.x = 2)
+```
+
+## VI. Closing
+
+Reply in the chat:
+
+- When is Bayesian estimation of a Normal Mean preferred to Frequentist (in terms of MSE)?
+
+### Notes
+Exercise 12.2 has a typo: emphnormal is a $\LaTeX$ typo. It is just *normal*$(75,10^2)$ .

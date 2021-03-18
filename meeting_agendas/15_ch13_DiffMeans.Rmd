@@ -1,0 +1,272 @@
+---
+title: "BAYESIAN INFERENCE FOR DIFFERENCE BETWEEN MEANS"
+subtitle: "Chapter 13"
+author: "AG Schissler"
+date: "22 Mar 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('15_ch13_DiffMeans.Rmd')
+```
+
+# Admin & Startup
+
+## Schedule review 
+
+Let's review the schedule and place today's learning in context.  
+
+## Action items this week
+
+- Read Chapter 13.
+- Problem Set 6, Ch. 9, 10 was due Friday, 19 Mar 2021.
+- Midterm 2 (canvas quiz format) was due Friday, 19 Mar 2021, covers mainly Ch.7-10.
+- HW 7 Ch.11-13 due Friday, 26 Mar 2021.
+
+## Any questions over problem set 7, Ch. 11,12?
+
+- Ch.11 #2, 5, C5-C7
+- Ch.12 #4
+
+## Today's plan
+
+- Prime by discussion via HW 7, ch. 13 exercise prompts.
+- Discuss Ch. 13.
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Preview Problem Set 7, Ch. 13
+
+- Ch.13 #1,2,16
+
+# II. Ch.13 Bayesian Inference for Difference between Means
+
+- Often the core scientific question is whether a parameter is different between two groups 
+- Such as: patients who took Drug A vs Drug B, online class vs. traditional, etc.
+- This chapter discusses Bayesian inference for a difference of means, using normal modeling.
+
+# Ch. 13.1 Independent Random Samples from Two Normal Distributions
+
+## Email data for UG vs Grad
+
+*Email data was generating through informal survey*:
+
+1. Think carefully about how many times a work day you check email in a 24-hour period.
+2. Enter your guess in the chat (only once please for collection purposes) and state your student status (Grad or UG).
+3. We'll analyze these data to assess the statistical evidence whether graduate and undergraduate students check email a different number of times, on average.
+
+## Email data for UG vs Grad
+
+Construct the posterior distribution for each group, assumming independent random samples from two normal distributions and known standard deviation of 3.
+
+```{r, echo = TRUE, results = TRUE}
+## SP20 data. may be interesting to retain/compare
+y_u <- c(3, 3, 5, 4, 4, 10, 4, 5, 8, 5, 5, 10, 4, 15, 5)
+y_g <- c(4, 5, 10, 4, 5)
+n_u <- length(y_u)
+n_g <- length(y_g)
+
+## For simplicity, assume the same priors for each group
+## prior mean
+m <- 5
+## prior variance
+s2 <- 10^2
+## Assuming equal, known variance!
+sigma2 <- 3^2
+```
+
+## Email data for UG vs Grad
+
+```{r}
+## Compute the posterior for each sample
+compute_normalMean_normalPrior <- function(m, s2, n, y_bar, sigma2){
+    ## posterior precision is the sum of prior and sample precision
+    total_precision <- 1/s2 + n/sigma2
+    s_prime2 <- 1/total_precision
+    ## posterior mean is the weighted average of prior and sample mean
+    m_prime <- ( (1/s2) / total_precision ) * m + ( (n/sigma2) / total_precision ) * y_bar
+    ## return as a list
+    list(m_prime=m_prime, s_prime2=s_prime2, s_prime = sqrt(s_prime2))
+}
+```
+
+## Email data for UG vs Grad
+
+```{r}
+(mu_u_post <- compute_normalMean_normalPrior(m = m, s2 = s2, n =  n_u, y_bar = mean(y_u), sigma2 = sigma2))
+(mu_g_post <- compute_normalMean_normalPrior(m = m, s2 = s2, n =  n_g, y_bar = mean(y_g), sigma2 = sigma2))
+```
+
+## Case 1. 13.2 Inference with equal variances
+
+- This is a sensible model for experimental data in a completely randomized design. Why?
+- Let's discuss what is meant by an "additive" model.
+- The methods is this chapter instruct how to conduct Bayesian inference for the difference in means $\mu_d = \mu_1 - \mu_2$.
+- Recall how this was done using classical statistics. We had to make assumptions on distributions (or appeal to CLT) and variances. Then we conduct a $t-$test.
+
+## Email data for UG vs Grad, equal variances
+
+Using the results from the previous section, find a 95% credible interval the mean difference.
+
+```{r}
+## First find the posterior for the difference in means.
+## Since the samples were independent this is easily to compute.
+mu_d_mean <- mu_g_post$m_prime - mu_u_post$m_prime
+mu_d_stderror <- sqrt(mu_g_post$s_prime2 + mu_u_post$s_prime2)
+
+## Difference of normal rvs is also normal
+## Here is a 95% credible interval for mu_d
+c(mu_d_mean - qnorm(0.975) * mu_d_stderror, mu_d_mean + qnorm(0.975) * mu_d_stderror)
+
+## 1-sided credible interval (upper bound)
+z_star <- qnorm(0.950)
+mu_d_mean + z_star * mu_d_stderror
+```
+
+## Email data for UG vs Grad, equal variances
+
+Now test the hypotheses that
+
+$H_0: \mu_d \leq 0$ versus $H_0: \mu_d > 0$.
+
+```{r}
+## one sided hypothesis test 
+pnorm(0, mean = mu_d_mean, sd = mu_d_stderror)
+## z score (to use a table)
+pnorm((0 - mu_d_mean) / mu_d_stderror)
+```
+
+## Email data for UG vs Grad, equal variances
+
+And the two-sided test
+
+$H_0: \mu_d = 0$ versus $H_0: \mu_d \neq 0$.
+
+```{r}
+## We do
+alpha = 0.1
+z_star = qnorm( 1 - alpha /2 )
+c(mu_d_mean -  z_star * mu_d_stderror, mu_d_mean + z_star * mu_d_stderror)
+```
+
+## Email data for UG vs Grad, unknown, equal variances
+
+Repeat above, but assume unknown (but equal) variance with flat priors
+
+Use $t(n_u + n_g - 2)$ and Equation 13.7. Pool together the samples to estimate the variances since the variances are the same for the two groups.
+
+## Email data for UG vs Grad, unknown, equal variances
+
+95% credible interval for the mean differece with unknown but equal variances
+
+## Email data for UG vs Grad, unequal variances
+
+- Discuss using textbook (nonadditive).
+- Compute the posterior parameters under independent sampling and priors. The updating rules are exactly the same.
+- For a credible interval with normal priors use Equation 13.9 (same as 13.2).
+- For a credible interval with flat priors (coinciding with the frequentist confidence interval) use Equation 13.10.
+
+Normal prior credible interval with known, unequal variances:
+
+For our email data, compute a 90% credible interval using the priors from before and assume that $\sigma_u = 10$ and $\sigma_g = 5$.
+
+## Email data for UG vs Grad, unknown, unequal variances
+
+Use Satterthwaite's approximation for the degrees of freedom on page 263.
+
+```{r}
+## The (unbiased) variance estimators given by Bolstad & Curran are built into R
+1 / ( length(y_g) - 1 ) * sum( (y_g - mean(y_g) )^2 )
+var(y_g)
+```
+
+# III. 13.5 Paired (dependent) samples
+
+*Email data was generating through informal survey*:
+
+1. Think about how many times you check your email on a regular workday day versus a COVID-19 workday.
+2. Let's disregard the graduate/undergraduate aspect for this analysis.
+3. Enter your difference (COVID-19 num of email checks) - (Regular workday) into the chat please.
+
+## Email data, COVID behavior change 
+
+```{r}
+diff_in_email <- c(-2, 0, -1, -3, 5, 1, 2 , 5, 0, 4, 5, 0, 4, 2 ,6 ,10, 8)
+length(diff_in_email)
+summary(diff_in_email)
+```
+
+## Email data, COVID behavior change 
+
+```{r}
+hist(diff_in_email)
+```
+
+## Email data, COVID behavior change 
+
+```{r}
+## Skeptical, Weakly Informative Prior (WIP) 
+m = 0
+s2 = 20^2
+## Treat these (differenced data) a sample from a single normal population with unknown variance
+(post_param <- compute_normalMean_normalPrior(m = m, s2 = s2, n = length(diff_in_email), y_bar = mean(diff_in_email), sigma2 = var(diff_in_email)))
+```
+
+## Email data, COVID behavior change 
+
+Construct the posterior of the difference $\mu_{reg} - \mu_{COVID-19}$ using a WIP
+
+Construct a 95% credible interval.
+
+```{r}
+n <- length(diff_in_email)
+## critical value
+alpha <- 0.05
+t_star <- qt(p = 1 - alpha / 2, df = n - 1)
+## two-sided interval
+c( post_param$m_prime - ( t_star * post_param$s_prime ) ,
+  post_param$m_prime + (  t_star * post_param$s_prime ) )
+```
+
+## Email data, COVID behavior change 
+
+```{r}
+## 1-sided
+t_star <- qt(p = 1 - alpha, df = n - 1)
+post_param$m_prime - ( t_star * post_param$s_prime ) ## lower bound 1-sided
+post_param$m_prime + ( t_star * post_param$s_prime ) ## upper bound 1-sided
+```
+
+## Email data, COVID behavior change 
+
+Under a flat prior
+
+```{r}
+## Flat improper prior for the mean has infinite variance
+(post_param <- compute_normalMean_normalPrior(m = 0, s2 = Inf, n = length(diff_in_email), y_bar = mean(diff_in_email), sigma2 = var(diff_in_email)))
+```
+
+## Email data, COVID behavior change 
+
+Under a flat prior, agrees with Frequentist $t-$test.
+
+```{r}
+t_star <- qt(p = 1 - alpha / 2, df = n - 1)
+## two-sided interval
+c( post_param$m_prime - ( t_star * post_param$s_prime ) , post_param$m_prime + (  t_star * post_param$s_prime ) )
+t.test(x = diff_in_email, conf.level = 0.95) ## or  just compute the frequentist version
+```
+
+## IV. Closing
+
+Reply in the chat:
+
+- How to know which difference formula to use from Ch.13?
+- Discuss shortcomings of the survey-based data collection from today's meeting. Do you expect the estimates to be biased?

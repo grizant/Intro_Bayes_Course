@@ -137,28 +137,38 @@ my_sigma2 <- 5^2
 
 ## biases
 
-```{r, echo=F}
-arnold_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+```{r, echo=T}
+arnold_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
 beth_bias <- sapply(X = mu_seq, FUN = compute_bayes_bias, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
 carol_bias <- rep(0, length(mu_seq))
 eval_data$bias <- c(arnold_bias, beth_bias, carol_bias)
+```
+
+## biases
+
+```{r, echo=T}
 ggplot(data = eval_data, aes(x = mu, y = bias, color = prior)) + geom_line(aes(linetype = prior))
 ```
 
 ## mse
 
-```{r, echo = F}
+```{r, echo = T}
 arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
 ## PLAY WITH ARNOLD'S TO DISCUSS WEAKLY INFORMATIVE PRIORS
-arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 100^2, sigma2 = my_sigma2, n = my_n)
+arnold_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1000, s2 = 10^2, sigma2 = my_sigma2, n = my_n)
 beth_mse <- sapply(X = mu_seq, FUN = compute_bayes_mse, m = 1015, s2 = 7.5^2, sigma2 = my_sigma2, n = my_n)
 carol_mse <- rep(my_sigma2 / my_n, length(mu_seq))
 eval_data$mse <- c(arnold_mse, beth_mse, carol_mse)
+```
+
+## mse
+
+```{r}
 ggplot(data = eval_data, aes(x = mu, y = mse, color = prior)) + geom_line(aes(linetype = prior))
 ```
 
 ## You try:
-
+ 
 Explore changing the sample size $n$ and population variance $\sigma^2$. How does it impact the evaluation above?
 
 # 12.2. 

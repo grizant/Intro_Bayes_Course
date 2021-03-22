@@ -16,23 +16,49 @@ library(Bolstad)
 ## xaringan::inf_mr('15_ch13_DiffMeans.Rmd')
 ```
 
-# Admin & Startup
+# i. Admin & Startup
 
-## Schedule review 
+## Week 9 Focus
 
-Let's review the schedule and place today's learning in context.  
-
-## Action items this week
-
-- Read Chapter 13.
-- Problem Set 6, Ch. 9, 10 was due Friday, 19 Mar 2021.
 - Midterm 2 (canvas quiz format) was due Friday, 19 Mar 2021, covers mainly Ch.7-10.
-- HW 7 Ch.11-13 due Friday, 26 Mar 2021.
+- Receive and act on Ch. 9 HW feedback.
+- Practice on Ch. 7 content.
+- Read Ch. 13. Diff between means .
+- Only meet Monday as Wed is "No-Instruction Day"
+- Read Ch. 14 Bayes Inference Standard Deviation
+- HW 7. Ch.11 #2,5, C5-C7, Ch.12 #4, Ch.13 #1,2,16  due 26 Mar 2021
+- All assignments posted for rest of semester.
 
-## Any questions over problem set 7, Ch. 11,12?
+## HW Ch.9 general feedback
 
-- Ch.11 #2, 5, C5-C7
-- Ch.12 #4
+- try knitr options `message=F, warning=F` to avoid unnecessary reporting. 
+- I think there is some general confusion about updating rules and summarizing the posterior. Let's review Ch.9,10 updating rules.
+- How to compute the posterior median?
+- C9-1 was a bit rough for some. How can I help?
+- Try to use `rmd` and make a completely reproducible report. Piecewise looks unpolished and hard for me to grade.
+- Always include graphs for computer reports. That is the fastest/best way for me to ensure accuracy and for the reader to see the results.
+
+## Midterm 2 feedback
+
+A study using 𝑛=130 Global Positioning System (GPS) sensors near Salt Lake City, UT, finds that 𝑦=31 shifted more than 10 meters in 3 years. Assume that sensors are far enough apart to be independent. Let 𝜋 be the true probability that a GPS sensor moves 10 meters in this geographical area. Use a 𝑏𝑒𝑡𝑎(1,5) prior for 𝜋.
+
+Compute an exact 90% one-sided interval posterior credible interval for the 𝜋, the probability that a GPS sensor has shifted more than 10 meters in 3 years. Report the upper bound to the nearest thousandth place in the box below. Hint: You will first have to find the posterior distribution 𝜋|𝑦.
+
+## Midterm 2 feedback
+
+```{r mid2, warning=F}
+fit  <- binobp( x = 31, n = 130, a = 1, b = 5, plot = F)
+```
+
+---
+
+```{r mid2b, echo=F}
+plot(fit)
+```
+
+```{r mid2c}
+quantile( fit, probs = 0.9 )
+```
 
 ## Today's plan
 

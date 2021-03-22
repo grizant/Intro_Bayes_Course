@@ -1,0 +1,250 @@
+---
+title: "BAYESIAN INFERENCE FOR SIMPLE LINEAR REGRESSION"
+subtitle: "Chapter 14, Part 2"
+author: "AG Schissler"
+date: "31 Mar 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('17_ch14_linReg2.Rmd')
+```
+
+# i. Admin & Startup
+
+## Week 10 Focus
+
+- Receive and act on HW 7 Ch. 11-13 HW feedback.
+- Practice on HW 8 Ch. 14 content.
+- Read Ch. 14. Linear regression
+- HW 8. Ch.14 due Friday Apr 2.
+
+## HW 7 general feedback
+
+- ???
+
+## Today's plan
+
+- Prime by discussion via HW 8, ch. 14 exercise prompts.
+- Discuss Ch. 14, Part 2.
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Preview HW 8
+
+- Ch. 14: 2 ,4, C1-C3
+
+## We discussed the joint likelihood of $\beta$ and $\alpha_{\bar{x}}$ last time (see Section 14.4).
+
+Some Questions for the group: 
+
+- Starting from a normal model for the data $y|x$, what distributions do $\beta$ and $\alpha_{\bar{x}}$ follow?  
+- How do we know the two regression parameters (coefficients) behave independently in the joint likelihood?  
+- Why does $Var(\alpha_{\bar{x}})=\sigma^2/n$? Why should that agree with our intuition about the quantity?  
+
+## Recall the motivating example
+
+- How well does the first midterm score predict the third midterm score? 
+
+```{r, echo=F}
+### load scrambled midterm one and midterm three scores
+reg_data <- readRDS("data/exam_reg_data.rds")
+
+## visualize relationship
+p0 <- ggplot(data = reg_data, mapping =  aes(x = MidtermOne, y = MidtermTwo))
+p1 <- p0 + geom_point(alpha = 0.5, size = 5)
+p1
+```
+
+## Recall the motivating example
+
+```{r}
+### explore numerically
+(x_bar <- mean(reg_data$MidtermOne))
+(y_bar <- mean(reg_data$MidtermTwo))
+xy_bar <- mean(reg_data$MidtermOne * reg_data$MidtermTwo)
+x2_bar <- mean(reg_data$MidtermOne^2)
+x_bar2 <- mean(reg_data$MidtermOne)^2
+```
+
+## Compute the least squares estimates of $\alpha_0, \beta$ and $\alpha_{\overline{x}}$.
+
+for the equations, $\mu_{y|x} = \alpha_0 + \beta x$ or, equivalently, $\mu_{y|x} = \alpha_{\overline{x}} + \beta \left( x - \overline{x} \right)$.
+
+## Now let's compute the variance estimator
+
+$\hat{\sigma^2} = \frac{\sum_{i=1}^n (y_i - \hat{y_i})^2}{n-2}$.
+
+```{r}
+compute_simple_ls <- function(x, y) {
+    B <- ( mean(x*y) - mean(x) * mean(y) ) / ( mean(x^2) - mean(x)^2  )
+    A0 <- mean(y) - B * mean(x)
+    return( list(A0 = A0, B = B) )
+}
+
+my_ls_soln <- compute_simple_ls(x = reg_data$MidtermOne, y = reg_data$MidtermTwo)
+```
+
+---
+
+```{r}
+compute_sigma_hat <- function(x, y){
+    ls_estimator <- compute_simple_ls(x = x, y = y)
+    y_hat <- ls_estimator$A0 + ls_estimator$B * x
+    ## variance estimator
+    sqrt( sum( (y - y_hat)^2 ) / ( length(x) - 2 ) )
+}
+
+compute_sigma_hat(x = reg_data$MidtermOne, y = reg_data$MidtermTwo)
+summary(lm(MidtermTwo ~ MidtermOne, data = reg_data))$sigma
+ssx <- sum( (reg_data$MidtermOne - mean(reg_data$MidtermOne))^2 )
+```
+
+## II. Prior specification. 14.4 part II
+
+Now that we have analyzed joint likelihood for $\beta$ and $\alpha_{\bar{x}}$, we select the form of the prior.
+
+We'll assume independent for the joint prior for $\beta$ and $\alpha_{\bar{x}}$:
+
+$g(\alpha_{\overline{x}}, \beta) = g(\alpha_{\overline{x}}) \times g(\beta)$. 
+
+## Prior specification on intercept
+
+The independence assumption simplifies the calculation (not required, but it is reasonable). To get closed-form updating rules for the posterior, choose either a flat prior (which is also Jeffrey's prior in the normal model) or a normal prior for each parameter.
+
+- To choose a prior $g$ for $\alpha_{\overline{x}}$, the analyst to needs to guess at the mean of $y$ and its variation. Bolstad suggests
+
+1. Pick a prior mean $m_{a_x}$ for $\alpha_{\overline{x}}$.  
+2. Guess lower and upper bounds for $m_{a_x}$.  
+3. Divide the range of your bounds by 6 (since we have a normal model) to estimate your prior standard deviation $s_{a_x}$.
+
+## Prior specification on slope
+
+Usually we are more interested in the slope $\beta$. To set a prior $g(\beta)$,
+
+1. Select a viewpoint. A default viewpoint and widely accepted is to assume $m_\beta=0$, that there is no relationship between the variables. But one could have different prior beliefs that are pessimistic or optimistic.  
+2. Then think about the possible range values of the slope, the corresponding change in $y$ for a unit change in $x$.   
+3. Divide the range of your bounds by 6 (since we have a normal model) to estimate your prior standard deviation $s_\beta$.
+
+## III. The joint posterior
+
+of $\beta$ and $\alpha_{\overline{x}}$
+
+Now that we have the prior and likelihood specified. Let's get that Bayesian posterior and complete our inference!
+
+## Walk through Section 14.4 
+
+## Updating rules under a normal prior
+
+See text equations 14.7, 14.8 and the two equations below them for the updating rules.
+
+## Posterior, unknown variance, flat prior
+
+```{r fit0, warning=F}
+fit0 <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE, quiet=T, plot=T)
+```
+
+## Posteriorunknown variance, skeptical prior
+
+```{r fit1, warning=F}
+## skeptical prior
+mb0 <- 0; sb0 <- 1/10; ma0 <- 80 ; sa0 <- 3
+fit1 <- bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "normal", intcpt.prior = "normal", mb0=mb0, sb0=sb0, ma0=ma0, sa0=sa0, plot.data = TRUE)
+```
+
+## Posterior unknown variance, weakly informative prior
+
+```{r fit2}
+## WIP prior
+mb0 <- 0; sb0 <- 3 ;ma0 <- 80; sa0 <- 10
+bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "normal", intcpt.prior = "normal", mb0=mb0, sb0=sb0, ma0=ma0, sa0=sa0, plot.data = TRUE)
+```
+
+# III. Credible intervals and hypothesis testing (14.5)
+
+## Bayesian credible interval around the slope
+
+Just normal model here. Please find a 95% credible interval under your priors with unknown variance.
+
+## Frequentist confidence interval around the slope
+
+$\hat{\beta} \pm t_{\alpha/2,df=n-2} \frac{\hat{\sigma}}{\sqrt{SS_x}}$.
+
+```{r}
+fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+```
+
+## An $1-\alpha$ confidence interval
+
+```{r}
+alpha = 0.11
+df <- nrow(reg_data) - 2
+t_star <- qt( p = alpha / 2, df = df, lower.tail = FALSE)
+c(fit$post.coef[2] - t_star * fit$post.coef.sd[2], fit$post.coef[2] + t_star * fit$post.coef.sd[2])
+
+## from lm()
+alpha = 0.11
+lm_summ <- summary(lm(MidtermTwo ~ MidtermOne, reg_data))
+c("lower" = lm_summ$coef[2,1] - qt(1-alpha/2, df = lm_summ$df[2]) * lm_summ$coef[2, 2],
+  "upper" = lm_summ$coef[2,1] + qt(1-alpha/2, df = lm_summ$df[2]) * lm_summ$coef[2, 2])
+```
+
+## A note about `quantile` from Bolstad
+ 
+```{r}
+## This doesn't use a t distribution (assumes known variance).
+quantile(fit$slope, probs = c(alpha / 2, 1 - alpha/2) )
+```
+
+## Testing One-sided hypothesis about slope
+
+```{r}
+fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE)
+```
+
+## Testing One-sided hypothesis about slope
+
+```{r}
+pnorm(0, mean = fit$post.coef[2], sd = fit$post.coef.sd[2], lower.tail = TRUE)
+pt( (fit$post.coef[2] - 0) / fit$post.coef.sd[2], df = nrow(reg_data) - 2, lower.tail = FALSE)
+```
+
+## Testing Two-sided hypothesis about slope
+
+Please test whether the slope is different from 0.
+
+# IV. Predictive ditribution for the regression model (14.5)
+
+## Finding the predictive distribution
+
+Discuss the derivation.
+
+## predictive distribution parameters
+
+Please find the predictive distribution under your prior and unknown variance.
+
+1. Find the predictive density when a student scores a 70 on the first exam. Use either Equations 14.13, 14.14 or `bayes.lin.reg`.
+
+```{r}
+fit <- Bolstad::bayes.lin.reg(y = reg_data$MidtermTwo, x = reg_data$MidtermOne, quiet=T,
+                       slope.prior = "flat", intcpt.prior = "flat", plot.data = TRUE, pred.x = 70)
+```
+
+## Find a 95% prediction interval
+
+```{r}
+z <- qnorm( 0.975)
+c(fit$pred.y - z* fit$pred.se,  fit$pred.y + z* fit$pred.se)
+```
+
+# Closing (5 min)
+
+- Enter into the chat your own answer to the guiding question, "How well does Midterm One scores predict Midterm Two?"
+- Share.

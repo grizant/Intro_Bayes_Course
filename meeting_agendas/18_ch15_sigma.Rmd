@@ -1,0 +1,146 @@
+---
+title: "BAYESIAN INFERENCE FOR STANDARD DEVIATION"
+subtitle: "Chapter 15"
+author: "AG Schissler"
+date: "5 Apr 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('./18_ch15_sigma.Rmd')
+```
+
+# i. Admin & Startup
+
+## Week 11 Focus
+
+- Receive and act on HW 7 Ch. 11-13, HW 8 Ch.14 feedback.
+- Assess progress via Midterm 3 canvas quiz, due Friday Apr 9.
+- Practice on HW 9 Ch.15, 16 content.
+- Read Ch. 15, 16
+- HW 9. Ch.15, 16 due Friday Apr 9.
+
+## Today's plan
+
+- Prime by discussion via HW 9, Ch.15 exercise prompts.
+- Discuss Ch. 15
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Preview HW 9
+
+- Ch.15: 4, C1.
+- Ch.16: 2, C1, C3 
+
+# II. Discuss Ch. 15 with examples
+
+- Overview 
+- 15.1 Bayes' Thm for Normal Variance w/cont. prior
+- 15.2 Some specific prior distributions and resultant posteriors
+- Example 15.1
+- 15.3 Bayesian Inference for Normal $\sigma$.
+
+## Overview
+
+- Inference for standard deviation is usually secondary importance to location
+- Two strategies we have seen: 1) assume it is known or 2) treat as a nuisance parameter and marginalize out
+- In Ch.15 instead of focusing on the normal mean $\mu$ we reverse the roles focus to $\sigma$.
+
+## 15.1 Bayes' Thm for Normal Variance w/cont. prior
+
+- Discuss Equation (15.1) Bayes rule.
+- Discuss the *inverse chi-squared* and $S$ times an *inverse chi-squared*, Equations (15.2-15.3)
+- Inspect Figure 15.1.
+- Show [wiki](https://en.wikipedia.org/wiki/Inverse-chi-squared_distribution) and discuss other notation.
+
+## Likelihood of variance for a normal sample
+
+- Derivation resulting in Eqn (15.4)
+- Discuss footnote 2, form and df when $\mu$ is unknown.
+
+## 15.2 Some specific prior distributions and resultant posteriors
+
+- work with $\sigma^2$ for convenience.
+- But set priors/interpret posterior on original scale $\sigma$.
+- Use the chain rule/change of variable formula to convert (15.5-15.6).
+
+## Priors & Posteriors
+
+- Positive uniform density for variance, posterior
+- Positive uniform density for std dev, posterior
+- Jeffrey's prior density, posterior, footnote 4
+- $\mathrm{Scale-inv-}\chi^2$ prior
+- Table 15.1
+- Figures 15.3, 15.4
+- Inverse gamma prior, discussion of default priors.
+
+## Example 15.1
+
+- Choice of priors, Fig.15.5.
+
+```{r ex151prior}
+priorMedian <- 5
+(fiftyPoint <- qchisq(p = 0.5, df = 1))
+(priorS <- fiftyPoint*priorMedian^2)
+```
+
+## Example 15.1 con'd
+
+```{r ex151b}
+dat <- c(1011, 1009, 1019, 1012, 1011, 1016, 1018, 1021, 1016, 1012)
+(n <- length(dat))
+mu <- 1015
+(sst <- sum( (dat - mu)^2 ))
+```
+
+- Aroha's flat prior induces a `r sst` $\times \: \mathrm{inv-}\chi^2$ with `r n-1` degrees of freedom posterior for $\sigma^2$.
+- Bernado's Jeffrey's prior induces a `r sst` $\times \: \mathrm{inv-}\chi^2$ with `r n` degrees of freedom posterior for $\sigma^2$.
+- Carlos' prior of `r priorS` $\times \: \mathrm{inv-}\chi^2$ induces a `r priorS + sst` $\times \: \mathrm{inv-}\chi^2$ with `r 1+n` degrees of freedom posterior for $\sigma^2$.
+
+## 15.3 Bayesian Inference for Normal $\sigma$.
+
+- Posterior mean, mode, median of variance and std dev on p.328
+- Find central tendency for Example 15.1 in Table 15.2.
+- Posterior Bayesian credible intervals for $\sigma$: 
+- transform to chi-squared via $W=S^{\prime}/sigma^2$ and use Equation (15.7).
+- Find CIs for Example 15.1 in Table 15.3.
+- Testing 1-sided hypothesis for Example 15.1 in Table 15.4.
+
+## Using the `nvaricp` Bolstad function
+
+```{r nvaricp, echo=T}
+example(nvaricp)
+```
+
+## Using the `nvaricp` Bolstad function
+
+```{r nvaricp2, results='hide'}
+example(nvaricp)
+```
+
+## Using the `nvaricp` Bolstad function
+
+```{r nvaricp3, results='hide'}
+res <- nvaricp(y = dat, mu = 1015, S0 = priorS, kappa = 1)
+```
+
+## Using the `nvaricp` Bolstad function
+
+```{r nvaricp4, results='hide'}
+res <- nvaricp(y = dat, mu = 1015, S0 = priorS, kappa = 1)
+mean(res)
+## median(res) ## this errors for me.
+quantile(res, probs = c(0.5))
+quantile(res, probs = c(0.025, 0.975))
+```
+
+# Closing (5 min)
+
+Please contribute questions and comments while we review and discuss Ch.15 main points.

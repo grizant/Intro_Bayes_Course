@@ -13,7 +13,7 @@ output:
 library(tidyverse)
 library(printr)
 library(Bolstad)
-## xaringan::inf_mr('16_ch14_linReg1.Rmd')
+## xaringan::inf_mr('16_ch14_linReg1.Rmd') 
 ```
 
 # i. Admin & Startup

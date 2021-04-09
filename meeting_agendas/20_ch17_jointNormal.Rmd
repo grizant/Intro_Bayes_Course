@@ -1,0 +1,92 @@
+---
+title: "BAYESIAN INFERENCE FOR NORMAL MEAN WITH UNKNOWN MEAN AND VARIANCE"
+subtitle: "Chapter 17"
+author: "AG Schissler"
+date: "12 Apr 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('./20_ch17_jointNormal.Rmd')
+```
+
+# i. Admin & Startup
+
+## Week 12 of 16 Focus
+
+- Receive and act on HW 7 Ch. 11-13, HW 8 Ch.14 feedback, HW 9 Ch.15, Ch.16
+- Assess progress via Midterm 3 canvas quiz, due Friday Apr ~~9~~ 16.
+- Practice on HW 10 Ch.17 content.
+- Read Ch.17
+- HW 10. Ch.17 due Friday Apr 16.
+
+## Today's plan
+
+- Prime by discussion via HW 10, Ch.17 exercise prompts.
+- Discuss Ch. 17, part 1 roughly half of the 30 pages.
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Preview HW 10
+
+- Ch.17: CI - C3
+
+# II. Discuss Ch. 17 with examples
+
+## Discuss Ch. 17 with examples
+
+* Overview of computing $g(\mu, \sigma^2 | y)$.
+* 17.1 The Joint Likelihood Function
+* 17.2 Finding the Posterior when Independent Jeffrey's Priors for $\mu$ and $\sigma^2$ are Used
+  * Finding the Marginal Posterior for $\mu$.
+  * Another Way to Find the Marginal Posterior (Thm 17.1)
+* 17.3 Finding the Posterior when a Joint Conjugate Prior for $\mu$ and $\sigma^2$ are Used
+  * The Joint Conjugate Prior
+  * Finding the Marginal Posterior for $\mu$.
+  * An Approximation to the Marginal Posterior for $\mu$.
+  * Example 17.1
+
+## Ch. 17 Overview 
+
+- motivation
+- setting
+- big ideas
+
+# 17.1 The Joint Likelihood Function
+
+## 17.1 The Joint Likelihood Function
+
+# 17.2 Finding the Posterior when Independent Jeffrey's Priors for $\mu$ and $\sigma^2$ are Used
+
+## Posterior Indep. Jeffrey's priors
+
+## Finding the Marginal Posterior for $\mu$.
+ 
+## Another Way to Find the Marginal Posterior 
+
+Thm 17.1
+
+# 17.3 Finding the Posterior when a Joint Conjugate Prior for $\mu$ and $\sigma^2$ are Used
+
+## Posterior when a Joint Conjugate Prior
+
+## The Joint Conjugate Prior
+
+## Marginal Posterior for $\mu$.
+
+## Approximation to the Marginal Posterior for $\mu$.
+
+## Example 17.1
+
+# Closing (5 min)
+
+- Summary
+- HW discussion
+- other?

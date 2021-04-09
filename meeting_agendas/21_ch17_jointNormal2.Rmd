@@ -1,0 +1,71 @@
+---
+title: "BAYESIAN INFERENCE FOR NORMAL MEAN WITH UNKNOWN MEAN AND VARIANCE"
+subtitle: "Chapter 17, Part II"
+author: "AG Schissler"
+date: "12 Apr 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+## xaringan::inf_mr('./21_ch17_jointNormal2.Rmd')
+```
+
+# i. Admin & Startup
+
+## Week 12 of 16 Focus
+
+- Receive and act on HW 7 Ch. 11-13, HW 8 Ch.14 feedback, HW 9 Ch.15, Ch.16
+- Assess progress via Midterm 3 canvas quiz, due Friday Apr ~~9~~ 16.
+- Practice on HW 10 Ch.17 content.
+- Read Ch.17
+- HW 10. Ch.17 due Friday Apr 16.
+
+## Today's plan
+
+- Prime by discussion via HW 10, Ch.17 exercise prompts.
+- Discuss Ch. 17, part 2
+- Summarize, Revisit HW or Q & A
+
+*Please contribute questions and comments*
+
+# I. Preview HW 10
+
+- Ch.17: CI - C3
+
+# II. Discuss Ch. 17 with examples
+
+# 17.4 Difference Between Normal Means with Equal Unknown Variance
+
+## Finding the Posterior when Independent Jeffrey's Priors are Used for all Parameters
+
+## Finding the Posterior when the Joint Conjugate Prior is Used for all Parameters
+
+##  Finding the Approximate Posterior when the Joint Conjugate Prior is Used for all Parameters
+
+##  Example 17.2
+
+# 17.5 Difference Between Normal Means with Unequal Unknown Variances
+
+# Summary 
+
+## Main Points on p.380
+
+## Table 15.2
+
+## Using `bayes.t.test`
+
+# Appendix: Proof that the Exact Marginal Posterior Distribution $\mu$ is Student's $t$.
+
+## Appendix
+
+# Closing (5 min)
+
+- Summary
+- HW discussion
+- other?

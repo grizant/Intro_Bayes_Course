@@ -133,12 +133,13 @@ res <- nvaricp(y = dat, mu = 1015, S0 = priorS, kappa = 1)
 
 ## Using the `nvaricp` Bolstad function
 
-```{r nvaricp4, results='hide'}
+```{r nvaricp4}
 res <- nvaricp(y = dat, mu = 1015, S0 = priorS, kappa = 1)
 mean(res)
 ## median(res) ## this errors for me.
 quantile(res, probs = c(0.5))
 quantile(res, probs = c(0.025, 0.975))
+nvaricp(y = dat, mu = 1015, S0 = 0, kappa = -1)
 ```
 
 # Closing (5 min)

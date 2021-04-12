@@ -13,6 +13,7 @@ output:
 library(tidyverse)
 library(printr)
 library(Bolstad)
+set.seed(04122021)
 ## xaringan::inf_mr('./20_ch17_jointNormal.Rmd')
 ```
 
@@ -28,15 +29,29 @@ library(Bolstad)
 
 ## Today's plan
 
+- Feedback from HWs. Focus on getting the exercises right.
 - Prime by discussion via HW 10, Ch.17 exercise prompts.
 - Discuss Ch. 17, part 1 roughly half of the 30 pages.
 - Summarize, Revisit HW or Q & A
 
 *Please contribute questions and comments*
 
+## Feedback from HWs
+
+- 11.2 joint sample vs. single observation. Make sure to use the correct variance!
+- 12.4 Careful inputing the data. Keep the details straight and know how the function `normnp` works. t-interval review. 
+- 13.2 Careful inputing the data. Why am I seeing repeated people use incorrect input values? Such as sigma=6? Please help me understand. It is very strange. Use the posterior variance of $\mu_d$ to calculate interval.
+- Careful with variances versus standard deviation.
+- Be certain you know how to enter the inputs to `Bolstad` functions. Explore output using `str()`. 
+- Extract values, don't hardcode values later.
+- 1-sided hypothesis testing use CDF. Why? 2-sided use CI. Why?
+- One mistake ruins everything. Think hard about every answer. 
+- Use the R to check your work. Compute using formulas and compare to Bolstad functions and common R functions `t.test` or `lm`.
+- Use my rmd source files from the slides. I demostrate almost everything. Review the slides while you work.
+
 # I. Preview HW 10
 
-- Ch.17: CI - C3
+Ch.17: CI - C3
 
 # II. Discuss Ch. 17 with examples
 
@@ -84,6 +99,66 @@ Thm 17.1
 ## Approximation to the Marginal Posterior for $\mu$.
 
 ## Example 17.1
+
+# Using `bayes.t.test`
+
+- Let's look at the Appendix USING THE INCLUDED R FUNCTIONS on p.562.
+- Read these sections while you use the functions.
+
+## Additional Example 7.3
+
+Let's create synthetic paired data that are generated from normal distributions:
+
+```{r ex73}
+n <- 10; mu1 <- 0; mu2 <- 2; sd1 <- 1; sd2 <- 1
+y1 <- rnorm(n, mu1, sd1); y2 <- rnorm(n, mu2, sd2)
+y <- y2-y1
+hist(y)
+```
+
+## Additional Example 7.3
+
+Use `bayes.t.test` to test $H_0: \mu_{diff} \leq 0$ vs. $H_0: \mu_{diff} > 0$ at the 5% significance level using independent Jeffrey's priors for $\mu$ and $\sigma$.
+
+First let's read the documentation and ensure understanding.
+
+```{r ex73a}
+## ?bayes.t.test
+```
+
+## Additional Example 7.3
+
+Now use `bayes.t.test` to test $H_0: \mu_{diff} \leq 0$ vs. $H_0: \mu_{diff} > 0$ at the 5% significance level using independent Jeffrey's priors for $\mu$ and $\sigma$.
+
+```{r ex73b}
+(results <- bayes.t.test( x = y, alternative = "greater", mu = 0, paired = F, prior = c("jeffreys")))
+## t.test(x = y, alternative = "greater", mu = 0, paired = F) ## same
+```
+
+Here is a better way to report using inline R code: The p-value of `r round(results$p.value, 4)`.
+
+## Additional Example 7.3
+
+Test the hypothesis again, this time using a joint conjugate prior, with prior mean $m= 0$ and prior median value of $\sigma=1$. Set your prior sample size to $n_0 = 1$
+
+```{r ex73c}
+m = 0; n0 = 1; sigMed = 1;
+(results2 <- bayes.t.test( x = y, alternative = "greater", mu = 0, paired = F,
+                          prior = "joint.conj", m = m, n0 = n0, sig.med = sigMed))
+```
+
+## Additional Example 7.3
+
+Now test the the 2-sided hypothesis $H_0: \mu_{diff} \neq 0$ vs. $H_0: \mu_{diff} = 0$, with Jeffrey's priors.
+
+```{r ex73d}
+(results3 <- bayes.t.test( x = y, alternative = "two.sided", mu = 0, paired = F,
+                          prior = "jeffreys"))
+## or
+a <- 0.05
+tstar <- qt( p = 1-a/2, df = results3$parameter)
+c( results3$result$mean - tstar*sqrt( results3$result$var ), results3$result$mean + tstar*sqrt( results3$result$var ) )
+```
 
 # Closing (5 min)
 

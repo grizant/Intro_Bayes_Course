@@ -2,7 +2,7 @@
 title: "BAYESIAN INFERENCE FOR NORMAL MEAN WITH UNKNOWN MEAN AND VARIANCE"
 subtitle: "Chapter 17, Part II"
 author: "AG Schissler"
-date: "12 Apr 2021 (*updated: `r Sys.Date()`)*"
+date: "14 Apr 2021 (*updated: `r Sys.Date()`)*"
 output:
   ioslides_presentation:
     widescreen: true
@@ -13,10 +13,16 @@ output:
 library(tidyverse)
 library(printr)
 library(Bolstad)
+set.seed(04142021)
 ## xaringan::inf_mr('./21_ch17_jointNormal2.Rmd')
 ```
 
 # i. Admin & Startup
+
+## Why the likelihood function is not a probability distribution
+
+- Thought I'd share something important to Bayesian/all of statistics with you.
+- Discussion on iPad
 
 ## Week 12 of 16 Focus
 
@@ -29,14 +35,110 @@ library(Bolstad)
 ## Today's plan
 
 - Prime by discussion via HW 10, Ch.17 exercise prompts.
-- Discuss Ch. 17, part 2
+- Finish Ch.17, part 1
+- Discuss Ch.17, part 2
 - Summarize, Revisit HW or Q & A
 
 *Please contribute questions and comments*
 
+## Ch.15, 16 HW discussion
+
+- When using `Bolstad` functions don't put the posterior values as the prior value!
+- See (15.7) on p.329 for computing CI's
+
+```{r}
+mu <- 15
+y <- c(13.65, 14.31, 14.73, 13.88, 14.66, 15.53, 15.36, 15.16, 15.76, 18.55)
+n <- length(y)
+SST <- sum((y-mu)^2)
+```
+
+## Ch.15, 16 HW discussion
+
+See (15.7) on p.329 for computing CI's. Transform!
+
+```{r}
+Sprime <- SST; a <- 0.05; kappaPrime <- n ## Jeffrey's prior
+l <- qchisq( a/2, kappaPrime, lower.tail = F) ## l is the chi-squared value having upper tail area alpha/2
+u <- qchisq( a/2, kappaPrime, lower.tail = T) ## u is the chi-squared value having lower tail area alpha/2
+lower <- sqrt(SST/l); upper <- sqrt(SST/u)
+```
+
+A 95% Bayesian Credible Interval for the Standard Deviation is (`r round(lower, 3)`, `r round(upper, 3)`).
+
+## Ch.15, 16 HW discussion
+
+See Table 15.1 on p.330. Please report the p-value and conclusion --- so I can easily check your work.
+
+```{r}
+a <- .05
+sigma <- .05 ## weird that equals, alpha. Maybe meant 0.5?
+W0 <- SST/sigma^2
+(prob <- pchisq(W0, 10, lower.tail = F))
+```
+
+```{r}
+a <- .05
+sigma <- 1 ## experimentation
+W0 <- SST/sigma^2
+(prob <- pchisq(W0, 10, lower.tail = F))
+```
+
+## Ch.15, 16 HW discussion
+
+Always check you work when possible
+
+```{r}
+nvaricp(y, mu=15, 0, 0)
+```
+
+## Ch.16 C3 `normmixp`
+
+Let's explore the function `normmixp`
+
+```{r, eval=F}
+normmixp
+```
+
+The vector of $\mu$ is created automatically around the prior!
+
+## 16 C3
+
+```{r, comment=NA}
+sigma <- 5; m0 <- 1000; s0 <- 5
+m1 <- 1000; s1 <- 15; p0 <- .95; p1 <- 1-p0
+x <- c(1030, 1023, 1027, 1022, 1023, 1023, 1030, 1018, 1015, 1011)
+n <- length(x); mean(x)
+```
+
+## (a) Use **normmixp**
+
+```{r, comment=NA}
+results <- normmixp(x = x, sigma.x = sigma, prior0 = c(m0,s0), prior1 = c(m1,s1),
+                    p = p0, mu = seq(980, 1060, length.out=1000), quiet=T )$mix
+```
+
+## (b) Find a 95% Bayesian credible interval for $\mu$.
+
+```{r, comment=NA}
+ci <- quantile(results, probs = c(.025, .975))
+cat(paste("95% Bayesian Credible Interval : (", round(ci[1], 3), ", ", round(ci[2], 3), ")", sep = ""))
+```
+
+## (c) Test the hypothesis $H_0 : \mu \leq 1,000$ vs. $H_1 : \mu > 1,000$ at the 5% level of significance.
+
+If $\mu \leq  1,000$ is not included in the 95% confidence interval, we can reject the null hypothesis.
+
+```{r}
+mu0 <- 1000
+Fmix <- cdf(results) ## see p.551
+Fmix(mu0)
+Fmix(mean(results)) ## compare to the mean
+```
+
 # I. Preview HW 10
 
-- Ch.17: CI - C3
+- Ch.17: CI and C3, removed C2.
 
 # II. Discuss Ch. 17 with examples
 
@@ -57,8 +159,6 @@ library(Bolstad)
 ## Main Points on p.380
 
 ## Table 15.2
-
-## Using `bayes.t.test`
 
 # Appendix: Proof that the Exact Marginal Posterior Distribution $\mu$ is Student's $t$.
 

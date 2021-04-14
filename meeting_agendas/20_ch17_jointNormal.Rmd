@@ -110,10 +110,10 @@ Thm 17.1
 Let's create synthetic paired data that are generated from normal distributions:
 
 ```{r ex73}
-n <- 10; mu1 <- 0; mu2 <- 2; sd1 <- 1; sd2 <- 1
+n <- 20; mu1 <- 0; mu2 <- 2; sd1 <- 1; sd2 <- 1
 y1 <- rnorm(n, mu1, sd1); y2 <- rnorm(n, mu2, sd2)
 y <- y2-y1
-hist(y)
+hist(y, breaks="FD", freq=F)
 ```
 
 ## Additional Example 7.3

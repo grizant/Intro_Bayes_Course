@@ -127,8 +127,6 @@ cat(paste("95% Bayesian Credible Interval : (", round(ci[1], 3), ", ", round(ci[
 
 ## (c) Test the hypothesis $H_0 : \mu \leq 1,000$ vs. $H_1 : \mu > 1,000$ at the 5% level of significance.
 
-If $\mu \leq  1,000$ is not included in the 95% confidence interval, we can reject the null hypothesis.
-
 ```{r}
 mu0 <- 1000
 Fmix <- cdf(results) ## see p.551

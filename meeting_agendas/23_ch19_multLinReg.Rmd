@@ -22,7 +22,7 @@ set.seed(04262021)
 ## Week 14 of 16 Focus
 
 - Students begin work on Final Exam. 
-- Read Ch.19 Multiple Linear Reg.
+- Read Ch.19 Multiple Linear Reg
 - Practice on HW 12 Ch.19 1-5, due Friday Apr 30.
 - Receive and act on HW 11 Ch.18 1-3 feedback.
 

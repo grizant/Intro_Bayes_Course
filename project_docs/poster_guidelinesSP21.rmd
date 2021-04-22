@@ -1,0 +1,34 @@
+---
+title: "Final Exam: Scientific Poster"
+author: "STAT 446/646 Introduction to Bayesian Statistics (Spring 2021)"
+date: "04/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+1. **Title**. Short but well crafted to define the context and the contribution. Include all team members names and  affiliations.
+
+2. **Abstract.** State the problem you are addressing, why it is important, and give a brief summary of your findings. This is the only part of the poster that should be written in complete sentences.
+
+3. **Background** Provide detail here that puts the problem into context. Possible topics include: summary of related studies, current policies and practices, and descriptions of relevant physical/ biological models.
+
+4. **Data and design** Give a description of the data, including, as appropriate, descriptions of the:  
+	- Subjects under study,
+	- Data types and units of measurement,
+	- Missing value analysis,
+	- Procedures used for design and collection of data,
+	- Simulation design if synthetic data is used.
+	
+5.  **Statement of results.** This is the bulk of your poster. This includes both exploratory/informal analysis and formal analysis. Tell as much of the story as you can through figures. Remember to abide by the principles of good graphics and provide informative captions. Present only your final analysis, that is, avoid the journey that you took to arrive at your final results.
+
+6.  **Discussion** Be honest. Address the limitations of your findings. Discuss, if possible, how your results can be generalized. Be careful not to overstate the importance of your findings. With statistical evidence, we can rarely prove a conjecture or definitively answer a question. More often than not, the analysis provides support for or against a theory, and it is your job to assess the strength of evidence. Relate your results to the rest of the literature. Consider the following questions:
+	- Do you results confirm earlier findings or contradict them?
+	- What additional information does your study provide over past studies?
+	- What are the unique aspects to your study?
+	- If you could continue work in this area, what would you suggest for the next step?  
+
+
+7.  **References** Include a few essential references for data source(s), background material, and methodology.

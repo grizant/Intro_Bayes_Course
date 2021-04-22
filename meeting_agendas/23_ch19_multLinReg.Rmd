@@ -1,0 +1,73 @@
+---
+title: "BAYESIAN INFERENCE FOR MULTIPLE LINEAR REGRESSION"
+subtitle: "Chapter 19"
+author: "AG Schissler"
+date: "26 Apr 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(printr)
+library(Bolstad)
+set.seed(04262021)
+## xaringan::inf_mr('./23_ch19_multLinReg.Rmd')
+```
+
+# i. Admin & Startup
+
+## Week 14 of 16 Focus
+
+- Students begin work on Final Exam. 
+- Read Ch.19 Multiple Linear Reg.
+- Practice on HW 12 Ch.19 1-5, due Friday Apr 30.
+- Receive and act on HW 11 Ch.18 1-3 feedback.
+
+## Today's plan
+
+- Discuss Ch.17,18 HW general feedback
+- Discuss final exam expectations.
+- Discuss Ch.19
+- End discussion via HW 12 Ch.19 1-5 hints.
+
+*Please contribute questions and comments*
+
+## Discuss Ch.17 HW
+
+17.3. It was a 2-sample t-test!
+
+## Final Exam: Application.
+
+- I've assessed your skills on each topic via HW and 3 midterms.
+- Let's discuss the rubric and guidelines (located in Canvas).
+- Now I'd like you to apply your knowledge/skills to produce a scientific poster.
+- You may use powerpoint but it is possible using using `rmarkdown`. See `postr` or `posterdown`. See [https://gist.github.com/Pakillo/4854e5d760351206084f6be8abe476b2](https://gist.github.com/Pakillo/4854e5d760351206084f6be8abe476b2).
+- Let's look at a model poster: alex_k_bayes_freq_presentation.pdf. I would say it has a little too much prose for a poster. Bullet points are good. Nice viz and model.
+- Keep it simple, your project doesn't need to be complicated like the 646-level poster above. 
+- Select or generate your data right away! Talk to me for guidance.
+
+# Bayesian Inference for Multiple Normal Linear Regression Model (Ch. 19)
+
+## Discuss Ch.19 content
+
+- etext
+- Example 19.1
+
+## Using `bayes.lm`
+
+```{r bayes.lm}
+example(bayes.lm)
+```
+
+## Final HW: Ch.19 1-5 
+
+- Execute the code and think/understand the problem for 19.1-19.3. Present, nterpret and discuss the results.
+- 19.4 description is lacking. The goal is to model `bwt` as a function of the all predictors (covariates). Use the formula `bwt ~ .`. Note that the prior expects a list. See the example in `bayes.lm` for example use. Don't forget there is a prior for the intercept $\beta_0$!. **Interpret the output a little for me*.
+- 19.5 Use chi-squared test from Ch.18 (see 18.3 part iii for an example). Use `post.mean` and `post.var`.
+
+## Closing (5 min)
+
+- What are some issues in HW that you could use guidance on?

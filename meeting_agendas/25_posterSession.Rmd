@@ -1,0 +1,53 @@
+---
+title: "FINAL EXAM POSTER SESSION"
+subtitle: "STAT 446"
+author: "AG Schissler"
+date: "3 May 2021 (*updated: `r Sys.Date()`)*"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+```{r LoadLib, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results = "hide"}
+set.seed( 05032021 )
+library(tidyverse)
+library(printr)
+## xaringan::inf_mr('25_posterSession.Rmd')
+## str(knitr::opts_chunk$get())
+```
+
+<!-- open up etext as you go. don't typeset the chapter -->
+
+# i. Week 15 Focus
+
+- Students receive and act on all HW feedback.
+- Students apply Bayesian methods to real world data (Final Exam/Poster).
+- Students present their preliminary Final Exam poster.
+
+## Today's plan
+
+i. Students present their preliminary Final Exam poster.
+
+*Please contribute questions and comments*
+
+# Poster presentations
+
+## Organization
+
+- The purpose is to discuss the projects and get feedback in time to make adjustments.
+- No one is judging or grading you. This is supposed to be fun and educational.
+- I will give you a participation grade for showing up prepared.
+- To organize, I'll randomly select students to present for a few minutes. Take turns sharing/discussing your work.
+- I'll bring everyone back together for general comments and closing.
+
+## Summary and closing
+
+- General feedback.
+ 
+## Closing
+
+- Thank you for a great semester!
+- I hope you feel confident that you can correctly apply/communicate the techniques from Rizzo.
+- I also hope that see the power of a computational approach to statistics.
+- Best wishes for your future.

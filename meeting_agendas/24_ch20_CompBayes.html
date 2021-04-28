@@ -3189,7 +3189,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">28 Apr 2021 (<em>updated: 2021-04-22)</em></p>
+            <p style="margin-top: 6px; margin-left: -2px;">28 Apr 2021 (<em>updated: 2021-04-28)</em></p>
           </hgroup>
   </slide>
 
@@ -3248,26 +3248,17 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class=""><hgroup><h2>The Metropolis-Hastings Algorithm (1970)</h2></hgroup><article  id="the-metropolis-hastings-algorithm-1970" class="smaller ">
 
-<p>From Rizzo 2006,</p>
-
 <p>The <em>Metropolis-Hastings sampler</em> generates a Markov chain \(\{X_0, X_1, \ldots \}\) as follows:</p>
 
 <ol>
 <li>Choose a proposal distribution \(g(\cdot | X_t)\), subject to regularity conditions discussed below.<br/></li>
 <li>Generate \(X_0\) from distribution \(g\).<br/></li>
-<li>Repeat (until chain has convergened to a stationary distribution):
-
-<ol>
-<li>Generate \(Y\) from \(g(\cdot | X_t)\).<br/></li>
-<li>Generate \(U\) from Uniform(0,1).</li>
-<li>If<br/>\[
+<li>Repeat (until chain has convergened to a stationary distribution):<br/>A. Generate \(Y\) from \(g(\cdot | X_t)\).<br/>B. Generate \(U\) from Uniform(0,1).<br/>C. If<br/>\[
  U \leq \frac{f(Y)g(X_t|Y)}{f(X_t)g(Y|X_t)}
- \] accept \(Y\) and set \(X_{t+1} = Y\); otherwise set \(X_{t+1} = X_t\).<br/></li>
-<li>Increment \(t\).</li>
-</ol></li>
+ \] accept \(Y\) and set \(X_{t+1} = Y\); otherwise set \(X_{t+1} = X_t\).<br/>D. Increment \(t\).</li>
 </ol>
 
-<p>Observe that in step (3c) the candidate point \(Y\) is accepted with probability \[
+<p>Observe that in step (3D) the candidate point \(Y\) is accepted with probability \[
     \alpha (X_t, Y) = min \left( 1, \frac{f(Y)g(X_t|Y)}{f(X_t)g(Y|X_t)} \right),
     \]</p>
 

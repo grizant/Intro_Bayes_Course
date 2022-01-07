@@ -48,6 +48,7 @@ i. Students present their preliminary Final Exam poster.
 ## Closing
 
 - Thank you for a great semester!
-- I hope you feel confident that you can correctly apply/communicate the techniques from Rizzo.
-- I also hope that see the power of a computational approach to statistics.
+- I hope you feel confident that you can correctly apply/communicate the techniques from Bolstad and Curran.
+- I also hope that see the power of a Bayesian approach to statistics.
+- It would mean a lot to me if you complete an evaluation at [www.unr.edu/evaluate](www.unr.edu/evaluate). Please remember that my job depends on student feedback. I appreciate your time to thoughfully complete the survey and provide honest ratings. I'd love to hear what I did well as well as how I can get better (please be kind when you do this).
 - Best wishes for your future.

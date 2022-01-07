@@ -1,0 +1,40 @@
+---
+title: "Grading rubric: Homework 7"
+author: "STAT 446/646 Introduction to Bayesian Statistics (Spring 2020)"
+date: "03/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+Please complete exercises Ch.11 #2,5 C1-C8 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 3 --- *students will conduct Bayesian inference for parameters of discrete and continuous random variables*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the Normal mean parameter. This homework features several computer exercises to help you build intuition rapidly. Please include the `R` code you used.
+
+Please complete exercises Ch.12 #4 in Bolstad & Curran. I selected this problem to give deliberate practice towards mastering learning outcome 3 --- *students will compare Frequentist/Bayesian approaches to statistical inference*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the Normal mean parameter. This homework features some small data sets that you may use software to analyze. Please include the `R` code you used in your report.
+
+Please complete exercises Ch.13 #1,2,6 in Bolstad & Curran. I selected these problems to give deliberate practice towards mastering learning outcome 3 --- *students will conduct Bayesian inference for parameters of discrete and continuous random variables*. All exercises provide practice evaluating approaches to estimate and test hypotheses for the differences in two normal mean parameters. This homework features some small data sets that you may use software to analyze. Please include the `R` code you used in your report.
+
+```{r, echo = FALSE}
+text_tbl <- data.frame(
+  `Point Value Label` = c("Explanation and justification", "Mathematical errors", "Completion", "Neatness and organization", "Mathematical terminology and notation"),
+  `Needs Improvement` = c("Explanation is difficult to understand  and  is  missing several components OR was not included.", "More than 25% of computations/statements have errors in selected problems.", "Several  problems are not completed.", "The work appears sloppyand unorganized. It is hard to know what  information goes together.", "There is little use, or a lot of inappropriate use, of terminology and notation."),
+  `Approaching standards` = c("Explanation is a little difficult to understand, but includes critical components.","Most (75%-89%) of computations/statements are free of errors in selected problems.","All but two of the problemsare completed.","The work is presented in an organized  fashion  but  maybe hard to read at times.","Correct terminology and no-tation are used, but it is some-times not easy to understandwhat was done."),
+  `Meets standards` = c("Explanation is clear.","Almost all (90%-99%) of computations/statementsare free of errors in selected problems.","One problem  not completed.","The work is presented in aneat and organized fashion that is usually easy to read.","Correct terminology and no-tation are usually used, mak-ing  it  fairly  easy  to  under-stand what was done."),
+  `Exceeds standards` = c("Explanation is detailed and clear yet concise.","All computations/statements are free of errors in selected problems.","All problems addressed.","The work is presented in a neat, clear, organized fashion that is easy to read.","Correct terminology and no-tation are always used, making  it  easy  to  understand what was done."),
+  x = as.numeric(c( "2", "2", "1", "1", "1")),
+  score = c("", "", "", "", "")
+)
+```
+```{r, echo = FALSE}
+library(kableExtra)
+
+kable(text_tbl) %>%
+  kable_styling(full_width = T) %>%
+  column_spec(1, bold = T, border_right = T) %>%
+  column_spec(6, bold = T, border_left = T, border_right = T) %>%
+  add_header_above(c(" ", "0" , "1", "2", "3", "",""), line_sep = 0, include_empty = T)
+
+
+```
+**Total Score (out of 20 points, 21 points possible):**
